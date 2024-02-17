@@ -1,14 +1,38 @@
 .org-img {
     height: 200px;
     width: 100%;
-}
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
 
 .org-card {
-    border-radius: 20px;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    margin-bottom: 25px;
+border-radius: 20px;
+box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+margin-bottom: 25px;
+height:370px;
+position: relative; 
+}
+
+.org-card:hover {
+background-color: #f0f0f0; 
 }
 
 .container {
-    padding: 100px;
+padding: 5%;
+}
+
+.card-link {
+text-decoration: none;
+color: black;
+}
+
+.star-button {
+position: absolute; 
+top: 7px; 
+right: 7px; 
+border: 0;
+}
+
+.search-row {
+    margin-bottom: 50px;
 }

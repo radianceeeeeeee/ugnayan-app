@@ -6,9 +6,10 @@ export default function OrgPage() {
 
   const params = useParams();
 
+
   return (
     <div> 
-      <h1>Org Page {params.orgId}</h1>
+      <h1>Org Page #{params.orgId}</h1>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
-import OrgPage from './pages/OrgPage';
+import OrgPage from './pages/Dashboard/OrgPage';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     element: <DashboardPage />,
   },
   {
-    path: "/org/:orgId",
+    path: "/dashboard/:orgId",
     element: <OrgPage />,
   },
 ]);

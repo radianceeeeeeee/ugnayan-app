@@ -1,0 +1,14 @@
+.org-img {
+    height: 200px;
+    width: 100%;
+}
+
+.org-card {
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-bottom: 25px;
+}
+
+.container {
+    padding: 100px;
+}

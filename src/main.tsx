@@ -5,7 +5,8 @@ import './index.css';
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from './pages/NotFoundPage';
-import DashboardPage from './pages/DashboardPage';
+import DashboardPage from './pages/Dashboard/DashboardPage';
+import OrgPage from './pages/OrgPage';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardPage />,
+  },
+  {
+    path: "/org/:orgId",
+    element: <OrgPage />,
   },
 ]);
 

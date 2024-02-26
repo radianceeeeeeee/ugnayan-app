@@ -28,9 +28,11 @@ export default function LogInPage() {
           <button className="landing-page">
             Back to Home
           </button>
-          <button className="signup-page">
-            Sign Up
-          </button>
+          <Link to ="/signup">
+            <button className="signup-page">
+                Sign Up
+            </button>
+          </Link>
         </div>
       </div>
       <div className="app-body">

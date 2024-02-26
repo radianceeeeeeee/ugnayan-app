@@ -7,6 +7,7 @@ import LogInPage from "./pages/LogIn/LoginPage";
 import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import OrgPage from './pages/Dashboard/OrgPage';
+import SignUpPage from './pages/SignUp/SignUpPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     path: "/dashboard/:orgId",
     element: <OrgPage />,
   },
+  {
+    path: "/signup",
+    element: <SignUpPage />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

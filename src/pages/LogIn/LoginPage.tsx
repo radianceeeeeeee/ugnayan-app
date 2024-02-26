@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import "./LogIn.css";
 import logo from "../../assets/logo_placeholder.png";
+import showEye from "../../assets/eye.png";
+import hideEye from "../../assets/hidden.png";
+import emailIcon from "../../assets/user.png";
+import passwordIcon from "../../assets/door-key.png";
 
 export default function LogInPage() {
   // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
@@ -14,7 +18,7 @@ export default function LogInPage() {
       <div className="app-header">
         <div className="app-header-left">
           <div className="app-header-logo">
-          <img src={logo} alt="Logo" width={50} height={50}></img>
+          <img src={logo} alt="Logo" className='app-header-logo'></img>
           </div>
           <div className="app-header-name">
             UGNAYAN
@@ -37,10 +41,16 @@ export default function LogInPage() {
           <br></br>
           Sign in using your UP mail account
           <br></br>
-          <input type="text" placeholder='E-mail' className="login-email-input" />
-          <br></br>
-          <br></br>
-          <br></br>
+          <div className="login-email-blank">
+            <div className="login-email-icon-box">
+              <img src={emailIcon} className='login-email-icon'></img>
+            </div>
+            <input type="text" placeholder='E-mail' className="login-email-input" />
+          </div>
+          <div className="login-password-blank">
+          <div className="login-password-icon-box">
+            <img src={passwordIcon} className='login-password-icon'></img>
+          </div>
           <input type={showPassword ? "text" : "password"} 
                  placeholder='Password' 
                  className="login-password-input"
@@ -49,12 +59,16 @@ export default function LogInPage() {
                      setPassword(e.target.value)
                  } />
           <button className="login-show-password"
-                  onClick={() => setShowPassword(!showPassword)}>eye
+                  onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? 
+                    <img src={hideEye} alt="Logo" className='login-password-hide'></img> : 
+                    <img src={showEye} alt="Logo" className='login-password-show'></img> 
+                  }
           </button>
-          <br></br>
-          <button className="login-button">
-            Log In
-          </button>
+          </div>
+          <Link to="/dashboard">
+            <button className="login-button">Log In</button> 
+          </Link>
           <a href='#' className='login-forget'>
           Forgot your username or password?
           </a>
@@ -64,7 +78,7 @@ export default function LogInPage() {
           Some features will be unavailable with guest access.
         </div>
       </div>
-      <Link to="/dashboard"> Log In </Link>
+      
     </div>
   )
 }

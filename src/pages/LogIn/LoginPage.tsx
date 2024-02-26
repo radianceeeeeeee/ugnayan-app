@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import "./LogIn.css";
 import logo from "../../assets/logo_placeholder.png";
 
 export default function LogInPage() {
+  // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
+  // Used for showing and hiding password
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div> 
       <div className="app-header">
@@ -36,7 +41,16 @@ export default function LogInPage() {
           <br></br>
           <br></br>
           <br></br>
-          <input type="text" placeholder='Password' className="login-password-input" />
+          <input type={showPassword ? "text" : "password"} 
+                 placeholder='Password' 
+                 className="login-password-input"
+                 value={password}
+                 onChange={(e) =>
+                     setPassword(e.target.value)
+                 } />
+          <button className="login-show-password"
+                  onClick={() => setShowPassword(!showPassword)}>eye
+          </button>
           <br></br>
           <button className="login-button">
             Log In

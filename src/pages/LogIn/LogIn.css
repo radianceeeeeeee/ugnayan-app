@@ -4,15 +4,20 @@
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .app-header-left, .app-header-right {
     display: flex;
     flex-direction: row;
+    margin: 2vw;
 }
 
 .app-header-name {
+    margin: 1.5vh 1vw;
     color: #FFFFFF;
+
+    font-weight: bold;
 }
 
 .landing-page {
@@ -20,16 +25,20 @@
     color: #FFFFFF;
     border: none;
     font-weight: bold;
+
+    margin: 0.5vw;
 }
 
 .signup-page {
     background-color: #FFFFFF;
     color:#8D021F;
     border-radius: 30px;
-    width: 9vw;
+    width: 6vw;
     height: 5vh;
     border: none;
     font-weight: bold;
+
+    margin: 0.5vw;
 }
 
 .app-body {

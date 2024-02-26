@@ -11,6 +11,27 @@
     flex-direction: row;
 }
 
+.app-header-name {
+    color: #FFFFFF;
+}
+
+.landing-page {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    font-weight: bold;
+}
+
+.signup-page {
+    background-color: #FFFFFF;
+    color:#8D021F;
+    border-radius: 30px;
+    width: 9vw;
+    height: 5vh;
+    border: none;
+    font-weight: bold;
+}
+
 .app-body {
     background-color: #D9D9D9;
     height: 90vh;
@@ -24,9 +45,47 @@
 
 .app-login {
     background-color: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
 
     display: flex;
     flex-direction: column;
-    width: 35vw;
-    padding: 5vw;
+    align-items: center;
+    width: 30vw;
+    padding: 2.5vw;
+}
+
+.app-login * {
+    width: 20vw;
+}
+
+.login-logo {
+    width: 15vw;
+    height: 15vw;
+}
+
+.login-email-input, .login-password-input {
+    background-color: #D9D9D9;
+    border: none;
+    border-bottom: 1px solid #8D021F;
+    margin-bottom: 2vh;
+}
+
+.login-button {
+    background-color: #005538;
+    color: #FFFFFF;
+    border: none;
+}
+
+.login-forget {
+    color:#4A5568;
+    text-decoration: none;
+}
+
+.login-guest {
+    background-color: transparent;
+    color: #4A5568;
+    border: 1px solid #4A5568;
 }

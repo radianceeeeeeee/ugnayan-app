@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import "./LogIn.css";
+import logo from "../../assets/logo_placeholder.png";
 
 export default function LogInPage() {
   return (
@@ -8,7 +9,7 @@ export default function LogInPage() {
       <div className="app-header">
         <div className="app-header-left">
           <div className="app-header-logo">
-            Ugnayan Logo
+          <img src={logo} alt="Logo" width={50} height={50}></img>
           </div>
           <div className="app-header-name">
             UGNAYAN
@@ -25,15 +26,24 @@ export default function LogInPage() {
       </div>
       <div className="app-body">
         <div className="app-login">
-          Logo
-          Login
+          <img src={logo} alt="Logo" className='login-logo'></img>
+          <br></br>
+          <h1><b>Login</b></h1>
+          <br></br>
           Sign in using your UP mail account
-          Email
-          Password
+          <br></br>
+          <input type="text" placeholder='E-mail' className="login-email-input" />
+          <br></br>
+          <br></br>
+          <br></br>
+          <input type="text" placeholder='Password' className="login-password-input" />
+          <br></br>
           <button className="login-button">
             Log In
           </button>
+          <a href='#' className='login-forget'>
           Forgot your username or password?
+          </a>
           <button className="login-guest">
             Log in as a Guest
           </button>

@@ -16,8 +16,17 @@
 .app-header-name {
     margin: 1.5vh 1vw;
     color: #FFFFFF;
-
+    text-decoration: none;
     font-weight: bold;
+}
+
+.app-header-logo {
+    width: 3.5vw;
+    height: 3.5vw;
+}
+
+.app-header-title {
+    height: 1.5vw;
 }
 
 .button-text {

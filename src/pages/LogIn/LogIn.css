@@ -34,9 +34,13 @@
     height: 3.5vw;
 }
 
+/* Circle drop shadow credit from https://stackoverflow.com/questions/27212782/box-shadow-circle */
+
 .login-logo {
     width: 20vh;
     height: 20vh;
+    border-radius:50%;
+    box-shadow: 0 2px 2px 1px #CCCCCC;
 }
 
 .login-email-input, .login-password-input {

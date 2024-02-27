@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import logo from "../../assets/logo_placeholder.png";
+import logo from "../../assets/logo/Ugnayan Logo circle wo name.png";
+import title from "../../assets/logo/Ugnayan Title white.png";
 import "./Navbar.css"
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -92,7 +93,7 @@ export default function Navbar({ currentPage }) {
           </div>
           <Link to ="/">
           <div className="app-header-name">
-            UGNAYAN
+            <img src={title} alt="UGNAYAN" className='app-header-title'></img>
           </div>
           </Link>
         </div>

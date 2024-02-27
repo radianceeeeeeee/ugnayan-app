@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import "./LogIn.css";
-import logo from "../../assets/logo_placeholder.png";
+import logo from "../../assets/logo/Ugnayan Logo circle wo name.png";
 import showEye from "../../assets/eye.png";
 import hideEye from "../../assets/hidden.png";
 import emailIcon from "../../assets/user.png";

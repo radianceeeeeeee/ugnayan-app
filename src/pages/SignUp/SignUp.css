@@ -120,7 +120,6 @@
   border: none;
 }
 
-.login-email-blank,
 .signup-password-blank {
   display: flex;
   flex-direction: row;

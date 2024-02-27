@@ -19,6 +19,7 @@ export default function OrgCard({ org }) {
 
   return (
     <div> 
+
         <div className="card org-card">
         <div className='favorites-button'>
             <button

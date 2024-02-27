@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
 import logo from "../../assets/logo_placeholder.png";
+import Navbar from "../Navbar/Navbar";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState("");
@@ -9,21 +10,7 @@ export default function SignUpPage() {
 
   return (
     <div>
-      <div className="app-header">
-        <div className="app-header-left">
-          <div className="app-header-logo">
-            <img src={logo} alt="Logo" className="app-header-logo" />
-          </div>
-          <div className="app-header-name">UGNAYAN</div>
-        </div>
-        <div className="app-header-right">
-          <button className="landing-page">Back to Home</button>
-          <Link to="/login">
-            <button className="signup-page">Log In</button>
-          </Link>
-        </div>
-      </div>
-
+      <Navbar currentPage={"signin"}/>
       <div className="app-body">
         <div className="app-signup-background">
           <div className="app-signup-bg-text">

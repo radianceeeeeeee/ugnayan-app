@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
 import OrgCard from './OrgCard';
 import { useState } from "react";
+import Navbar from '../Navbar/Navbar';
 
 export default function DashboardPage() {
   const [orgs, setOrgs] = useState([
@@ -21,7 +22,7 @@ export default function DashboardPage() {
 
   return (
     <div> 
-      <h1> Dashboard </h1>
+      <Navbar currentPage={"dashboard"}/>
       <div className="container">
         <div className="row search-row">
           <div className="col-12">

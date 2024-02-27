@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
 
 export default function OrgPage() {
 
@@ -9,6 +10,7 @@ export default function OrgPage() {
 
   return (
     <div> 
+      <Navbar currentPage={"dashboard"}/>
       <h1>Org Page #{params.orgId}</h1>
     </div>
   )

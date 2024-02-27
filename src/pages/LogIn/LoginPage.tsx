@@ -6,6 +6,7 @@ import showEye from "../../assets/eye.png";
 import hideEye from "../../assets/hidden.png";
 import emailIcon from "../../assets/user.png";
 import passwordIcon from "../../assets/door-key.png";
+import Navbar from '../Navbar/Navbar';
 
 export default function LogInPage() {
   // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
@@ -15,26 +16,7 @@ export default function LogInPage() {
 
   return (
     <div> 
-      <div className="app-header">
-        <div className="app-header-left">
-          <div className="app-header-logo">
-          <img src={logo} alt="Logo" className='app-header-logo'></img>
-          </div>
-          <div className="app-header-name">
-            UGNAYAN
-          </div>
-        </div>
-        <div className="app-header-right">
-          <button className="landing-page">
-            Back to Home
-          </button>
-          <Link to ="/signup">
-            <button className="signup-page">
-                Sign Up
-            </button>
-          </Link>
-        </div>
-      </div>
+      <Navbar currentPage={"login"}/>
       <div className="app-body">
         <div className="app-login">
           <img src={logo} alt="Logo" className='login-logo'></img>

@@ -1,0 +1,39 @@
+.app-header {
+    background-color: #8D021F;
+    height: 10vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-header-left, .app-header-right {
+    display: flex;
+    flex-direction: row;
+    margin: 2vw;
+}
+
+.app-header-name {
+    margin: 1.5vh 1vw;
+    color: #FFFFFF;
+
+    font-weight: bold;
+}
+
+.button-text {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    font-weight: bold;
+    padding-top:15px;
+    padding-right: 20px;
+}
+
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }

@@ -1,35 +1,3 @@
-.app-header {
-  background-color: #8d021f;
-  height: 10vh;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.app-header-left,
-.app-header-right {
-  display: flex;
-  flex-direction: row;
-  margin: 2vw;
-}
-
-.app-header-name {
-  margin: 1.5vh 1vw;
-  color: #ffffff;
-
-  font-weight: bold;
-}
-
-.landing-page {
-  background-color: transparent;
-  color: #ffffff;
-  border: none;
-  font-weight: bold;
-
-  margin: 0.5vw;
-}
-
 .signup-page {
   background-color: #ffffff;
   color: #8d021f;

@@ -6,13 +6,10 @@ import Navbar from "../Navbar/Navbar";
 import showEye from "../../assets/eye.png";
 import hideEye from "../../assets/hidden.png";
 
-  // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
-  // Used for showing and hiding password
+// https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
+// Used for showing and hiding password
 
-const courses = [
-  "BS Computer Science",
-  "BS Mathematics",
-];
+const courses = ["BS Computer Science", "BS Mathematics"];
 
 export default function SignUpPage() {
   const [password, setPassword] = useState("");
@@ -47,7 +44,12 @@ export default function SignUpPage() {
           />
           <select
             value={selectedCourse}
-            onChange={(e) => setSelectedCourse(e.target.value)}
+            onChange={(e) => {
+              courses.includes(e.target.value)
+                ? (e.target.style.color = "#000000")
+                : (e.target.style.color = "#888888");
+              setSelectedCourse(e.target.value);
+            }}
             className="signup-input-select"
           >
             <option value="">Course</option>
@@ -59,20 +61,31 @@ export default function SignUpPage() {
           </select>
           <input type="email" placeholder="Email" className="signup-input" />
           <div className="signup-password-blank">
-          <input type={showPassword ? "text" : "password"} 
-                 placeholder='Password' 
-                 className="signup-input"
-                 value={password}
-                 onChange={(e) =>
-                     setPassword(e.target.value)
-                 } />
-          <button className="signup-show-password"
-                  onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? 
-                    <img src={hideEye} alt="Logo" className='signup-password-hide'></img> : 
-                    <img src={showEye} alt="Logo" className='signup-password-show'></img> 
-                  }
-          </button>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="signup-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              className="signup-show-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <img
+                  src={hideEye}
+                  alt="Logo"
+                  className="signup-password-hide"
+                ></img>
+              ) : (
+                <img
+                  src={showEye}
+                  alt="Logo"
+                  className="signup-password-show"
+                ></img>
+              )}
+            </button>
           </div>
           <Link to="/login">
             <button className="create-acc-button">Create Account</button>

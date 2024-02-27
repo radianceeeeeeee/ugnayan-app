@@ -73,6 +73,10 @@
   z-index: 450;
 }
 
+.font-link {
+  font-family: 'Inter';
+}
+
 .app-signup * {
   width: 20vw;
 }
@@ -94,6 +98,19 @@
   margin-bottom: 2.5vh;
 }
 
+.signup-input-select {
+  background-color: #d9d9d9;
+  border: none;
+  width: 50vh;
+  height: 5vh;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #8d021f;
+  margin-bottom: 2.5vh;
+  color: #888888;
+}
+
 .create-acc-button {
   height: 5vh;
   width: 50vh;
@@ -101,6 +118,30 @@
   background-color: #005538;
   color: #ffffff;
   border: none;
+}
+
+.login-email-blank,
+.signup-password-blank {
+  display: flex;
+  flex-direction: row;
+  width: 50vh;
+}
+
+.signup-password-hide,
+.signup-password-show {
+  width: 3vh;
+  height: 3vh;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.signup-show-password {
+  height: 5vh;
+  width: 5vh;
+
+  background-color: #d9d9d9;
+  border: none;
+  border-bottom: 1px solid #8d021f;
 }
 
 .login-link {

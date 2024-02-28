@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="src\assets\logo\Ugnayan Logo circle w name.png" />
-    <!-- pa-explain -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -12,19 +11,144 @@
       crossorigin="anonymous"
     />
     <title>Ugnayan</title>
+
+    <!-- Add your custom CSS here -->
+    <style>
+      @font-face {
+        font-family: 'Solway';
+        src: url('/src/assets/fonts/solway/Solway-Bold.otf') format('opentype');
+      }
+
+      @font-face {
+        font-family: 'Inter';
+        src: url('/src/assets/fonts/Inter/Inter.ttf') format('truetype');
+      }
+
+      @font-face {
+        font-family: 'Roboto';
+        src: url('/src/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+      }
+
+      .navbar {
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+
+      .navbar-brand {
+        font-family: 'Solway', Arial, sans-serif;
+        font-size: 22px;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand img {
+        margin-right: 7px;
+      }
+
+      /* Add padding to the left of the navbar on larger screens */
+      @media (min-width: 1200px) {
+        .navbar {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      .custom-btn-1 {
+        background-color: #FFFFFF;
+        border-color: #FFFFFF;
+        color: #8D021F; 
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 17px;
+        padding: 5px 20px 5px 20px;
+        border-radius: 30px;
+      }
+    
+      .custom-btn-1:hover {
+        background-color: #FFFFFF;
+        border-color: #FFFFFF;
+        color: #8D021F; 
+      }
+
+      .ugnayan-text {
+        font-family: 'Solway', Arial, sans-serif;
+        font-weight: bold;
+        color: #8D021F;
+      }
+
+      .custom-paragraph {
+        font-size: 16px; 
+        color: #444444; 
+        font-family: 'Roboto', Arial, sans-serif;
+        margin-top: 20px;
+        line-height: 1.5; 
+        max-width: 750px;
+        margin: 0 auto;
+      }
+
+      body {
+        background-color: #D9D9D9;
+      }
+    </style>
   </head>
 
   <body>
-    <!-- navbar 
-    <nav class="navbar">
-      hello
+    <!-- navbar -->
+    <nav class="navbar navbar-dark" style="background-color: #8D021F;">
+      <div class="container-xxl">
+        <a class="navbar-brand" href="#">
+          <img src="/src/assets/logo/Ugnayan Logo circle wo name.png" alt="" width="45" height="45" class="d-inline-block align-middle">
+          UGNAYAN
+        </a>
+        <form class="d-flex">
+          <a class="btn btn-primary custom-btn-1" href="#" style="background-color: #8D021F; border-color: #8D021F; color: #FFF; font-weight: 450; margin-right: 10px;">Login</a>
+          <a class="btn btn-primary custom-btn-1" href="#">Sign Up</a>
+        </form>
+      </div>
     </nav>
 
-    <h1>Ugnayan</h1> -->
+    <!-- main image & intro text -->
+    <section id="welcome" style="padding: 40px 0;">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+            <h5 style="font-family: 'Inter', sans-serif; font-weight: bold; color:#444444">WELCOME TO</h5>
+            <h1 class="display-1 ugnayan-text mb-0">UGNAYAN</h1>
+            <h3 style="font-family: 'Inter', sans-serif; color:#444; font-size: calc(1.4rem + 0.2vw); margin-top: -10px;">Your gateway to UP Org Culture</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: relative;">
+        <div class="col-12 p-0 d-flex align-items-center justify-content-center" style="height: 500px; overflow: hidden; position: relative;"> <!-- Full-width column with fixed height -->
+          <img src="/src/assets/UP-Org-Fair-by-Jerald-Caranza.jpg" class="img-fluid" alt="Main Image" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, rgba(255,255,255,0) 0%,#D9D9D9 100%);"></div>
+          <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
+            <a href="#intro">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8D021F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="intro" style="padding-bottom: 60px">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+            <p class="custom-paragraph">UP Diliman is home to a vibrant and diverse ecosystem of hundreds of 
+              university organizations. <span class="ugnayan-text">UGNAYAN</span>'s aim is to streamline the 
+              process of discovering, learning about, applying, and engaging with them, empowering every 
+              student to find their perfect match within the UP Org community.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
     <div id="root"></div>
-    <!-- pa-explain -->
     <script type="module" src="/src/main.tsx"></script>
-    <!-- pa-explain -->
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

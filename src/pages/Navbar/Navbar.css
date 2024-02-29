@@ -14,8 +14,8 @@ src: url('/src/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
 }
 
 .navbar {
-padding-top: 3px;
-padding-bottom: 3px;
+padding-top: 2px !important;
+padding-bottom: 3px !important;
 }
 
 .navbar-brand {
@@ -56,11 +56,10 @@ color: white;
     background-color: transparent;
     color: white;
     border-radius: 30px;
-    border: none;
-    padding: 7px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-weight: bold;
+    border:#8D021F;
+    padding: 3px 20px 3px 20px;
+    font-family: 'Inter', sans-serif; 
+    font-weight: 510;
     margin-right:28px
 
 }
@@ -71,12 +70,16 @@ color: white;
     background-color: #ffffff;
     color: #8d021f;
     border-radius: 30px;
-    border: none;
-    padding: 7px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-weight: bold;
-  }
+    border-color: #ffffff00;
+    padding: 3px 20px 3px 20px;
+    font-family: 'Inter', sans-serif;  
+    font-weight: 550;
+}
+
+.align-buttons {
+    display: flex;
+    align-items: center;
+}
 
 .navbar {
 background-color: #8D021F;

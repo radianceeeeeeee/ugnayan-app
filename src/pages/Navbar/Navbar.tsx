@@ -86,10 +86,10 @@ export default function Navbar({ currentPage }) {
     <nav className="navbar navbar-dark">
     <div className="container-xxl">
       <a className="navbar-brand" href="#">
-        <img src={logo} alt="" width="45" height="45" className="d-inline-block align-middle"></img>
+        <img src={logo} alt="" width="40" height="40" className="d-inline-block align-middle"></img>
         UGNAYAN
       </a>
-      <form className="d-flex">
+      <form className="d-flex align-buttons">
         <DisplayLink currentPage={currentPage}/>
       </form>
     </div>

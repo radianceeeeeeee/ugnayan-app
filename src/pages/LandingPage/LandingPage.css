@@ -2,13 +2,13 @@
     padding: 40px 0;
 }
 
-#welcome-to {
+.welcome-to {
     font-family: 'Inter', sans-serif; 
     font-weight: bold; 
-    color:#444444"
+    color:#444444;
 }
 
-#gateway {
+.gateway {
     font-family: 'Inter', sans-serif; 
     color:#444; 
     font-size: calc(1.4rem + 0.2vw); 
@@ -19,7 +19,7 @@
     position: relative;
 }
 
-.col-12 p-0 d-flex align-items-center justify-content-center {
+.intro-img {
     height: 500px; 
     overflow: hidden; 
     position: relative;
@@ -58,6 +58,7 @@ margin: 0 auto;
 }
 
 body {
-    background-color: #D9D9D9;
-    }
+    background-color: #D9D9D9 !important;
+}
         
+    

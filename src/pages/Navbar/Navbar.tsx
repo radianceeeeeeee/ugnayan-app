@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import logo from "../../assets/logo/Ugnayan Logo circle wo name.png";
-import title from "../../assets/logo/Ugnayan Title white.png";
 import "./Navbar.css"
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -10,12 +9,12 @@ function DisplayLink({ currentPage }) {
       return (
       <>
       <Link to ="/login">
-          <button className="button-text">
+          <button className="left-btn">
               Log In
           </button>
       </Link> 
       <Link to ="/signup">
-          <button className="signup-page">
+          <button className="right-btn">
               Sign Up
           </button>
       </Link> 
@@ -26,12 +25,12 @@ function DisplayLink({ currentPage }) {
       return (
       <>
       <Link to ="/">
-      <button className="button-text">
+      <button className="left-btn">
         Back to Home
       </button>
       </Link>
       <Link to ="/login">
-          <button className="signup-page">
+          <button className="right-btn">
               Login
           </button>
       </Link> 
@@ -42,12 +41,12 @@ function DisplayLink({ currentPage }) {
       return (
       <>
       <Link to ="/">
-      <button className="button-text">
+      <button className="left-btn">
         Back to Home
       </button>
       </Link>
       <Link to ="/signup">
-          <button className="signup-page">
+          <button className="right-btn">
               Sign Up
           </button>
       </Link> 
@@ -84,22 +83,17 @@ export default function Navbar({ currentPage }) {
   console.log(currentPage)
 
   return (
-      <div className="app-header">
-        <div className="app-header-left">
-          <div className="app-header-logo">
-          <Link to ="/">
-          <img src={logo} alt="Logo" className='app-header-logo'></img>
-          </Link>
-          </div>
-          <Link to ="/">
-          <div className="app-header-name">
-            <img src={title} alt="UGNAYAN" className='app-header-title'></img>
-          </div>
-          </Link>
-        </div>
-        <div className="app-header-right">
-          <DisplayLink currentPage={currentPage}/>
-        </div>
-      </div>
+    <nav className="navbar navbar-dark">
+    <div className="container-xxl">
+      <a className="navbar-brand" href="#">
+        <img src={logo} alt="" width="45" height="45" className="d-inline-block align-middle"></img>
+        UGNAYAN
+      </a>
+      <form className="d-flex">
+        <DisplayLink currentPage={currentPage}/>
+      </form>
+    </div>
+  </nav>
+    
   )
 }

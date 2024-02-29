@@ -17,8 +17,8 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="row">
-                <div className="col-12 p-0 d-flex align-items-center justify-content-center intro-img">
-                  <img src="/src/assets/UP-Org-Fair-by-Jerald-Caranza.jpg" className="img-fluid" alt="Main Image"></img>
+                <div className="col-12 p-0 d-flex align-items-center justify-content-center intro-img-container">
+                  <img src="/src/assets/UP-Org-Fair-by-Jerald-Caranza.jpg" className="img-fluid intro-img" alt="Main Image"></img>
                   <div className="gradient-bg"></div>
                   <div className='intro'>
                     <a href="#intro-text">

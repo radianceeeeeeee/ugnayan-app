@@ -31,12 +31,12 @@ margin-right: 7px;
 }
 
 /* Add padding to the left of the navbar on larger screens */
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
 .navbar {
     padding-left: 20px;
     padding-right: 20px;
 }
-}
+} */
 
 /* .left-btn:hover {
     background-color: white;

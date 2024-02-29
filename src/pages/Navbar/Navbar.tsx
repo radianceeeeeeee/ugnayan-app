@@ -69,7 +69,7 @@ function DisplayLink({ currentPage }) {
           <Dropdown.Menu>
             <Dropdown.Item href="#/action-1">👤 Profile</Dropdown.Item>
             <Dropdown.Item href="#/action-2">❔ FAQ</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">↪ Logout</Dropdown.Item>
+            <Dropdown.Item href="#/action-3"><Link to="/">↪ Logout</Link></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         </>

@@ -37,8 +37,8 @@
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   height: 600px;
 
-  transform: translate(-20%);
-  position: relative;
+  /* transform: translate(-20%);
+  position: relative; */
 }
 .signup-background {
   background-image: linear-gradient(to right bottom, #8d021f, #005538);
@@ -57,7 +57,7 @@
   width: 13vw;
   font-family: "Inter";
   font-weight: normal;
-  font-size: 1.6vw;
+  font-size: 24px;
 }
 
 .signup-text {
@@ -66,14 +66,14 @@
   font-family: "Inter";
   font-weight: bold;
   color: #444444;
-  font-size: 2vw;
+  font-size: 30px;
 }
 
 .signup-subtext {
   text-align: center;
   font-family: "Roboto";
   color: #888888;
-  font-size: 1vw;
+  font-size: 15px;
 }
 
 .signup-inputs {
@@ -91,7 +91,7 @@
   border-bottom: 1px solid #8d021f;
   margin-bottom: 2.5vh;
   text-align: left;
-  font-size: 1vw;
+  font-size: 16px;
   color: #000000;
 }
 
@@ -103,7 +103,7 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #8d021f;
   margin-bottom: 2.5vh;
-  font-size: 1vw;
+  font-size: 16px;
   color: rgb(80, 83, 86);
   text-align: left;
 }
@@ -117,7 +117,7 @@
   padding-bottom: 10px;
 
   text-align: left;
-  font-size: 1vw;
+  font-size: 16px;
   color: #000000;
 }
 
@@ -155,7 +155,7 @@
   background-color: #005538;
   color: #ffffff;
   border: none;
-  font-size: 1vw;
+  font-size: 16px;
   margin-bottom: 1.25vh;
 }
 

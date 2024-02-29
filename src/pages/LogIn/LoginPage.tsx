@@ -53,6 +53,7 @@ export default function LogInPage() {
           <Link to="/dashboard">
             <button className="login-button">Log In</button> 
           </Link>
+          <br></br>
           <a href='#' className='login-forget'>
           Forgot your username or password?
           </a>

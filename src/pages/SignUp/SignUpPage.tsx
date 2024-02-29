@@ -7,13 +7,13 @@ export default function SignUpPage() {
   return (
     <div>
       <Navbar currentPage={"signin"} />
-      <div className="container ">
-        <div className="row justify-content-md-center">
-          <div className="col-4 ">
-            <SignUpBackground></SignUpBackground>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-4 d-none d-md-block">
+            <SignUpBackground />
           </div>
-          <div className="col-5">
-            <SignUpForm></SignUpForm>
+          <div className="col-md-8 ">
+            <SignUpForm />
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import LogInPage from "./pages/LogIn/LoginPage";
 import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
-import OrgPage from './pages/Dashboard/OrgPage';
+import OrgPage from './pages/OrgPage/OrgPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
 
 const router = createBrowserRouter([

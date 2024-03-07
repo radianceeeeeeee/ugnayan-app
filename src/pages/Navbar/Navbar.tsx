@@ -80,14 +80,15 @@ function DisplayLink({ currentPage }) {
 }
 
 export default function Navbar({ currentPage }) {
-  console.log(currentPage)
 
   return (
     <nav className="navbar navbar-dark">
     <div className="container-xxl">
       <a className="navbar-brand" href="#">
+        <Link to ="/dashboard">
         <img src={logo} alt="" width="40" height="40" className="d-inline-block align-middle"></img>
         UGNAYAN
+        </Link>
       </a>
       <form className="d-flex align-buttons">
         <DisplayLink currentPage={currentPage}/>

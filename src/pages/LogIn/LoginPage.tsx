@@ -15,7 +15,7 @@ export default function LogInPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div> 
+    <div>
       <Navbar currentPage={"login"}/>
       <div className="app-body">
         <div className="app-login">

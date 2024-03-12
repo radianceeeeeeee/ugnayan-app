@@ -16,7 +16,7 @@ export default function DashboardPage() {
 
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [sortFilterActive, setSortFilterActive] = useState(false);
+  const [sortFilterActive, setSortFilterActive] = useState(true);
   const [starredFilterActive, setStarredFilterActive] = useState(false);
   const [openForAppFilterActive, setOpenForAppFilterActive] = useState(false);
 

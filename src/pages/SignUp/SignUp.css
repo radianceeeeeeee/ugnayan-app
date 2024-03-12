@@ -13,6 +13,12 @@
   src: url("/src/assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
 }
 
+@media (max-width: 768px) {
+  .app-signup-logo {
+    display: none;
+  }
+}
+
 .signup-page {
   background-color: #ffffff;
   color: #8d021f;
@@ -32,25 +38,18 @@
   position: relative;
 }
 
-@media (max-width: 768px) {
-  .app-signup-logo {
-    display: none;
-  }
-}
-
 .signup-form {
+  margin-top: 20px;
   border-radius: 20px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  height: 600px;
-
-  /* transform: translate(-20%);
-  position: relative; */
+  height: 700px;
 }
 .signup-background {
+  margin-top: 20px;
   background-image: linear-gradient(to right bottom, #8d021f, #005538);
   border-radius: 20px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  height: 600px;
+  height: 700px;
   transform: translate(20%);
 
   position: relative;
@@ -91,27 +90,22 @@
   background-color: #d9d9d9;
   height: 5vh;
   width: 100%;
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   border-bottom: 1px solid #8d021f;
-  margin-bottom: 2.5vh;
   text-align: left;
   font-size: 16px;
   color: #000000;
 }
 
-.signup-input-select {
-  background-color: #d9d9d9;
-  height: 5vh;
-  width: 100%;
-  padding-left: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #8d021f;
+.signup-space {
   margin-bottom: 2.5vh;
-  font-size: 16px;
+}
+
+.signup-select {
   color: rgb(80, 83, 86);
-  text-align: left;
+  padding-left: 7px;
+  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid #8d021f;
 }
 
 .signup-input-password {

@@ -11,22 +11,18 @@ https://www.youtube.com/watch?v=2yNyiW_41H8
 export function fetchUserData() {
     const db = getFirestore();
     const colRef = collection(db, "users");
-    
-    getDocs(colRef)
-    .then((snapshot) => {
     let users : any = [];
 
+    getDocs(colRef)
+    .then((snapshot) => {
     snapshot.docs.forEach((doc) => {
             users.push({ ...doc.data(), id: doc.id })
-    })
-
-    console.log(users);
-    //return users;
-    })
+    })})
     .catch(err => {
         console.log(err.message)
     })
 
+    return users;
 }
 
 export async function addUserData(firstName: string, middleName: string, lastName: string, studentId: string) {
@@ -40,4 +36,31 @@ export async function addUserData(firstName: string, middleName: string, lastNam
     });
 
     alert("User has been added to database");
+}
+
+export function fetchOrgData() {
+    const db = getFirestore();
+    const colRef = collection(db, "organizations");
+    let users : any = [];
+
+    getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+            users.push({ ...doc.data(), id: doc.id })
+    })})
+    .catch(err => {
+        console.log(err.message)
+    })
+
+    return users;
+}
+
+export async function addOrgData(orgName: string) {
+    const db = getFirestore();
+
+    const docRef = await addDoc(collection(db, "organizations"), {
+        orgName: orgName
+    });
+
+    alert("Organization has been added to database");
 }

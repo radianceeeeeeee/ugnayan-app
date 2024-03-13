@@ -13,7 +13,7 @@
   src: url("/src/assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .app-signup-logo {
     display: none;
   }
@@ -34,7 +34,7 @@
 .app-signup-logo {
   width: 20vw;
   height: 20vw;
-  transform: translate(-100%, -125%);
+  transform: translate(-70%, -180%);
   position: relative;
 }
 

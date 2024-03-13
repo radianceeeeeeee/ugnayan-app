@@ -2,6 +2,8 @@ import Navbar from "../Navbar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./SignUpForm";
 import SignUpBackground from "./SignUpBackground";
+import "./SignUp.css";
+import logo from "../../assets/logo_placeholder.png";
 
 export default function SignUpPage() {
   return (
@@ -15,6 +17,7 @@ export default function SignUpPage() {
           <div className="col-md-8 ">
             <SignUpForm />
           </div>
+          <img src={logo} alt="Logo" className="app-signup-logo" />
         </div>
       </div>
     </div>

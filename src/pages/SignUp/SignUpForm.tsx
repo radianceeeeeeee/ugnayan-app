@@ -8,9 +8,16 @@ import logo from "../../assets/logo_placeholder.png";
 
 export default function SignUpForm() {
   const courses = ["BS Computer Science", "BS Mathematics"];
-  const [showPassword, setShowPassword] = useState(false);
 
   const [error, setError] = useState({
+    firstName: false,
+    lastName: false,
+    studentNo: false,
+    course: false,
+    email: false,
+    password: false,
+  });
+  const [showErrorText, setShowErrorText] = useState({
     firstName: false,
     lastName: false,
     studentNo: false,
@@ -34,6 +41,8 @@ export default function SignUpForm() {
     password: useRef<HTMLInputElement>(null),
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const form = event.target;
@@ -47,25 +56,42 @@ export default function SignUpForm() {
 
   const handleBlur = (event: any) => {
     const { name } = event.target;
-    if (event.target.validity.patternMismatch && (ref as any)[name].current) {
-      (ref as any)[name].current.focus();
-      setError({
+    if (!(error as any)[name]) {
+      if (event.target.validity.patternMismatch && (ref as any)[name].current) {
+        (ref as any)[name].current.focus();
+        setError({
+          ...error,
+          [name]: true,
+        });
+        setShowErrorText({
+          ...error,
+          [name]: true,
+        });
+      }
+    }
+    if ((error as any)[name]) {
+      setShowErrorText({
         ...error,
-        [name]: true,
+        [name]: false,
       });
     }
   };
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
+
     if (name == "course") {
       event.target.style.color = "#000000";
     }
 
     const newValueIsValid = !event.target.validity.patternMismatch;
-    if (error) {
+    if ((error as any)[name]) {
       if (newValueIsValid) {
         setError({
+          ...error,
+          [name]: false,
+        });
+        setShowErrorText({
           ...error,
           [name]: false,
         });
@@ -78,10 +104,20 @@ export default function SignUpForm() {
     });
   };
 
+  const handleFocus = (event: any) => {
+    const { name } = event.target;
+    if ((error as any)[name]) {
+      setShowErrorText({
+        ...error,
+        [name]: true,
+      });
+    }
+  };
+
   function style(error: boolean) {
     if (error) {
       return {
-        backgroundColor: "rgba(255, 0, 0, 0.5)",
+        backgroundColor: "rgb(248, 215, 218)",
       };
     }
   }
@@ -140,10 +176,17 @@ export default function SignUpForm() {
                 pattern="[0-9]{9}"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                onFocus={handleFocus}
                 style={style(error.studentNo)}
                 ref={ref.studentNo}
                 required
               />
+              {showErrorText.studentNo && (
+                <p role="alert" style={{ color: "rgb(157, 28, 36)" }}>
+                  Please make sure you've properly entered your{" "}
+                  <b>Student Number</b>
+                </p>
+              )}
             </div>
 
             <div className="signup-space">
@@ -175,10 +218,16 @@ export default function SignUpForm() {
                 pattern="[a-z]*@up\.edu\.ph"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                onFocus={handleFocus}
                 style={style(error.email)}
                 ref={ref.email}
                 required
               />
+              {showErrorText.email && (
+                <p role="alert" style={{ color: "rgb(157, 28, 36)" }}>
+                  Please make sure you've properly entered your <b>UP Email</b>
+                </p>
+              )}
             </div>
 
             <div className="signup-space">
@@ -193,6 +242,7 @@ export default function SignUpForm() {
                   pattern=".{8}.*"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  onFocus={handleFocus}
                   style={style(error.password)}
                   ref={ref.password}
                   required
@@ -201,6 +251,7 @@ export default function SignUpForm() {
                 <button
                   type="button"
                   className="btn signup-show-password"
+                  style={style(error.password)}
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -218,6 +269,12 @@ export default function SignUpForm() {
                   )}
                 </button>
               </div>
+              {showErrorText.password && (
+                <p role="alert" style={{ color: "rgb(157, 28, 36)" }}>
+                  Please make sure your password is{" "}
+                  <b> at least 8 characters long</b>
+                </p>
+              )}
             </div>
 
             <button type="submit" className="btn btn-primary create-acc-button">
@@ -230,8 +287,6 @@ export default function SignUpForm() {
                 Login
               </Link>
             </div>
-
-            <img src={logo} alt="Logo" className="app-signup-logo" />
           </form>
         </div>
       </div>

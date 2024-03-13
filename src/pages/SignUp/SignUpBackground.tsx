@@ -9,7 +9,6 @@ export default function SignUpBackground() {
     <div>
       <div className="card signup-background">
         <h3 className="card-title signup-bg-text">Welcome to UP Ugnayan</h3>
-        
       </div>
     </div>
   );

@@ -55,11 +55,43 @@ export function fetchOrgData() {
     return users;
 }
 
-export async function addOrgData(orgName: string) {
+export async function addOrgData(orgId: string,
+                                 orgLogo: string,
+                                 orgName: string,
+                                 orgAcronym: string,
+                                 orgPictures: string[],
+                                 orgBio: string,
+                                 orgTags: string[],
+                                 dateFounded: string,
+                                 orgLocation: string,
+                                 orgAffiliations: string[],
+                                 orgEmails: string[],
+                                 orgWebsite: string,
+                                 orgFacebook: string,
+                                 orgDescription: string,
+                                 orgScope: string,
+                                 openForApplications: string
+                                 
+    ) {
     const db = getFirestore();
 
     const docRef = await addDoc(collection(db, "organizations"), {
-        orgName: orgName
+        orgId: orgId,
+        orgLogo: orgLogo,
+        orgName: orgName,
+        orgAcronym: orgAcronym,
+        orgPictures: orgPictures,
+        orgBio: orgBio,
+        orgTags: orgTags,
+        dateFounded: dateFounded,
+        orgLocation: orgLocation,
+        orgAffiliations: orgAffiliations,
+        orgEmails: orgEmails,
+        orgFacebook: orgFacebook,
+        orgWebsite: orgWebsite,
+        orgDescription: orgDescription,
+        orgScope: orgScope,
+        openForApplications: openForApplications
     });
 
     alert("Organization has been added to database");

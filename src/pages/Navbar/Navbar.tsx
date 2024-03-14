@@ -83,7 +83,7 @@ export default function Navbar({ currentPage }) {
 
   return (
     <nav className="navbar navbar-dark">
-    <div className="container-xxl">
+    <div className="container-fluid">
       <a className="navbar-brand" href="#">
         <Link to ="/dashboard">
         <img src={logo} alt="" width="40" height="40" className="d-inline-block align-middle"></img>

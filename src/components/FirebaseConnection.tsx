@@ -11,7 +11,7 @@ https://www.youtube.com/watch?v=2yNyiW_41H8
 export function fetchUserData() {
     const db = getFirestore();
     const colRef = collection(db, "users");
-    let users : any = [];
+    const users : any[] = [];
 
     getDocs(colRef)
     .then((snapshot) => {
@@ -44,17 +44,16 @@ export async function fetchOrgData() {
         const colRef = collection(db, "organizations");
         const users = [];
 
-        const snapshot = await getDocs(colRef);
+    getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+            users.push({ ...doc.data(), id: doc.id })
+    })})
+    .catch(err => {
+        console.log(err.message)
+    })
 
-        snapshot.docs.forEach(doc => {
-            users.push({ ...doc.data(), id: doc.id });
-        });
-
-        return users;
-    } catch (err) {
-        console.error(err.message);
-        throw err; // Rethrow the error to be handled elsewhere if needed
-    }
+    return users;
 }
 
 export async function addOrgData(orgId: string,

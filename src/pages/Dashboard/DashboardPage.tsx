@@ -1,19 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
 import OrgCard from './OrgCard';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Navbar from '../Navbar/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchOrgData } from "../../components/FirebaseConnection";
 
 export default function DashboardPage() {
-  const [orgs, setOrgs] = useState([
-    { id: 1, name: "Association for Computing Machinery", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", starred: false },
-    { id: 2, name: "DevelUP", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", starred: false },
-    { id: 3, name: "Google Developer Student Clubs", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", starred: false },
-    { id: 4, name: "UP Association of Computer Science Majors", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", starred: false },
-    { id: 5, name: "UP Center for Student Innovations", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", starred: false },
-  ]);
+
+  const [orgs, setOrgs] = useState([])
 
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -21,33 +16,59 @@ export default function DashboardPage() {
   const [starredFilterActive, setStarredFilterActive] = useState(false);
   const [openForAppFilterActive, setOpenForAppFilterActive] = useState(false);
 
-  console.log(fetchOrgData())
 
+  useEffect(() => {
+    setOrgs([]); // Clear existing data before fetching new data
+    fetchOrgData()
+      .then(data => {
+        const newData = data.map(item => ({ ...item, starred: false })); // Add 'starred: false' property to each object
+        setOrgs(newData);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  function getOrgData(props){
+    useEffect(()=>{
+        // do stuff here...
+    }, []) // <-- empty dependency array
+    return <div></div>
+}
+
+  useEffect(() => {
+    console.log(orgs);
+  }, [orgs]);
   
   const toggleStarred = (id) => {
-    setOrgs(orgs.map(org => org.id === id ? { ...org, starred: !org.starred } : org));
+    setOrgs(orgs.map(org => org.orgId === id ? { ...org, starred: !org.starred } : org));
     console.log(orgs)
   };
 
 
 const filteredOrgs = orgs.filter(org =>
   (!starredFilterActive || org.starred) &&
-  (org.name.toLowerCase().includes(query.toLowerCase()) ||
-    org.desc.toLowerCase().includes(query.toLowerCase()))
+  (org.orgName.toLowerCase().includes(query.toLowerCase()) ||
+    org.orgDescription.toLowerCase().includes(query.toLowerCase()))
 );
+
+
 
 
   const sortedOrgs = [...filteredOrgs].sort((a, b) => {
     if (sortOrder === 'asc') {
-      return a.name.localeCompare(b.name);
+      return a.orgName.localeCompare(b.orgName);
     } else {
-      return b.name.localeCompare(a.name);
+      return b.orgName.localeCompare(a.orgName);
     }
   });
 
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     setSortFilterActive(!sortFilterActive);
+  
+    
+    
   };
 
 

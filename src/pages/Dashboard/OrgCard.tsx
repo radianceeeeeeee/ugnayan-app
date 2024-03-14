@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
 import acm from './acm.png';
+import { fetchOrgData } from "../../components/FirebaseConnection";
 
 export default function OrgCard({ org, toggleStarred }) {
   // const [isStarClicked, setIsStarClicked] = useState(org.starred);
 
+
   const handleStarClick = () => {
     // setIsStarClicked(!isStarClicked);
-    toggleStarred(org.id);
+    toggleStarred(org.orgId);
   };
 
-  const orgId = org.id;
-  const orgName = org.name;
-  const orgDesc = org.desc;
+  const orgId = org.orgId;
+  const orgName = org.orgName;
+  const orgBio = org.orgBio.substring(0,250);
+  const orgPicture = org.orgPictures[0] + ".jpg";
+
 
   return (
     <div>
@@ -37,10 +41,10 @@ export default function OrgCard({ org, toggleStarred }) {
           </button>
         </div>
         <Link to={`/dashboard/${orgId}`} className='card-link'>
-          <img src={acm} className="org-img" alt="..." />
+          <img src={orgPicture} className="org-img" alt="..." />
           <div className="card-body">
             <h5 className="card-title">{orgName}</h5>
-            <p className="card-text"> {orgDesc} </p>
+            <p className="card-text"> {orgBio} </p>
           </div>
         </Link>
       </div>

@@ -38,21 +38,23 @@ export async function addUserData(firstName: string, middleName: string, lastNam
     alert("User has been added to database");
 }
 
-export function fetchOrgData() {
-    const db = getFirestore();
-    const colRef = collection(db, "organizations");
-    let users : any = [];
+export async function fetchOrgData() {
+    try {
+        const db = getFirestore();
+        const colRef = collection(db, "organizations");
+        const users = [];
 
-    getDocs(colRef)
-    .then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-            users.push({ ...doc.data(), id: doc.id })
-    })})
-    .catch(err => {
-        console.log(err.message)
-    })
+        const snapshot = await getDocs(colRef);
 
-    return users;
+        snapshot.docs.forEach(doc => {
+            users.push({ ...doc.data(), id: doc.id });
+        });
+
+        return users;
+    } catch (err) {
+        console.error(err.message);
+        throw err; // Rethrow the error to be handled elsewhere if needed
+    }
 }
 
 export async function addOrgData(orgId: string,

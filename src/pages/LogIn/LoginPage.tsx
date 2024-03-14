@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./LogIn.css";
 import logo from "../../assets/logo/Ugnayan Logo circle wo name.png";
 import showEye from "../../assets/eye.png";
@@ -7,6 +8,7 @@ import hideEye from "../../assets/hidden.png";
 import emailIcon from "../../assets/user.png";
 import passwordIcon from "../../assets/door-key.png";
 import Navbar from "../Navbar/Navbar";
+import { Container, Form } from "react-bootstrap";
 
 export default function LogInPage() {
   // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
@@ -109,105 +111,109 @@ export default function LogInPage() {
     <div>
       <Navbar currentPage={"login"} />
       <div className="app-body">
-        <div className="app-login">
-          <img src={logo} alt="Logo" className="login-logo"></img>
-          <br></br>
-          <h1>
-            <b>Login</b>
-          </h1>
-          <br></br>
-          Sign in using your UP mail account
-          <br></br>
-          <form onSubmit={handleSubmit}>
-            <div className="login-email-blank">
-              <div className="login-email-icon-box" style={style(error.email)}>
-                <img src={emailIcon} className="login-email-icon"></img>
-              </div>
-              <input
-                value={formData.email}
-                name="email"
-                type="email"
-                className="login-email-input"
-                placeholder="Email"
-                inputMode="text"
-                pattern="[a-z]*@up\.edu\.ph"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                style={style(error.email)}
-                ref={ref.email}
-                required
-              />
-            </div>
-            {showErrorText.email && (
-              <p role="alert" style={{ color: "rgb(157, 28, 36)" }}>
-                Please make sure you've properly entered your <b>UP Email</b>
-              </p>
-            )}
-
-            <div className="login-password-blank">
-              <div
-                className="login-password-icon-box"
-                style={style(error.password)}
-              >
-                <img src={passwordIcon} className="login-password-icon"></img>
-              </div>
-              <input
-                value={formData.password}
-                name="password"
-                type={showPassword ? "text" : "password"}
-                className="login-password-input"
-                placeholder="Password"
-                inputMode="text"
-                pattern=".{8}.*"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                style={style(error.password)}
-                ref={ref.password}
-                required
-              />
-              <button
-                className="login-show-password"
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={style(error.password)}
-              >
-                {showPassword ? (
-                  <img
-                    src={hideEye}
-                    alt="Logo"
-                    className="login-password-hide"
-                  ></img>
-                ) : (
-                  <img
-                    src={showEye}
-                    alt="Logo"
-                    className="login-password-show"
-                  ></img>
+      <div className="d-flex justify-content-center">
+          <div className="app-login">
+            <img src={logo} alt="Logo" className="login-logo"></img>
+            <br></br>
+            <h1>
+              <b>Login</b>
+            </h1>
+            <br></br>
+            Sign in using your UP mail account
+            <br></br>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <div className="login-email-blank">
+                  <div className="login-email-icon-box" style={style(error.email)}>
+                    <img src={emailIcon} className="login-email-icon"></img>
+                  </div>
+                  <input
+                    value={formData.email}
+                    name="email"
+                    type="email"
+                    className="login-email-input"
+                    placeholder="Email"
+                    inputMode="text"
+                    pattern="[a-z]*@up\.edu\.ph"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    style={style(error.email)}
+                    ref={ref.email}
+                    required
+                  />
+                </div>
+                {showErrorText.email && (
+                  <p role="alert" style={{ color: "rgb(157, 28, 36)" }}>
+                    Please make sure you've properly entered your <b>UP Email</b>
+                  </p>
                 )}
-              </button>
-            </div>
-            {showErrorText.password && (
-              <p
-                className="error-message"
-                role="alert"
-                style={{ color: "rgb(157, 28, 36)" }}
-              >
-                Please make sure your password is{" "}
-                <b> at least 8 characters long</b>
-              </p>
-            )}
-            <button type="submit" className="login-button">
-              Log In
-            </button>
-          </form>
-          <br></br>
-          <a href="#" className="login-forget">
-            Forgot your username or password?
-          </a>
-          <button className="login-guest">Log in as a Guest</button>
-          Some features will be unavailable with guest access.
+
+                <div className="login-password-blank">
+                  <div
+                    className="login-password-icon-box"
+                    style={style(error.password)}
+                  >
+                    <img src={passwordIcon} className="login-password-icon"></img>
+                  </div>
+                  <input
+                    value={formData.password}
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    className="login-password-input"
+                    placeholder="Password"
+                    inputMode="text"
+                    pattern=".{8}.*"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    style={style(error.password)}
+                    ref={ref.password}
+                    required
+                  />
+                  <button
+                    className="login-show-password"
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={style(error.password)}
+                  >
+                    {showPassword ? (
+                      <img
+                        src={hideEye}
+                        alt="Logo"
+                        className="login-password-hide"
+                      ></img>
+                    ) : (
+                      <img
+                        src={showEye}
+                        alt="Logo"
+                        className="login-password-show"
+                      ></img>
+                    )}
+                  </button>
+                </div>
+                {showErrorText.password && (
+                  <p
+                    className="error-message"
+                    role="alert"
+                    style={{ color: "rgb(157, 28, 36)" }}
+                  >
+                    Please make sure your password is{" "}
+                    <b> at least 8 characters long</b>
+                  </p>
+                )}
+                <button type="submit" className="login-button">
+                  Log In
+                </button>
+              </Form.Group>
+            </Form>
+            <br></br>
+            <a href="#" className="login-forget">
+              Forgot your username or password?
+            </a>
+            <button className="login-guest">Log in as a Guest</button>
+            Some features will be unavailable with guest access.
+          </div>
         </div>
       </div>
     </div>

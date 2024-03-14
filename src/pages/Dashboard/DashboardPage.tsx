@@ -4,6 +4,7 @@ import OrgCard from './OrgCard';
 import { useState } from "react";
 import Navbar from '../Navbar/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { fetchOrgData } from "../../components/FirebaseConnection";
 
 export default function DashboardPage() {
   const [orgs, setOrgs] = useState([
@@ -19,6 +20,8 @@ export default function DashboardPage() {
   const [sortFilterActive, setSortFilterActive] = useState(true);
   const [starredFilterActive, setStarredFilterActive] = useState(false);
   const [openForAppFilterActive, setOpenForAppFilterActive] = useState(false);
+
+  console.log(fetchOrgData())
 
   
   const toggleStarred = (id) => {

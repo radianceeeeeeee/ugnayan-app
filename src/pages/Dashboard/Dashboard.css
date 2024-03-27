@@ -9,7 +9,7 @@
 border-radius: 20px;
 box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 margin-bottom: 25px;
-height:370px;
+/* height:400px; */
 position: relative; 
 }
 
@@ -92,4 +92,41 @@ border: 0;
 
 .active {
   background-color: aquamarine;
+}
+
+.org-tags {
+  border-radius: 40px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding-left: 7px;
+  padding-right: 7px; 
+}
+
+.org-tags-non-sectarian {
+  background-color: #b7cffe;
+}
+
+.org-tags-academic {
+  background-color: #F2D59A;
+}
+
+.org-tags-socio-academic {
+  background-color: #DABFFE;
+}
+
+.org-tags-computer-science {
+  background-color: #F0D2D9;
+}
+
+.org-tags-non-profit {
+  background-color: #C5DEEA;
+}
+
+.org-tags-gaming {
+  background-color: #c5eac8;
+}
+
+.org-tags-default {
+  background-color: #eadcc5;
 }

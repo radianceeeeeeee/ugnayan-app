@@ -15,6 +15,11 @@ export default function DashboardPage() {
   const [sortFilterActive, setSortFilterActive] = useState(true);
   const [starredFilterActive, setStarredFilterActive] = useState(false);
   const [openForAppFilterActive, setOpenForAppFilterActive] = useState(false);
+  const [scopeActive, setScopeActive] = useState(false);
+  const [tagActive, setTagActive] = useState(false);
+
+  const [selectedScope, setSelectedScope] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
 
   useEffect(() => {
@@ -29,27 +34,21 @@ export default function DashboardPage() {
       });
   }, []);
 
-  function getOrgData(props){
-    useEffect(()=>{
-        // do stuff here...
-    }, []) // <-- empty dependency array
-    return <div></div>
-}
-
-  useEffect(() => {
-    console.log(orgs);
-  }, [orgs]);
+  // useEffect(() => {
+  //   console.log(orgs);
+  // }, [orgs]);
   
   const toggleStarred = (id) => {
     setOrgs(orgs.map(org => org.orgId === id ? { ...org, starred: !org.starred } : org));
-    console.log(orgs)
   };
 
 
 const filteredOrgs = orgs.filter(org =>
   (!starredFilterActive || org.starred) &&
   (org.orgName.toLowerCase().includes(query.toLowerCase()) ||
-    org.orgDescription.toLowerCase().includes(query.toLowerCase()))
+    org.orgDescription.toLowerCase().includes(query.toLowerCase())) &&
+    (!selectedScope || org.orgTags.includes(selectedScope)) &&
+    (selectedTags.length === 0 || selectedTags.every(tag => org.orgTags.includes(tag)))
 );
 
 
@@ -80,9 +79,43 @@ const filteredOrgs = orgs.filter(org =>
     setOpenForAppFilterActive(!openForAppFilterActive);
   };
 
+  const handleScopeSelect = (scope) => {
+    setSelectedScope(prevScope => prevScope === scope ? null : scope);
+    setScopeActive(!scopeActive);
+
+  };
+
+  const handleTagSelect = (tag) => {
+    let updatedTags = [];
+    let updatedTagActive = false;
+  
+    // Update the class name synchronously before updating the state
+    if (selectedTags.includes(tag)) {
+      updatedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      updatedTags = [...selectedTags, tag];
+    }
+  
+    // Check if there are any tags selected
+    if (updatedTags.length > 0) {
+      updatedTagActive = true;
+    }
+  
+    // Update state
+    setSelectedTags(updatedTags);
+    setTagActive(updatedTagActive);
+  };
+  
+
+  useEffect(() => {
+    console.log("New tag added:", selectedTags);
+  }, [selectedTags]); // The effect depends on selectedTags state
+  
+
   return (
     <div> 
       <Navbar currentPage={"dashboard"}/>
+      
       <div className="main-text"> What Org You Looking For?</div>
       <div className="sub-text"> Type in keywords, or use tags to filter out the results</div>
       <div className="container">
@@ -113,22 +146,58 @@ const filteredOrgs = orgs.filter(org =>
           <button type="button" className={`filter-btn filter-long ${openForAppFilterActive ? 'active' : ''}`} onClick={toggleOpenForAppFilter}> Open for App</button>
           <div className="col-lg-2 col-sm-4">
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" className="dropdown-btn" id="dropdown-basic">
+              <Dropdown.Toggle className={`dropdown-btn ${scopeActive ? 'active' : ''}`} variant="secondary" id="dropdown-basic">
                 Scope
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">University-Wide </Dropdown.Item>
+                <Dropdown.Item className={selectedScope === "computer science" ? "selected-scope" : ""} onClick={() => handleScopeSelect("computer science")}>Computer Science</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           <div className="col-lg-2 col-sm-4">
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" className="dropdown-btn" id="dropdown-basic">
+              <Dropdown.Toggle className={`dropdown-btn ${tagActive ? 'active' : ''}`} variant="secondary" id="dropdown-basic">
                 More Tags
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">More Tags </Dropdown.Item>
-              </Dropdown.Menu>
+  <Dropdown.Item 
+    className={selectedTags.includes("academic") ? "selected-scope" : ""} 
+    onClick={(e) => { 
+      e.stopPropagation(); 
+      handleTagSelect("academic"); 
+    }}
+  >
+    Academic 
+  </Dropdown.Item>            
+  <Dropdown.Item 
+    className={selectedTags.includes("socio-academic") ? "selected-scope" : ""} 
+    onClick={(e) => { 
+      e.stopPropagation(); 
+      handleTagSelect("socio-academic"); 
+    }}
+  >
+    Socio-Academic 
+  </Dropdown.Item>            
+  <Dropdown.Item 
+    className={selectedTags.includes("non-sectarian") ? "selected-scope" : ""} 
+    onClick={(e) => { 
+      e.stopPropagation(); 
+      handleTagSelect("non-sectarian"); 
+    }}
+  >
+    Non-Sectarian 
+  </Dropdown.Item>            
+  <Dropdown.Item 
+    className={selectedTags.includes("non-profit") ? "selected-scope" : ""} 
+    onClick={(e) => { 
+      e.stopPropagation(); 
+      handleTagSelect("non-profit"); 
+    }}
+  >
+    Non-Profit 
+  </Dropdown.Item>
+</Dropdown.Menu>
+
             </Dropdown>
           </div>
         </div>

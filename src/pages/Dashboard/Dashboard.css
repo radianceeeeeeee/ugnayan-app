@@ -91,7 +91,8 @@ border: 0;
 }
 
 .active {
-  background-color: aquamarine;
+  background-color: aquamarine !important;
+  color: black !important;
 }
 
 .org-tags {
@@ -129,4 +130,20 @@ border: 0;
 
 .org-tags-default {
   background-color: #eadcc5;
+}
+
+.selected-scope {
+  margin-top: -7px;
+  margin-bottom: -7px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  background-color: aquamarine; /* Change the background color to green */
+}
+
+.selected-scope:hover {
+  margin-top: -7px;
+  margin-bottom: -7px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  background-color: aquamarine; /* Change the background color to green */
 }

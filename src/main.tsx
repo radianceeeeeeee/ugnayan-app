@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import OrgPage from './pages/OrgPage/OrgPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
+import AdminPage from './pages/AdminPage/AdminPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUpPage />
+  },
+  {
+    path: "/admin",
+    element: <AdminPage />
   }
 ]);
 

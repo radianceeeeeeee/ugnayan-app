@@ -7,7 +7,7 @@ import showEye from "../../assets/eye.png";
 import hideEye from "../../assets/hidden.png";
 import emailIcon from "../../assets/user.png";
 import passwordIcon from "../../assets/door-key.png";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { Container, Form } from "react-bootstrap";
 
 export default function LogInPage() {
@@ -211,7 +211,7 @@ export default function LogInPage() {
             <a href="#" className="login-forget">
               Forgot your username or password?
             </a>
-            <button className="login-guest">Log in as a Guest</button>
+            <Link to="/dashboard"><button className="login-guest">Log in as a Guest</button></Link>
             Some features will be unavailable with guest access.
           </div>
         </div>

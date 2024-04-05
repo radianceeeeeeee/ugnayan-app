@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../../components/Navbar/Navbar';
 import './OrgPage.css';
 import { fetchOrgData } from "../../components/FirebaseConnection";
 

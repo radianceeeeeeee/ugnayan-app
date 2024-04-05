@@ -2,9 +2,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
 import OrgCard from './OrgCard';
 import { useState,useEffect } from "react";
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../../components/Navbar/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchOrgData } from "../../components/FirebaseConnection";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 export default function DashboardPage() {
 
@@ -113,12 +114,14 @@ const filteredOrgs = orgs.filter(org =>
   
 
   return (
-    <div> 
+    <div className="background-container"> 
       <Navbar currentPage={"dashboard"}/>
+      <Sidebar />
       
+      <div className="header-container">
+      <div className="container-md">
       <div className="main-text"> What Org You Looking For?</div>
-      <div className="sub-text"> Type in keywords, or use tags to filter out the results</div>
-      <div className="container">
+      <div className="sub-text"> Type in keywords, or use tags to filter out the results.</div>
         <div className="row search-row">
           <div className="col-2"></div>
           <div className="col-7">
@@ -140,67 +143,50 @@ const filteredOrgs = orgs.filter(org =>
           </div>
           <div className="col-2"></div>
         </div>
-        <div className="row search-filters-row">
-          <div className="col-lg-2 col-sm-4"></div>
-          <button type="button" className={`filter-btn ${starredFilterActive ? 'active' : ''}`} onClick={toggleStarredFilter}> Starred</button>
-          <button type="button" className={`filter-btn filter-long ${openForAppFilterActive ? 'active' : ''}`} onClick={toggleOpenForAppFilter}> Open for App</button>
-          <div className="col-lg-2 col-sm-4">
+
+        <div className="row search-filters-row align-items-center justify-content-md-center">
+          <button type="button" className={`filter-btn ${starredFilterActive ? 'active' : ''}`} onClick={toggleStarredFilter}> Starred </button>
+          <button type="button" className={`filter-btn ${openForAppFilterActive ? 'active' : ''}`} onClick={toggleOpenForAppFilter}> Open for Applications </button>
+          <div className="col-md-auto">
             <Dropdown>
               <Dropdown.Toggle className={`dropdown-btn ${scopeActive ? 'active' : ''}`} variant="secondary" id="dropdown-basic">
                 Scope
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item className={selectedScope === "computer science" ? "selected-scope" : ""} onClick={() => handleScopeSelect("computer science")}>Computer Science</Dropdown.Item>
+                  {/* Scope dropdown items */}
+                  <Dropdown.Item className={selectedScope === "computer science" ? "selected-scope" : ""} 
+                  onClick={() => handleScopeSelect("computer science")}>
+                      Computer Science</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <div className="col-lg-2 col-sm-4">
+          <div className="col-md-auto">
             <Dropdown>
               <Dropdown.Toggle className={`dropdown-btn ${tagActive ? 'active' : ''}`} variant="secondary" id="dropdown-basic">
                 More Tags
               </Dropdown.Toggle>
               <Dropdown.Menu>
-  <Dropdown.Item 
-    className={selectedTags.includes("academic") ? "selected-scope" : ""} 
-    onClick={(e) => { 
-      e.stopPropagation(); 
-      handleTagSelect("academic"); 
-    }}
-  >
-    Academic 
-  </Dropdown.Item>            
-  <Dropdown.Item 
-    className={selectedTags.includes("socio-academic") ? "selected-scope" : ""} 
-    onClick={(e) => { 
-      e.stopPropagation(); 
-      handleTagSelect("socio-academic"); 
-    }}
-  >
-    Socio-Academic 
-  </Dropdown.Item>            
-  <Dropdown.Item 
-    className={selectedTags.includes("non-sectarian") ? "selected-scope" : ""} 
-    onClick={(e) => { 
-      e.stopPropagation(); 
-      handleTagSelect("non-sectarian"); 
-    }}
-  >
-    Non-Sectarian 
-  </Dropdown.Item>            
-  <Dropdown.Item 
-    className={selectedTags.includes("non-profit") ? "selected-scope" : ""} 
-    onClick={(e) => { 
-      e.stopPropagation(); 
-      handleTagSelect("non-profit"); 
-    }}
-  >
-    Non-Profit 
-  </Dropdown.Item>
-</Dropdown.Menu>
-
+                  {/* More Tags dropdown items */}
+                  <Dropdown.Item className={selectedTags.includes("academic") ? "selected-scope" : ""} 
+                  onClick={(e) => { e.stopPropagation(); handleTagSelect("academic"); }}>
+                      Academic </Dropdown.Item>
+                  <Dropdown.Item className={selectedTags.includes("socio-academic") ? "selected-scope" : ""} 
+                  onClick={(e) => { e.stopPropagation(); handleTagSelect("socio-academic"); }}>
+                      Socio-Academic </Dropdown.Item>
+                  <Dropdown.Item className={selectedTags.includes("non-sectarian") ? "selected-scope" : ""} 
+                  onClick={(e) => { e.stopPropagation(); handleTagSelect("non-sectarian"); }}>
+                      Non-Sectarian </Dropdown.Item> 
+                  <Dropdown.Item className={selectedTags.includes("non-profit") ? "selected-scope" : ""} 
+                  onClick={(e) => { e.stopPropagation(); handleTagSelect("non-profit"); }}>
+                      Non-Profit </Dropdown.Item>
+              </Dropdown.Menu>
             </Dropdown>
           </div>
         </div>
+      </div>
+      </div>
+
+      <div className="container-md results-container">
         <div className="row">
           {sortedOrgs.map((org, index) => (
             <div className="col-sm-12 col-md-6 col-lg-4" key={index}>

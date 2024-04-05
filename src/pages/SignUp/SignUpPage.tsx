@@ -1,4 +1,4 @@
-import Navbar from "../Navbar/Navbar";
+import Navbar from '../../components/Navbar/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./SignUpForm";
 import SignUpBackground from "./SignUpBackground";

@@ -106,7 +106,6 @@ const filteredOrgs = orgs.filter(org =>
     <div className="background-container"> 
       <Navbar currentPage={"dashboard"}/>
       <Sidebar />
-      
       <div className="header-container">
       <div className="container-md">
       <div className="main-text"> What Org You Looking For?</div>

@@ -1,6 +1,16 @@
 .Sidebar {
-    width: 300px !important;
+    width: 250px !important;
     background-color: #E8E8E8 !important;
     top: 54px !important;
 }
-  
+
+.sidebar-header {
+    color: #444444;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif; 
+    padding: 20px 20px 10px 20px;
+}
+
+.accordion-button::after {
+    display: none !important;
+  }

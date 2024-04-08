@@ -1,19 +1,13 @@
-/* .cover {
-    height:200px;
-    width: 100%;
-    overflow: hidden;
-    position: 500px;
-} */
+.carousel {
+    margin-bottom: 3rem;
+    margin-top: 2.5rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+}
 
-/* .cover {
-    background-image: url("https://imgur.com/inmxmso.jpg");
-
-    background-position-y: -150px;
-    height:280px;
-    width: 100%;
-}  */
-
-
+.carousel-item {
+    height: 25rem;
+}
 
 .container {
     margin-top: -5%;

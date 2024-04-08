@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import './OrgPage.css';
 import { fetchOrgData } from "../../components/FirebaseConnection";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 
 
@@ -58,14 +59,42 @@ export default function OrgPage() {
   return (
     <div> 
       <Navbar currentPage={"dashboard"}/>
-      <div className="cover" style={{ 
-        backgroundImage: orgPic ? `url(\"${orgPic}` + '.jpg\")' : '',
-        backgroundPositionY: '-150px',
-        height: '280px',
-        width: '100%'
-      }}>  
+      <Sidebar />
 
-      </div>
+      <div id="myCarousel" className="carousel slide mb-6 rounded-3" data-bs-ride="carousel">
+        <div className="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <div className="carousel-image rounded-3" style={{ 
+              backgroundImage: orgPic ? `url(\"${orgPic}` + '.jpg\")' : '',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              width: '100%',
+              height: '100%'
+            }}> </div>
+          </div>
+          <div className="carousel-item">
+            <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+          </div>
+          <div className="carousel-item">
+            <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+          </div>
+        </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div> 
+
       <div className='container'>
 
         <div className="row">

@@ -179,14 +179,12 @@ export default function OrgPage() {
           </div>
 
           <div className="col-md-2">
-            <div className="card text-center">
+            <div className="card">
               <div className="card-header right-card-header">
-                Your Member Status
+                Addtl. Feature
               </div>
               <div className="card-body">
-                <p className="card-text"> You are not affiliated with this org. </p>
-                <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
-                <p className="card-text"><small className="text-muted"> open until Oct. 12, 2024 </small></p>
+                <p className="card-text"> Can add more features here (eg. statistics/analytics, members you might know, current EB, images, etc.) </p>
               </div>
             </div>
 

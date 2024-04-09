@@ -4,19 +4,22 @@ export class User {
      private lastName: string;
      private studentNo: string;
      private orgsJoined: Organization[];
+     private role: string;
 
      constructor(
           firstName: string,
           middleName: string,
           lastName: string,
           studentNo: string,
-          orgsJoined: Organization[] = []
+          orgsJoined: Organization[] = [],
+          role: string,
      ) {
                this.firstName = firstName;
                this.middleName = middleName;
                this.lastName = lastName;
                this.studentNo = studentNo;
                this.orgsJoined = orgsJoined;
+               this.role = role;
      }
 
      public getFirstName() {
@@ -43,6 +46,10 @@ export class User {
      public getOrgNamesJoined() {
           const orgs = this.orgsJoined.map((org) => org.getOrgName());
           return orgs;
+     }
+
+     public getRole() {
+          return this.role;
      }
      
      public addOrgsJoined(org: Organization) {

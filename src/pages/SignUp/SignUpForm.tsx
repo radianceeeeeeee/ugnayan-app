@@ -5,6 +5,7 @@ import "./SignUp.css";
 import showEye from "../../assets/eye.png";
 import hideEye from "../../assets/hidden.png";
 import logo from "../../assets/logo_placeholder.png";
+import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 
 export default function SignUpForm() {
   const courses = ["BS Computer Science", "BS Mathematics"];
@@ -43,7 +44,7 @@ export default function SignUpForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const form = event.target;
 
@@ -51,6 +52,7 @@ export default function SignUpForm() {
       form.classList.add("was-validated");
       return;
     }
+    await doCreateUserWithEmailAndPassword(formData.email, formData.password);
     window.location.href = "/login";
   };
 

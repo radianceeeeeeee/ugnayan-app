@@ -9,8 +9,12 @@ import emailIcon from "../../assets/user.png";
 import passwordIcon from "../../assets/door-key.png";
 import Navbar from "../../components/Navbar/Navbar";
 import { Container, Form } from "react-bootstrap";
+import { useAuth } from "../../contexts/authContext";
+import { doSignInWithEmailAndPassword } from "../../firebase/auth";
 
 export default function LogInPage() {
+  const { userLoggedIn } = useAuth();
+
   // https://www.geeksforgeeks.org/how-to-show-and-hide-password-in-reactjs/
   // Used for showing and hiding password
   const [password, setPassword] = useState("");
@@ -32,7 +36,7 @@ export default function LogInPage() {
     password: useRef<HTMLInputElement>(null),
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const form = event.target;
 
@@ -40,6 +44,8 @@ export default function LogInPage() {
       form.classList.add("was-validated");
       return;
     }
+
+    await doSignInWithEmailAndPassword(formData.email, formData.password);
     window.location.href = "/dashboard";
   };
 

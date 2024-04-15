@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/src/assets/fonts/Inter/Inter.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/src/assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
 :root {
   --u-grad: linear-gradient(
     to bottom right,
@@ -8,13 +18,32 @@
   );
 }
 
-.table-header {
-  margin-top: 3em;
-  align-items: center;
-  font-family: Inter;
+.body-shift {
+  margin-top: 0px;
 }
 
-.view-type {
+.admin-title-container {
+  background-color: white;
+  height: 6rem;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #8d021f, #005538) 30;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-title {
+  height: 6rem;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #8d021f, #005538) 30;
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+
+.admin-title-text, .view-type {
   font-size: 2rem;
   font-weight: bold;
   background: var(--u-grad);
@@ -23,6 +52,23 @@
   display: inline-block;
   margin-right: 1.5rem;
 }
+
+.admin-title button{
+  border: 1px solid #6f6f6f;
+  border-radius: 100px;
+  font-size: 1rem;
+  padding: 0 0.75em 0 0.5em;
+}
+
+
+
+.table-header {
+  margin-top: 3em;
+  align-items: center;
+  font-family: "Inter";
+}
+
+
 
 .change-view {
   background-color: rgba(255, 255, 255, 0.69);
@@ -42,33 +88,99 @@
   justify-content: end;
 }
 
-.down-icon {
+.icon {
   color: black;
   width: 1rem;
   height: 1rem;
+  margin: 0 0.25rem;
+  margin-left: 0;
 }
 
-.search-container {
+.search-container,
+.add-org {
   background-color: rgba(255, 255, 255, 0.69);
   border: none;
   border-radius: 0.4rem;
-  padding: 0.25rem 1rem;
+  padding: 0.2em 0.5em;
 }
 
 .search-container input {
   background: none;
   border: none;
   width: 30rem;
-  margin-left: 0.5rem;
   font-size: 0.9rem;
   &:focus {
     outline: none;
   }
 }
 
+.add-org {
+  margin-left: 1rem;
+  font-family: "Inter";
+}
+
+.add-org svg {
+  margin-left: 0;
+}
+
+.outer-table {
+  padding: 12px;
+}
+
 .table-container {
-  padding: 4rem;
+  background-color: white;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+}
+
+.table-top {
+  display: flex;
+}
+
+.remove-orgs {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid #6f6f6f;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  padding: 0 0.75em 0 0.5em;
+  margin-left: 1rem;
+  font-family: "Roboto";
+}
+
+.table-row{
+  display: flex;
+  align-items: flex-end;
+}
+
+.table-col {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  font-family: "Roboto";
+  
+  &:last-child{
+    margin-right: 0;
+  }
+}
+
+.col-middle {
+  
+  width: 100%;
+}
+
+
+.table-col button {
+  border: none;
+  background-color: white;
+  height: 1.5rem;
+  width: 1.5rem;
+  display: relative;
+  padding: 0;
+}
+
+.abs {
+  margin-right: 0;
 }

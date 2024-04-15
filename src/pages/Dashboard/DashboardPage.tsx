@@ -97,15 +97,11 @@ const filteredOrgs = orgs.filter(org =>
     setTagActive(updatedTagActive);
   };
   
-  useEffect(() => {
-    console.log("New tag added:", selectedTags);
-  }, [selectedTags]); // The effect depends on selectedTags state
-  
 
   return (
     <div className="background-container"> 
       <Navbar currentPage={"dashboard"}/>
-      <Sidebar />
+      <Sidebar orgs={sortedOrgs} toggleStarred={toggleStarred} />
       <div className="header-container">
       <div className="container-md">
       <div className="main-text"> What Org You Looking For?</div>

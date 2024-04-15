@@ -10,11 +10,8 @@ export default function OrgCard({ org, toggleStarred }) {
 
 
   const handleStarClick = () => {
-    // setIsStarClicked(!isStarClicked);
     toggleStarred(org.orgId);
   };
-  
-  console.log(org)
 
   const orgId = org.orgId;
   const orgName = org.orgName;

@@ -3,8 +3,8 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../FirebaseConfig";
 
-export const doCreateUserWithEmailAndPassword = async (email: string , password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+export const doCreateUserWithEmailAndPassword = async (formData: any) => {
+    return createUserWithEmailAndPassword(auth, formData.email, formData.password);
 };
 
 export const doSignInWithEmailAndPassword = (email: string , password: string) => {

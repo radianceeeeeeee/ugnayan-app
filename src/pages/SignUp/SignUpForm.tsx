@@ -52,7 +52,7 @@ export default function SignUpForm() {
       form.classList.add("was-validated");
       return;
     }
-    await doCreateUserWithEmailAndPassword(formData.email, formData.password);
+    await doCreateUserWithEmailAndPassword(formData);
     window.location.href = "/login";
   };
 
@@ -217,7 +217,7 @@ export default function SignUpForm() {
                 className="form-control signup-input"
                 placeholder="Email"
                 inputMode="text"
-                pattern="[a-z]*@up\.edu\.ph"
+                pattern="[a-z]+[0-9]*@up\.edu\.ph"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 onFocus={handleFocus}

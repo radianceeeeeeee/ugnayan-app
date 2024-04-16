@@ -140,7 +140,7 @@ export default function LogInPage() {
                     className="login-email-input"
                     placeholder="Email"
                     inputMode="text"
-                    pattern="[a-z]*@up\.edu\.ph"
+                    pattern="[a-z]+[0-9]*@up\.edu\.ph"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     onFocus={handleFocus}

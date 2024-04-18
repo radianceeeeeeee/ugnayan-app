@@ -8,10 +8,9 @@ import './OrgPage.css';
 import { fetchOrgData } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHandshakeAngle } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faChevronLeft, faFloppyDisk, faSquareShareNodes } from '@fortawesome/free-solid-svg-icons';
 
-export default function OrgPage() {
+export default function EditOrgPage() {
   const params = useParams();
 
   const [orgs, setOrgs] = useState({});
@@ -72,11 +71,9 @@ export default function OrgPage() {
       <Sidebar />
 
       <div className="container-md org-header-container">
-        <Link to ="/dashboard">
-          <button className="btn btn-light back-button">
-            <FontAwesomeIcon icon={faChevronLeft} style={{ marginRight: '0.5rem' }}/> 
-            Back to Search </button>
-        </Link>
+        <button className="btn btn-light back-button" onClick={handleBack}>
+          <FontAwesomeIcon icon={faChevronLeft} style={{ marginRight: '0.5rem' }}/> 
+          Leave Edit Page </button>
 
         <div id="myCarousel" className="carousel slide mb-6 rounded-3" data-bs-ride="carousel">
           <div className="carousel-indicators">
@@ -119,11 +116,36 @@ export default function OrgPage() {
               <h1 className="font-inter custom-grey">{orgs.orgName}</h1>
             </div>
             <div className="col-md-auto orgpage-options">
-              <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
-              <Link to ={`/editpage/${params.orgId}`}>
-                <button type="button" className="btn btn-outline-dark org-options-button"> 
-                  Edit Page </button>
-              </Link>
+              <button type="button" className="btn btn-outline-dark org-options-button" data-bs-toggle="modal" data-bs-target="#bannerModal"> Edit Images </button>
+                <div className="modal fade" id="bannerModal" tabIndex="-1" aria-labelledby="bannerModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel"> Edit Banner Images </h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        <div className="form-floating mb-2 mt-2">
+                          <input type="url" className="form-control" id="floatingBanner1" placeholder="https://example.com" value={orgs.orgPictures} />
+                          <label htmlFor="floatingBanner1"> Imgur Link 1 </label>
+                        </div>
+                        <div className="form-floating mb-2">
+                          <input type="url" className="form-control" id="floatingBanner2" placeholder="https://example.com" />
+                          <label htmlFor="floatingBanner2"> Imgur Link 2 </label>
+                        </div>
+                        <div className="form-floating mb-2">
+                          <input type="url" className="form-control" id="floatingBanner3" placeholder="https://example.com" />
+                          <label htmlFor="floatingBanner3"> Imgur Link 3 </label>
+                        </div>
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-outline-dark org-options-button"> Close </button>
+                        <button type="button" className="btn btn-outline-dark org-options-button"> Save Changes </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <button type="button" className="btn btn-outline-dark org-options-button"> Save Changes </button>
             </div>
           </div>
         </div>
@@ -137,50 +159,55 @@ export default function OrgPage() {
               <div className="card-header about-card-header">
                 About
               </div>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faCakeCandles}/></div> 
-                  <div className="col-md-10 about-info"> Founded {orgs.dateFounded} </div>
-                </div></li>
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faLocationDot}/></div>
-                  <div className="col-md-10 about-info"> {orgs.orgLocation} </div>
-                </div></li>
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faEnvelope}/></div>
-                  <div className="col-md-10 about-info"> {orgs.orgEmails} </div>
-                </div></li>
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faGlobe}/></div>
-                  <div className="col-md-10 about-info"><a href={orgs.orgWebsite} target="_blank" rel="noopener noreferrer"> {websiteName} </a></div>
-                </div></li>
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faFacebook}/></div>
-                  <div className="col-md-10 about-info"><a href={orgs.orgFacebook} target="_blank" rel="noopener noreferrer"> {facebookName} </a></div>
-                </div></li>
-                <li className="list-group-item"> <div className="row">
-                  <div className="col-md-2 text-center"><FontAwesomeIcon icon={faHandshakeAngle}/></div>
-                  <div className="col-md-10 about-info"> Affiliations: {orgs.orgAffiliations} </div>
-                </div></li>
-              </ul>
+              <div className="col-md px-4">
+                <div className="form-floating mb-2 mt-3">
+                  <input type="date" className="form-control" id="floatingDateFounded" placeholder="Month XX, XXXX" value={orgs.dateFounded} />
+                  <label htmlFor="floatingDateFounded"> Date Founded </label>
+                </div>
+                <div className="form-floating mb-2">
+                  <input type="text" className="form-control" id="floatingLocation" placeholder="UP Diliman" value={orgs.orgLocation} />
+                  <label htmlFor="floatingLocation"> Org Location </label>
+                </div>
+                <div className="form-floating mb-2">
+                  <input type="email" className="form-control" id="floatingEmail" placeholder="email@example.com" value={orgs.orgEmails} />
+                  <label htmlFor="floatingEmail"> Org Email </label>
+                </div>
+                <div className="form-floating mb-2">
+                  <input type="url" className="form-control" id="floatingWebsite" placeholder="https://example.com" value={orgs.orgWebsite} />
+                  <label htmlFor="floatingWebsite"> Org Website </label>
+                </div>
+                <div className="form-floating mb-2">
+                  <input type="url" className="form-control" id="floatingFB" placeholder="https://example.com" value={orgs.orgFacebook} />
+                  <label htmlFor="floatingFB"> Facebook Page </label>
+                </div>
+                <div className="form-floating mb-4">
+                  <input type="text" className="form-control" id="floatingAffiliations" placeholder="https://example.com" value={orgs.orgAffiliations} />
+                  <label htmlFor="floatingAffiliations"> Affiliations </label>
+                </div>
+              </div>
             </div>
 
-            <div className="card text-center mt-3">
+            <div className="card mt-3">
               <div className="card-header right-card-header">
-                Your Member Status
+                Application Status
               </div>
               <div className="card-body">
-                <p className="card-text"> You are not affiliated with this org. </p>
-                <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
-                <p className="card-text"><small className="text-muted"> open until Oct. 12, 2024 </small></p>
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                  <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Applications are Open</label>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="col-md-7">
             <div className="card org-desc">
-              <div className="card-body">
-                <p className="card-text"> {orgs.orgDescription} </p>
+              <div className="form-floating">
+                <textarea className="form-control" 
+                  placeholder="Describe your organization here!" 
+                  id="floatingTextarea2" style={{ height: 500 }} 
+                  value={orgs.orgDescription}></textarea>
+                <label htmlFor="floatingTextarea2"> Description </label>
               </div>
             </div>
           </div>

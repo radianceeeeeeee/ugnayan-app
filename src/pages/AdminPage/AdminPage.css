@@ -201,3 +201,12 @@
 .abs {
   margin-right: 0;
 }
+
+.no-permission{
+  background-color: 	#ffc2c2;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4545;
+}

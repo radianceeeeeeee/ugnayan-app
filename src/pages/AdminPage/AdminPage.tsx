@@ -10,6 +10,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import "./AdminPage.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { app } from '../../FirebaseConfig';
 
 export default function AdminPage() {
   const views = ["Users", "Organizations"];
@@ -63,10 +66,35 @@ export default function AdminPage() {
   // console.log(orgs)
   // console.log(users);
 
+  const [isUserASiteAdmin, setIsUserASiteAdmin] = useState(false);
+  useEffect(() => {
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+              if (auth.currentUser?.isAnonymous) {
+                  setIsUserASiteAdmin(false);
+              } else {
+                  const uid = user.uid;
+                  console.log(uid);
+
+                  const db = getFirestore(app);
+                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                      if (docSnap.exists()) {
+                        setIsUserASiteAdmin(docSnap.data().role === "Site Admin");
+                      }
+                  });
+              }
+          } else {
+            setIsUserASiteAdmin(false);
+          }
+      })
+    }, [isUserASiteAdmin]);
+
   return (
     <div>
       <Navbar currentPage={"dashboard"}></Navbar>
-      <div className="admin-title-container">
+      {isUserASiteAdmin && (<div className="admin-title-container">
         <div className="admin-title">
           <div className="admin-title-text">Admin Dashboard</div>
           <Link to="/dashboard">
@@ -89,9 +117,9 @@ export default function AdminPage() {
             </button>
           </Link>
         </div>
-      </div>
+      </div>)}
 
-      {true && (
+      {isUserASiteAdmin && (
         <>
           <div className="container body-shift">
             <div className="row table-header">
@@ -407,7 +435,7 @@ export default function AdminPage() {
         </>
       )}
 
-      {true && (<div className="no-permission"> You have no permission to access this page</div>)}
+      {!isUserASiteAdmin && (<div className="no-permission"> You have no permission to access this page</div>)}
     </div>
   );
 }

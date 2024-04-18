@@ -10,7 +10,7 @@ import passwordIcon from "../../assets/door-key.png";
 import Navbar from "../../components/Navbar/Navbar";
 import { Container, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/authContext";
-import { doSignInWithEmailAndPassword } from "../../firebase/auth";
+import { doSignInAsGuest, doSignInWithEmailAndPassword } from "../../firebase/auth";
 
 export default function LogInPage() {
   const { userLoggedIn } = useAuth();
@@ -45,7 +45,13 @@ export default function LogInPage() {
       return;
     }
 
-    await doSignInWithEmailAndPassword(formData.email, formData.password);
+    await doSignInWithEmailAndPassword(formData);
+    window.location.href = "/dashboard";
+  };
+
+  const handleGuest = async (event: any) => {
+    await doSignInAsGuest();
+    console.log("Signed in as guest");
     window.location.href = "/dashboard";
   };
 
@@ -217,7 +223,7 @@ export default function LogInPage() {
             <a href="#" className="login-forget">
               Forgot your username or password?
             </a>
-            <Link to="/dashboard"><button className="login-guest">Log in as a Guest</button></Link>
+            <button className="login-guest" onClick={handleGuest}>Log in as a Guest</button>
             Some features will be unavailable with guest access.
           </div>
         </div>

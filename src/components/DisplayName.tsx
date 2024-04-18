@@ -11,7 +11,6 @@ export function DisplayName(){
     const [name, setName] = useState("Loading...");
     useEffect(() => {
         const auth = getAuth();
-        let uid = "-1";
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -19,7 +18,7 @@ export function DisplayName(){
                     console.log("Guest")
                     setName("Guest")
                 } else {
-                    uid = user.uid;
+                    const uid = user.uid;
                     console.log(uid);
 
                     const db = getFirestore(app);

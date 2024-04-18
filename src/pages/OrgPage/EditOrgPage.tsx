@@ -9,6 +9,9 @@ import { fetchOrgData } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faFloppyDisk, faSquareShareNodes } from '@fortawesome/free-solid-svg-icons';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { app } from '../../FirebaseConfig';
 
 export default function EditOrgPage() {
   const params = useParams();
@@ -21,6 +24,31 @@ export default function EditOrgPage() {
   const handleBack = () => {
     window.history.back();
   };
+
+  const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
+  useEffect(() => {
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+              if (auth.currentUser?.isAnonymous) {
+                  setIsUserAnOrgAdmin(false);
+              } else {
+                  const uid = user.uid;
+                  console.log(uid);
+
+                  const db = getFirestore(app);
+                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                      if (docSnap.exists()) {
+                        setIsUserAnOrgAdmin(docSnap.data().role === "Org Admin");
+                      }
+                  });
+              }
+          } else {
+            setIsUserAnOrgAdmin(false);
+          }
+      })
+    }, [isUserAnOrgAdmin]);
 
   const [websiteName, setWebsiteName] = useState('');
   const [facebookName, setFacebookName] = useState('');
@@ -70,7 +98,9 @@ export default function EditOrgPage() {
       <Navbar currentPage={"dashboard"}/>
       <Sidebar />
 
-      <div className="container-md org-header-container">
+      {isUserAnOrgAdmin ? 
+      <>
+            <div className="container-md org-header-container">
         <button className="btn btn-light back-button" onClick={handleBack}>
           <FontAwesomeIcon icon={faChevronLeft} style={{ marginRight: '0.5rem' }}/> 
           Leave Edit Page </button>
@@ -254,6 +284,11 @@ export default function EditOrgPage() {
           </footer>
         </div>
       </section>
+      </> :
+      <div className="alert alert-danger">
+        You have no permission to view this page.
+      </div>
+      }
     </div>
   )
 }

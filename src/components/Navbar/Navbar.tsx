@@ -9,9 +9,17 @@ import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { DisplayName } from '../DisplayName';
+import { doSignOut } from '../../firebase/auth';
 
 
 function DisplayLink({ currentPage }) {
+  const handleLogOut = async (event: any) => {
+    await doSignOut();
+    console.log("Signed out");
+    window.location.href = "/";
+  };
+
+
     if (currentPage == 'landingpage') {
       return (
       <>
@@ -141,8 +149,8 @@ function DisplayLink({ currentPage }) {
                 <FontAwesomeIcon icon={faUser} /> <span style={{ marginLeft: '5px' }}> Profile </span></Dropdown.Item>
             <Dropdown.Item href="#/action-2"> 
                 <FontAwesomeIcon icon={faCircleQuestion} /> <span style={{ marginLeft: '5px' }}> FAQ </span></Dropdown.Item>
-            <Dropdown.Item href="#/action-3"><Link to="/">
-                <FontAwesomeIcon icon={faArrowRightFromBracket} /> <span style={{ marginLeft: '5px' }}> Logout </span></Link></Dropdown.Item>
+            <Dropdown.Item href="#/action-3" onClick={handleLogOut}>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} /> <span style={{ marginLeft: '5px' }}> Logout </span></Dropdown.Item>
           </Dropdown.Menu>
           </Dropdown>
           </form>

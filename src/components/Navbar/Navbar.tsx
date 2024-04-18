@@ -8,6 +8,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { DisplayName } from '../DisplayName';
 
 
 function DisplayLink({ currentPage }) {
@@ -132,7 +133,7 @@ function DisplayLink({ currentPage }) {
 
           <Dropdown>
           <Dropdown.Toggle variant="danger" id="dropdown-basic" className="custom-dropdown-button menu-padding">
-            Clarisse Bianca Bucu <span style={{ marginRight: '2px' }}></span>
+          <DisplayName /> <span style={{ marginRight: '2px' }}></span>
           </Dropdown.Toggle>
         
           <Dropdown.Menu className="aligned-dropdown-menu">

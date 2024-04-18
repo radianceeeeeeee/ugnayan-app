@@ -14,11 +14,10 @@ import { doSignOut } from '../../firebase/auth';
 
 function DisplayLink({ currentPage }) {
   const handleLogOut = async (event: any) => {
-    await doSignOut();
-    console.log("Signed out");
+      await doSignOut();
+      console.log("Signed out");
     window.location.href = "/";
   };
-
 
     if (currentPage == 'landingpage') {
       return (

@@ -125,6 +125,24 @@ export async function editOrgDescription(id: string, description: string){
   
   alert("Organization description has been updated");
 }
+
+export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string){
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, {orgPictures: [pic1, pic2, pic3]})
+  
+  alert("Organization pictures has been updated");
+}
+
+export async function updateAvailabilityOrg(id: string, open: boolean) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+
+  await updateDoc(orgDoc, {openForApplications: (open ? "Open" : "N/A")})
+  
+  alert("Organization's availability for application has been updated");
+}
+
 export async function updateRoles(id: string, role: string){
   const db = getFirestore();
   const userDoc = doc(db, "users", id);

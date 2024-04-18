@@ -5,7 +5,7 @@ import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import './OrgPage.css';
-import { fetchOrgData } from "../../components/FirebaseConnection";
+import { editOrgDescription, editOrgPictures, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faFloppyDisk, faSquareShareNodes } from '@fortawesome/free-solid-svg-icons';
@@ -52,6 +52,23 @@ export default function EditOrgPage() {
 
   const [websiteName, setWebsiteName] = useState('');
   const [facebookName, setFacebookName] = useState('');
+  const [orgDesc, setOrgDesc] = useState("");
+
+  const [orgPicLink1, setOrgPicLink1] = useState("");
+  const [orgPicLink2, setOrgPicLink2] = useState("");
+  const [orgPicLink3, setOrgPicLink3] = useState("");
+
+  const [available, setAvailable] = useState(true);
+  
+  function setCheckAvailable(id) {
+    if (available) {
+      setAvailable(false);
+      updateAvailabilityOrg(id, false)
+    } else {
+      setAvailable(true);
+      updateAvailabilityOrg(id, true)
+    }
+  }
 
   useEffect(() => {
       if (orgs && orgs.orgWebsite) {
@@ -68,6 +85,28 @@ export default function EditOrgPage() {
           setFacebookName(name);
       }
   }, [orgs]);
+
+  useEffect(() => {
+    if (orgs && orgs.orgDescription) {
+        setOrgDesc(orgs.orgDescription);
+    }
+}, [orgs]);
+
+  useEffect(() => {
+    if (orgs && orgs.orgPictures) {
+        if (orgs.orgPictures.length > 0) setOrgPicLink1(orgs.orgPictures[0]);
+        if (orgs.orgPictures.length > 1) setOrgPicLink2(orgs.orgPictures[1]);
+        if (orgs.orgPictures.length > 2) setOrgPicLink3(orgs.orgPictures[2]);
+    }
+  }, [orgs]);
+
+  function handleChangeDesc() {
+    editOrgDescription(orgs.id, orgDesc);
+  }
+
+  function handleChangePics() {
+    editOrgPictures(orgs.id, orgPicLink1, orgPicLink2, orgPicLink3);
+  }
 
   useEffect(() => {
     setOrgs({}); // Clear existing data before fetching new data
@@ -156,26 +195,26 @@ export default function EditOrgPage() {
                       </div>
                       <div className="modal-body">
                         <div className="form-floating mb-2 mt-2">
-                          <input type="url" className="form-control" id="floatingBanner1" placeholder="https://example.com" value={orgs.orgPictures} />
+                          <input type="url" className="form-control" id="floatingBanner1" placeholder="https://example.com" value={orgPicLink1} onChange={e => setOrgPicLink1(e.target.value)} />
                           <label htmlFor="floatingBanner1"> Imgur Link 1 </label>
                         </div>
                         <div className="form-floating mb-2">
-                          <input type="url" className="form-control" id="floatingBanner2" placeholder="https://example.com" />
+                          <input type="url" className="form-control" id="floatingBanner2" placeholder="https://example.com" value={orgPicLink2} onChange={e => setOrgPicLink2(e.target.value)}/>
                           <label htmlFor="floatingBanner2"> Imgur Link 2 </label>
                         </div>
                         <div className="form-floating mb-2">
-                          <input type="url" className="form-control" id="floatingBanner3" placeholder="https://example.com" />
+                          <input type="url" className="form-control" id="floatingBanner3" placeholder="https://example.com" value={orgPicLink3} onChange={e => setOrgPicLink3(e.target.value)}/>
                           <label htmlFor="floatingBanner3"> Imgur Link 3 </label>
                         </div>
                       </div>
                       <div className="modal-footer">
                         <button type="button" className="btn btn-outline-dark org-options-button"> Close </button>
-                        <button type="button" className="btn btn-outline-dark org-options-button"> Save Changes </button>
+                        <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleChangePics}> Save Changes </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              <button type="button" className="btn btn-outline-dark org-options-button"> Save Changes </button>
+              <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleChangeDesc}> Save Changes </button>
             </div>
           </div>
         </div>
@@ -223,7 +262,7 @@ export default function EditOrgPage() {
               </div>
               <div className="card-body">
                 <div className="form-check form-switch">
-                  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={available} onClick={() => setCheckAvailable(orgs.id)} />
                   <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Applications are Open</label>
                 </div>
               </div>
@@ -236,7 +275,8 @@ export default function EditOrgPage() {
                 <textarea className="form-control" 
                   placeholder="Describe your organization here!" 
                   id="floatingTextarea2" style={{ height: 500 }} 
-                  value={orgs.orgDescription}></textarea>
+                  value={orgDesc}
+                  onChange={e => setOrgDesc(e.target.value)}></textarea>
                 <label htmlFor="floatingTextarea2"> Description </label>
               </div>
             </div>

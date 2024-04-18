@@ -7,6 +7,7 @@ import LogInPage from "./pages/LogIn/LoginPage";
 import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import OrgPage from './pages/OrgPage/OrgPage';
+import EditOrgPage from './pages/OrgPage/EditOrgPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminPage />
+  },
+  {
+    path: "/editpage/:orgId",
+    element: <EditOrgPage />
   }
 ]);
 

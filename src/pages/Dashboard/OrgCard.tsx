@@ -2,7 +2,6 @@ import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
-import acm from './acm.png';
 import { fetchOrgData } from "../../components/FirebaseConnection";
 
 export default function OrgCard({ org, toggleStarred }) {

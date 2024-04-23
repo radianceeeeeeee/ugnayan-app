@@ -8,12 +8,13 @@ import {
 } from "../../components/FirebaseConnection";
 import Navbar from "../../components/Navbar/Navbar";
 import "./AdminPage.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { app } from '../../FirebaseConfig';
 import { onSnapshot, collection } from 'firebase/firestore';
+import RingLoader from "react-spinners/RingLoader";
 
 export default function AdminPage() {
   const views = ["Users", "Organizations"];
@@ -115,6 +116,7 @@ export default function AdminPage() {
           }
       })
     }, [isUserASiteAdmin]);
+
 
   return (
     <div>
@@ -460,7 +462,17 @@ export default function AdminPage() {
         </>
       )}
 
-      {!isUserASiteAdmin && (<div className="no-permission"> You have no permission to access this page</div>)}
+      {/* {!isUserASiteAdmin && (<div className="no-permission"> You have no permission to access this page</div>)} */}
+      {!isUserASiteAdmin && (    
+      <div className="sweet-loading">
+        <RingLoader
+          color={"#8D021F"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>)}
     </div>
   );
 }

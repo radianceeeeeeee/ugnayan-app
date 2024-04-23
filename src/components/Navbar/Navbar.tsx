@@ -24,7 +24,16 @@ function DisplayLink({ currentPage }) {
     window.location.href = "/";
   };
 
-  
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
+  const handleOpenProfileModal = () => {
+    setShowProfileModal(true);
+  };
+
+  const handleCloseProfileModal = () => {
+    setShowProfileModal(false);
+  };
+
 
 
   const [name, setName] = useState("Loading...");
@@ -168,7 +177,7 @@ function DisplayLink({ currentPage }) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="aligned-dropdown-menu">
-            <Dropdown.Item href="#/action-1"> 
+            <Dropdown.Item> 
                 Notifications</Dropdown.Item>
             <Dropdown.Item href="#/action-2" disabled> 
                 You have no notifications.</Dropdown.Item>
@@ -195,7 +204,7 @@ function DisplayLink({ currentPage }) {
           </Dropdown.Toggle>
         
           <Dropdown.Menu className="aligned-dropdown-menu">
-            <Dropdown.Item href="#/action-1"> 
+          <Dropdown.Item onClick={handleOpenProfileModal}> 
                 <FontAwesomeIcon icon={faUser} /> <span style={{ marginLeft: '5px' }}> Profile </span></Dropdown.Item>
             <Dropdown.Item href="#/action-2"> 
                 <FontAwesomeIcon icon={faCircleQuestion} /> <span style={{ marginLeft: '5px' }}> FAQ </span></Dropdown.Item>
@@ -204,6 +213,27 @@ function DisplayLink({ currentPage }) {
           </Dropdown.Menu>
           </Dropdown>
           </form>
+
+          <div className="modal" tabIndex="-1" role="dialog" style={{ display: showProfileModal ? 'block' : 'none' }}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Profile</h5>
+                  <button type="button" className="close" onClick={handleCloseProfileModal} aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  {/* Content of your modal */}
+                  {/* Add your profile information here */}
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={handleCloseProfileModal}>Close</button>
+                  {/* Add other buttons or actions here */}
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
       </>
       )

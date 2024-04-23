@@ -210,3 +210,10 @@
   justify-content: center;
   color: #ff4545;
 }
+
+.sweet-loading {
+  width:100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20%;
+}

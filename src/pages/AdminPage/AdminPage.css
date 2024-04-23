@@ -18,10 +18,6 @@
   );
 }
 
-.body-shift {
-  margin-top: 0px;
-}
-
 .admin-title-container {
   background-color: white;
   height: 6rem;
@@ -42,8 +38,8 @@
   align-items: center;
 }
 
-
-.admin-title-text, .view-type {
+.admin-title-text,
+.view-type {
   font-size: 2rem;
   font-weight: bold;
   background: var(--u-grad);
@@ -53,22 +49,18 @@
   margin-right: 1.5rem;
 }
 
-.admin-title button{
+.admin-title button {
   border: 1px solid #6f6f6f;
   border-radius: 100px;
   font-size: 1rem;
   padding: 0 0.75em 0 0.5em;
 }
 
-
-
 .table-header {
   margin-top: 3em;
   align-items: center;
   font-family: "Inter";
 }
-
-
 
 .change-view {
   background-color: rgba(255, 255, 255, 0.69);
@@ -102,13 +94,16 @@
   border: none;
   border-radius: 0.4rem;
   padding: 0.2em 0.5em;
+  display: flex;
+  align-items: center;
 }
 
 .search-container input {
   background: none;
   border: none;
-  width: 30rem;
+  width: 20rem;
   font-size: 0.9rem;
+
   &:focus {
     outline: none;
   }
@@ -117,6 +112,7 @@
 .add-org {
   margin-left: 1rem;
   font-family: "Inter";
+  margin-bottom: 0.5rem;
 }
 
 .add-org svg {
@@ -133,10 +129,6 @@
   padding: 0.5rem 1rem;
 }
 
-.table-top {
-  display: flex;
-}
-
 .remove-orgs {
   display: flex;
   justify-content: center;
@@ -149,7 +141,7 @@
   font-family: "Roboto";
 }
 
-.table-row{
+.table-row {
   display: flex;
   align-items: flex-end;
 }
@@ -160,31 +152,32 @@
   align-items: center;
   width: 20%;
   font-family: "Roboto";
-  
-  &:last-child{
+
+  &:last-child {
     margin-right: 0;
   }
 }
 
 .col-middle {
   flex: 1;
-  
 }
 
-.one-line{
+.one-line {
   max-width: 50rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  &:active {
+    white-space: wrap;
+  }
 }
 
-.bigger-text{
+.bigger-text {
   flex: 1;
   width: 30rem;
 }
 
-.col-last{
+.col-last {
   display: flex;
   justify-content: flex-end;
 }
@@ -202,8 +195,8 @@
   margin-right: 0;
 }
 
-.no-permission{
-  background-color: 	#ffc2c2;
+.no-permission {
+  background-color: #ffc2c2;
   height: 3rem;
   display: flex;
   align-items: center;
@@ -212,7 +205,7 @@
 }
 
 .sweet-loading {
-  width:100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   padding-top: 20%;

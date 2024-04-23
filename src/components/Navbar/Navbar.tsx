@@ -186,7 +186,7 @@ function DisplayLink({ currentPage }) {
 
           <div>
             {role == "Site Admin" ? 
-              <Link to ="/admin">
+              <Link to ="/admin/all-users">
               <button className="right-btn">⚙️Admin</button>
               </Link> :
 

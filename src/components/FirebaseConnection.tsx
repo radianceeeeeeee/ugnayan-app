@@ -103,7 +103,7 @@ export async function addOrgData(
     openForApplications: openForApplications,
   });
   
-  alert("Organization has been added to database");
+  // alert("Organization has been added to database");
 }
 export async function deleteOrg(id: string, orgName: string, orgDescription: string){
   const db = getFirestore();
@@ -115,7 +115,7 @@ export async function deleteOrg(id: string, orgName: string, orgDescription: str
     orgDescription: orgDescription,
   });
   
-  alert("Organization has been archived");
+  // alert("Organization has been archived");
 }
 
 export async function editOrgDescription(id: string, description: string){
@@ -123,7 +123,7 @@ export async function editOrgDescription(id: string, description: string){
   const orgDoc = doc(db, "organizations", id);
   await updateDoc(orgDoc, {orgDescription: description})
   
-  alert("Organization description has been updated");
+  // alert("Organization description has been updated");
 }
 
 export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string){
@@ -131,7 +131,7 @@ export async function editOrgPictures(id: string, pic1: string, pic2: string, pi
   const orgDoc = doc(db, "organizations", id);
   await updateDoc(orgDoc, {orgPictures: [pic1, pic2, pic3]})
   
-  alert("Organization pictures has been updated");
+  // alert("Organization pictures has been updated");
 }
 
 export async function updateAvailabilityOrg(id: string, open: boolean) {
@@ -140,7 +140,7 @@ export async function updateAvailabilityOrg(id: string, open: boolean) {
 
   await updateDoc(orgDoc, {openForApplications: (open ? "Open" : "N/A")})
   
-  alert("Organization's availability for application has been updated");
+  // alert("Organization's availability for application has been updated");
 }
 
 export async function updateRoles(id: string, role: string){
@@ -149,5 +149,5 @@ export async function updateRoles(id: string, role: string){
   
   await updateDoc(userDoc, {role: role})
   
-  alert("User role has been updated");
+  // alert("User role has been updated");
 }

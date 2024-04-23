@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { app } from '../../FirebaseConfig';
+import { onSnapshot, collection } from 'firebase/firestore';
 
 export default function AdminPage() {
   const views = ["Users", "Organizations"];
@@ -29,42 +30,66 @@ export default function AdminPage() {
   const [role, setRole] = useState<string>("");
 
   useEffect(() => {
-    setOrgs([]);
-    fetchOrgData()
-      .then((data) => {
-        const newData: {
-          orgName: string;
-          orgDescription: string;
-          id: string;
-        }[] = [];
-        for (const org of data) {
-          newData.push({
-            orgName: org.orgName,
-            orgDescription: org.orgDescription,
-            id: org.id,
-          });
-        }
+    // Function to fetch initial organization data
+    const fetchInitialOrgData = async () => {
+      try {
+        const data = await fetchOrgData();
+        const newData = data.map((org) => ({
+          orgName: org.orgName,
+          orgDescription: org.orgDescription,
+          id: org.id,
+        }));
         setOrgs(newData);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
-    setUsers([]);
-    fetchUserData().then((data) => {
-      const newData: { name: string; role: string; id: string }[] = [];
-      for (const user of data) {
-        newData.push({
+      }
+    };
+  
+    // Function to fetch initial user data
+    const fetchInitialUserData = async () => {
+      try {
+        const data = await fetchUserData();
+        const newData = data.map((user) => ({
           name: user.lastName.concat(", ", user.firstName),
           role: user.role,
           id: user.id,
-        });
+        }));
+        setUsers(newData);
+      } catch (error) {
+        console.error(error);
       }
+    };
+  
+    // Fetch initial data when component mounts
+    fetchInitialOrgData();
+    fetchInitialUserData();
+  
+    // Set up real-time listener for organizations
+    const orgsListener = onSnapshot(collection(getFirestore(app), 'organizations'), (snapshot) => {
+      const newData = snapshot.docs.map((doc) => ({
+        orgName: doc.data().orgName,
+        orgDescription: doc.data().orgDescription,
+        id: doc.id,
+      }));
+      setOrgs(newData);
+    });
+  
+    // Set up real-time listener for users
+    const usersListener = onSnapshot(collection(getFirestore(app), 'users'), (snapshot) => {
+      const newData = snapshot.docs.map((doc) => ({
+        name: doc.data().lastName.concat(", ", doc.data().firstName),
+        role: doc.data().role,
+        id: doc.id,
+      }));
       setUsers(newData);
     });
+  
+    // Clean up listeners when component unmounts
+    return () => {
+      orgsListener();
+      usersListener();
+    };
   }, []);
-
-  // console.log(orgs)
-  // console.log(users);
 
   const [isUserASiteAdmin, setIsUserASiteAdmin] = useState(false);
   useEffect(() => {

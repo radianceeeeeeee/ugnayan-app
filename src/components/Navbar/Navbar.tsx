@@ -10,6 +10,11 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { DisplayName } from '../DisplayName';
 import { doSignOut } from '../../firebase/auth';
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { app } from "../../FirebaseConfig";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 
 function DisplayLink({ currentPage }) {
@@ -18,6 +23,38 @@ function DisplayLink({ currentPage }) {
       console.log("Signed out");
     window.location.href = "/";
   };
+
+  
+
+
+  const [name, setName] = useState("Loading...");
+  const [role, setRole] = useState("Loading...");
+  useEffect(() => {
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+              if (auth.currentUser?.isAnonymous) {
+                  console.log("Guest")
+                  setName("Guest")
+              } else {
+                  const uid = user.uid;
+                  console.log(uid);
+
+                  const db = getFirestore(app);
+                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                      if (docSnap.exists()) {
+                          setName(`${docSnap.data().firstName} ${docSnap.data().lastName}`)
+                          setRole(`${docSnap.data().role}`)
+                      }
+                  });
+              }
+          } else {
+              setName("Loading...")
+          }
+      })
+    }, [name, role]);
+
 
     if (currentPage == 'landingpage') {
       return (
@@ -138,9 +175,23 @@ function DisplayLink({ currentPage }) {
           </Dropdown.Menu>
           </Dropdown>
 
+          <div>
+            {role == "Site Admin" ? 
+              <Link to ="/admin">
+              <button className="right-btn">⚙️Admin</button>
+              </Link> :
+
+              <></>
+            }
+          </div>
+
           <Dropdown>
           <Dropdown.Toggle variant="danger" id="dropdown-basic" className="custom-dropdown-button menu-padding">
-          <DisplayName /> <span style={{ marginRight: '2px' }}></span>
+          {/* <DisplayName /> <span style={{ marginRight: '2px' }}></span> */}
+            {name}  
+            {/* <br></br>
+            <div className='role'> {role} </div> */}
+
           </Dropdown.Toggle>
         
           <Dropdown.Menu className="aligned-dropdown-menu">

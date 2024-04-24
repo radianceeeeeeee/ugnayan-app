@@ -218,7 +218,7 @@ function DisplayLink({ currentPage }) {
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Profile</h5>
+                  <h5 className="modal-title">User Profile</h5>
                   <button type="button" className="close" onClick={handleCloseProfileModal} aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

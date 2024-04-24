@@ -16,6 +16,7 @@ import { app } from "../../FirebaseConfig";
 import { onSnapshot, collection } from "firebase/firestore";
 import EditIcon from "./icons/EditIcon";
 import ArchiveIcon from "./icons/ArchiveIcon";
+import AdminModal from "./AdminModal";
 
 interface AdminTableProps {
   view: string | undefined;
@@ -157,7 +158,12 @@ const AdminTable = ({ view }: AdminTableProps) => {
               </div>
               <div className="col-auto admin-row-mid admin-row-mid-body">
                 <div className="one-line">{org.orgDescription}</div>
-                <button className="btn">
+                <button
+                  type="button"
+                  className="btn add-org"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#staticBackdropEdit${org.id}`}
+                >
                   <EditIcon />
                 </button>
               </div>
@@ -171,6 +177,12 @@ const AdminTable = ({ view }: AdminTableProps) => {
                   <ArchiveIcon />
                 </button>
               </div>
+              <AdminModal
+                modalType="Edit"
+                orgId={org.id}
+                orgName={org.orgName}
+                orgDescription={org.orgDescription}
+              />
             </div>
           ))}
         </>

@@ -10,6 +10,7 @@ import AdminHeader from "./AdminHeader";
 import Plus from "./icons/Plus";
 import AdminNavigation from "./AdminNavigation";
 import RingLoader from "react-spinners/RingLoader";
+import AdminModal from "./AdminModal";
 
 export default function AdminPage() {
   const { view } = useParams();
@@ -51,11 +52,17 @@ export default function AdminPage() {
                 <AdminNavigation view={view} />
               </div>
               <div className="col-auto ">
-                <button className="btn add-org">
+                <button
+                  type="button"
+                  className="btn add-org"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropAdd"
+                >
                   <Plus /> Add
                 </button>
               </div>
             </div>
+            <AdminModal modalType="Add" view={view} />
             <div className="row">
               <div className="col table-container">
                 <AdminTable view={view} />

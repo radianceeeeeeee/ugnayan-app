@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import "../FirebaseConfig";
-import { collection, getDocs, addDoc, getFirestore, doc , deleteDoc, updateDoc} from "firebase/firestore";
-
+import {
+  collection,
+  getDocs,
+  addDoc,
+  getFirestore,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 /*
 Used for setting connection to Firebase
@@ -27,7 +34,6 @@ export async function fetchUserData() {
   }
 }
 
-
 export async function addUserData(
   firstName: string,
   middleName: string,
@@ -35,14 +41,14 @@ export async function addUserData(
   studentId: string
 ) {
   const db = getFirestore();
-  
+
   const docRef = await addDoc(collection(db, "users"), {
     firstName: firstName,
     middleName: middleName,
     lastName: lastName,
     studentId: studentId,
   });
-  
+
   alert("User has been added to database");
 }
 
@@ -52,11 +58,11 @@ export async function fetchOrgData() {
     const colRef = collection(db, "organizations");
     const users = [];
     const snapshot = await getDocs(colRef);
-    
+
     snapshot.docs.forEach((doc) => {
       users.push({ ...doc.data(), id: doc.id });
     });
-    
+
     return users;
   } catch (err) {
     console.error(err.message);
@@ -83,7 +89,7 @@ export async function addOrgData(
   openForApplications: string
 ) {
   const db = getFirestore();
-  
+
   const docRef = await addDoc(collection(db, "organizations"), {
     orgId: orgId,
     orgLogo: orgLogo,
@@ -102,35 +108,57 @@ export async function addOrgData(
     orgScope: orgScope,
     openForApplications: openForApplications,
   });
-  
+
   // alert("Organization has been added to database");
 }
-export async function deleteOrg(id: string, orgName: string, orgDescription: string){
+export async function deleteOrg(
+  id: string,
+  orgName: string,
+  orgDescription: string
+) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
   await deleteDoc(orgDoc);
-  
+
   const docRef = await addDoc(collection(db, "archived-orgs"), {
     orgName: orgName,
     orgDescription: orgDescription,
   });
-  
+
   // alert("Organization has been archived");
 }
 
-export async function editOrgDescription(id: string, description: string){
+export async function editOrgDescription(id: string, description: string) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
-  await updateDoc(orgDoc, {orgDescription: description})
-  
+  await updateDoc(orgDoc, { orgDescription: description });
+
   // alert("Organization description has been updated");
 }
 
-export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string){
+export async function editOrgDetailsAdmin(
+  id: string,
+  name: string,
+  description: string
+) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
-  await updateDoc(orgDoc, {orgPictures: [pic1, pic2, pic3]})
-  
+  await updateDoc(orgDoc, { orgName: name });
+  await updateDoc(orgDoc, { orgDescription: description });
+
+  // alert("Organization description has been updated");
+}
+
+export async function editOrgPictures(
+  id: string,
+  pic1: string,
+  pic2: string,
+  pic3: string
+) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgPictures: [pic1, pic2, pic3] });
+
   // alert("Organization pictures has been updated");
 }
 
@@ -138,16 +166,16 @@ export async function updateAvailabilityOrg(id: string, open: boolean) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
 
-  await updateDoc(orgDoc, {openForApplications: (open ? "Open" : "N/A")})
-  
+  await updateDoc(orgDoc, { openForApplications: open ? "Open" : "N/A" });
+
   // alert("Organization's availability for application has been updated");
 }
 
-export async function updateRoles(id: string, role: string){
+export async function updateRoles(id: string, role: string) {
   const db = getFirestore();
   const userDoc = doc(db, "users", id);
-  
-  await updateDoc(userDoc, {role: role})
-  
+
+  await updateDoc(userDoc, { role: role });
+
   // alert("User role has been updated");
 }

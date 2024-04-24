@@ -34,9 +34,21 @@ function DisplayLink({ currentPage }) {
     setShowProfileModal(false);
   };
 
+  const [showFAQModal, setShowFAQModal] = useState(false);
+
+  const handleOpenFAQModal = () => {
+    setShowFAQModal(true);
+  };
+
+  const handleCloseFAQModal = () => {
+    setShowFAQModal(false);
+  };
+
 
 
   const [name, setName] = useState("Loading...");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [role, setRole] = useState("Loading...");
   useEffect(() => {
       const auth = getAuth();
@@ -54,6 +66,8 @@ function DisplayLink({ currentPage }) {
                   getDoc(doc(db, "users", uid)).then(docSnap => {
                       if (docSnap.exists()) {
                           setName(`${docSnap.data().firstName} ${docSnap.data().lastName}`)
+                          setFirstName(`${docSnap.data().firstName}`)
+                          setLastName(`${docSnap.data().lastName}`)
                           setRole(`${docSnap.data().role}`)
                       }
                   });
@@ -206,13 +220,38 @@ function DisplayLink({ currentPage }) {
           <Dropdown.Menu className="aligned-dropdown-menu">
           <Dropdown.Item onClick={handleOpenProfileModal}> 
                 <FontAwesomeIcon icon={faUser} /> <span style={{ marginLeft: '5px' }}> Profile </span></Dropdown.Item>
-            <Dropdown.Item href="#/action-2"> 
+            <Dropdown.Item onClick={handleOpenFAQModal}> 
                 <FontAwesomeIcon icon={faCircleQuestion} /> <span style={{ marginLeft: '5px' }}> FAQ </span></Dropdown.Item>
-            <Dropdown.Item href="#/action-3" onClick={handleLogOut}>
+            <Dropdown.Item  onClick={handleLogOut}>
                 <FontAwesomeIcon icon={faArrowRightFromBracket} /> <span style={{ marginLeft: '5px' }}> Logout </span></Dropdown.Item>
           </Dropdown.Menu>
           </Dropdown>
           </form>
+
+          <div className="modal" tabIndex="-1" role="dialog" style={{ display: showFAQModal ? 'block' : 'none' }}>
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">FAQ</h5>
+                  <button type="button" className="close" onClick={handleCloseFAQModal} aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                <h4>How to get an organization admin account?  </h4>
+             
+                <ul> 
+                <li> Using your organization’s email address, send an email to <i> upugnayan@gmail.com</i> </li>
+                <li> For verification purposes, make sure to use the email your organization has registered to the UP Diliman Office of Student Projects and Activities. </li>
+                <li> Wait for an email reply confirming the creation of the Org Admin account specific to your Org. Account details would be sent through the email.</li>
+                </ul>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={handleCloseFAQModal}>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="modal" tabIndex="-1" role="dialog" style={{ display: showProfileModal ? 'block' : 'none' }}>
             <div className="modal-dialog" role="document">
@@ -224,8 +263,39 @@ function DisplayLink({ currentPage }) {
                   </button>
                 </div>
                 <div className="modal-body">
-                  {/* Content of your modal */}
-                  {/* Add your profile information here */}
+                <div className="container">
+                  <div className="row">
+                    <div className="col-6 profile-name profile-firstname">
+                      <div className='profile-label'> First Name </div>
+                      {firstName}
+                    </div>
+                    <div className="col-5 profile-name profile-lastname">
+                      <div className='profile-label'> Last Name </div>
+                      {lastName}
+                    </div>
+                    <div className="col-11 profile-name profile-course">
+                      <div className='profile-label'> Course</div>
+                      BS Computer Science
+                    </div>
+                    <div className="col-6 profile-name">
+                      <div className='profile-label'> UP Mail </div>
+                      ✉ test@up.edu.ph
+                    </div>
+                    <div className="col-5 profile-name">
+                      <div className='profile-label'> Student Number </div>
+                        202012345
+                      </div>
+                    </div>
+                </div>
+                <div className='row'>
+                  {/* <form onSubmit={}>
+                    <label>
+                      Name:
+                      <input type="text" value={} onChange={} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                  </form> */}
+                </div>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={handleCloseProfileModal}>Close</button>

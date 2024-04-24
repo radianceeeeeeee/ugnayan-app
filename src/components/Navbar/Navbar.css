@@ -134,4 +134,25 @@ a:-webkit-any-link {
     color: rgb(210, 208, 208);
 }
 
+.profile-name {
+    border-radius: 12px;
+    border-color: grey;
+    border-width: 1px;
+    border-style: solid;
+    font-family: 'Inter', sans-serif !important;
+    margin-bottom: 16px;
+    margin-right: 5px;
+}
+
+
+.profile-label {
+    font-size: 13px;
+    color: grey;
+}
+
+.close {
+    border: none;
+    background-color: white;
+    font-size: 28px;
+}
   

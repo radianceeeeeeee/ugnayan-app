@@ -1,26 +1,27 @@
 import { Link } from "react-router-dom";
 import { adminNavigation } from "./AdminConstants";
-import "./AdminNavigation.css"
+import "./AdminNavigation.css";
 
-interface AdminTableProps{
+interface AdminTableProps {
   view: string | undefined;
 }
-const AdminNavigation = ({view}: AdminTableProps) => {
-  console.log(view);
+const AdminNavigation = ({ view }: AdminTableProps) => {
   return (
-    <ul className="chec nav nav-tabs">
-      {adminNavigation.map((item) => {
-        const style = item.url === view ? { backgroundColor: 'white' } : {};
+    <div className="col-auto table-views">
+      <ul className="chec nav nav-tabs">
+        {adminNavigation.map((item) => {
+          const style = item.url === view ? { backgroundColor: "white" } : {};
 
-        return (
-          <li className="nav-item" key={item.id} style={style}>
-            <Link className="nav-link" to={`/admin/${item.url}`}>
-              {item.title}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+          return (
+            <li className="nav-item" key={item.id} style={style}>
+              <Link className="nav-link" to={`/admin/${item.url}`}>
+                {item.title}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

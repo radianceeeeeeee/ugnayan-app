@@ -53,6 +53,16 @@
   margin-left: 1.75rem;
 }
 
+.admin-row-mid-text {
+  max-width: 50rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:active {
+    white-space: wrap;
+  }
+}
+
 .admin-row-end {
   display: flex;
   justify-content: flex-end;

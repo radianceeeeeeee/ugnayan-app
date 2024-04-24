@@ -48,9 +48,7 @@ export default function AdminPage() {
           <AdminHeader />
           <div className="container">
             <div className="row justify-content-between align-items-end">
-              <div className="col-auto table-views">
-                <AdminNavigation view={view} />
-              </div>
+              <AdminNavigation view={view} />
               <div className="col-auto ">
                 <button
                   type="button"

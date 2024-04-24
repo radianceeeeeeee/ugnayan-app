@@ -5,13 +5,12 @@ import {
   fetchUserData,
   fetchOrgData,
   deleteOrg,
-  editOrgDescription,
   updateRoles,
 } from "../../components/FirebaseConnection";
 
 import "./AdminPage.css";
 import { useState, useEffect } from "react";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { app } from "../../FirebaseConfig";
 import { onSnapshot, collection } from "firebase/firestore";
 import EditIcon from "./icons/EditIcon";
@@ -27,6 +26,9 @@ const AdminTable = ({ view }: AdminTableProps) => {
     { orgName: string; orgDescription: string; id: string }[]
   >([]);
   const [users, setUsers] = useState<
+    { name: string; role: string; id: string }[]
+  >([]);
+  const [filteredUsers, setFilteredUsers] = useState<
     { name: string; role: string; id: string }[]
   >([]);
 
@@ -98,6 +100,20 @@ const AdminTable = ({ view }: AdminTableProps) => {
     };
   }, []);
 
+
+  useEffect(() => {
+    if (view === "students") {
+      setFilteredUsers(users.filter(user => user.role === "User"));
+    } else if (view === "org-admins") {
+      setFilteredUsers(users.filter(user => user.role === "Org Admin"));
+    } else if (view === "site-admins") {
+      setFilteredUsers(users.filter(user => user.role === "Site Admin"));
+    } else{
+      setFilteredUsers(users);
+    }
+  }, [view, users]);
+
+  
   return (
     <div className="container admin-table">
       <div className="row row-col-3 admin-table-row admin-row-header ">
@@ -117,9 +133,9 @@ const AdminTable = ({ view }: AdminTableProps) => {
           </div>
         </div>
       </div>
-      {view === "all-users" && (
+      {view !== "organizations" && (
         <>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <div className="row row-col-3 admin-table-row ">
               <div className="col-md-3 admin-row-start ">
                 <input type="checkbox" />
@@ -157,10 +173,10 @@ const AdminTable = ({ view }: AdminTableProps) => {
                 <div className="admin-table-name">{org.orgName}</div>
               </div>
               <div className="col-auto admin-row-mid admin-row-mid-body">
-                <div className="one-line">{org.orgDescription}</div>
+                <div className="admin-row-mid-text">{org.orgDescription}</div>
                 <button
                   type="button"
-                  className="btn add-org"
+                  className="btn"
                   data-bs-toggle="modal"
                   data-bs-target={`#staticBackdropEdit${org.id}`}
                 >
@@ -179,6 +195,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
               </div>
               <AdminModal
                 modalType="Edit"
+                view={view}
                 orgId={org.id}
                 orgName={org.orgName}
                 orgDescription={org.orgDescription}

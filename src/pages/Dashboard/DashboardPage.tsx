@@ -28,7 +28,7 @@ export default function DashboardPage() {
     setOrgs([]); // Clear existing data before fetching new data
     fetchOrgData()
       .then(data => {
-        const newData = data.map(item => ({ ...item, starred: false })); // Add 'starred: false' property to each object
+        const newData = data.map(item => ({ ...item, starred: false, id: item.id })); // Add 'starred: false' property to each object
         setOrgs(newData);
         setDatabaseConnected(true);
       })

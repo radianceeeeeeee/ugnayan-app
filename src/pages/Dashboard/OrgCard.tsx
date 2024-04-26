@@ -2,14 +2,35 @@ import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
-import { fetchOrgData } from "../../components/FirebaseConnection";
+import { updateUserBookmark } from "../../components/FirebaseConnection";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function OrgCard({ org, toggleStarred }) {
   // const [isStarClicked, setIsStarClicked] = useState(org.starred);
 
+  const [uid, setUid] = useState("-1");
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            if (auth.currentUser?.isAnonymous) {
+
+            } else {
+                setUid(user.uid);
+            }
+        } else {
+            setUid("-1");
+        }
+    })
+  }, [uid]);
 
   const handleStarClick = () => {
     toggleStarred(org.orgId);
+    if (uid !== "-1") {
+      updateUserBookmark(uid, org.id);
+    }
   };
 
   const orgId = org.orgId;

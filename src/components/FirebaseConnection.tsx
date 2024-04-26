@@ -8,7 +8,11 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  FieldValue,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
+import firebase from "firebase/compat/app";
 
 /*
 Used for setting connection to Firebase
@@ -178,4 +182,32 @@ export async function updateRoles(id: string, role: string) {
   await updateDoc(userDoc, { role: role });
 
   // alert("User role has been updated");
+}
+
+// allows re-setting to true and creating to a new one: https://stackoverflow.com/questions/71769424/how-to-create-a-document-if-the-document-doesnt-exist-or-else-dont-do-anything
+export async function updateUserBookmark(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isStarred = false;
+    if (docSnap.data().orgBookmarks[orgId]) {
+      isStarred = true;
+    }
+    
+    await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: !isStarred });
+  } else {
+    await setDoc(userDoc, { [`orgBookmarks.${orgId}`]: true });
+  }
+
+  alert("User bookmarks has been updated");
+}
+
+export async function deleteUserBookmark(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+
+  await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: false });
+  alert("User bookmarks has been updated");
 }

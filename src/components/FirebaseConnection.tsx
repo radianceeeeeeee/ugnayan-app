@@ -38,6 +38,23 @@ export async function fetchUserData() {
   }
 }
 
+export async function fetchUserBookmarks(id: string) {
+  try {
+    const db = getFirestore();
+    const userDoc = doc(db, "users", id);
+    const docSnap = await getDoc(userDoc);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data.orgBookmarks;
+    }
+
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
 export async function addUserData(
   firstName: string,
   middleName: string,

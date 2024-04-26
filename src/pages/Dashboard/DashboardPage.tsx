@@ -4,12 +4,14 @@ import OrgCard from './OrgCard';
 import { useState,useEffect } from "react";
 import Navbar from '../../components/Navbar/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { fetchOrgData } from "../../components/FirebaseConnection";
+import { fetchOrgData, fetchUserBookmarks, fetchUserData } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function DashboardPage() {
 
-  const [orgs, setOrgs] = useState([])
+  const [orgs, setOrgs] = useState([]);
+  const [userBookmarks, setUserBookmarks] = useState([]);
 
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -24,12 +26,36 @@ export default function DashboardPage() {
 
   const [databaseConnected, setDatabaseConnected] = useState(false);
 
+  const [uid, setUid] = useState("-1");
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            if (auth.currentUser?.isAnonymous) {
+            } else {
+                setUid(user.uid);
+            }
+        } else {
+            setUid("-1");
+        }
+    })
+  }, [uid]);
+
+
   useEffect(() => {
     setOrgs([]); // Clear existing data before fetching new data
+    fetchUserBookmarks(uid)
+      .then(bookmarks => {
+        console.log(bookmarks);
+        setUserBookmarks(bookmarks);
+      })
     fetchOrgData()
       .then(data => {
-        const newData = data.map(item => ({ ...item, starred: false, id: item.id })); // Add 'starred: false' property to each object
+        const newData = data.map(item => ({ ...item, starred: userBookmarks[item.id], id: item.id })); // Add 'starred: false' property to each object
         setOrgs(newData);
+        console.log(newData)
         setDatabaseConnected(true);
       })
       .catch(error => {

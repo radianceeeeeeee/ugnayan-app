@@ -155,4 +155,11 @@ a:-webkit-any-link {
     background-color: white;
     font-size: 28px;
 }
-  
+
+.profile-dropdown {
+    width:100%;
+    border: none;
+    outline:0px;
+    margin-bottom: -20px;
+}
+

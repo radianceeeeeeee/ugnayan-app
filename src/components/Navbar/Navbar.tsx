@@ -10,11 +10,15 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { DisplayName } from '../DisplayName';
 import { doSignOut } from '../../firebase/auth';
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { DocumentData, doc, getDoc, getFirestore } from "firebase/firestore";
 import { app } from "../../FirebaseConfig";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+
+import {
+  updateCourse,
+} from "../FirebaseConnection";
 
 
 function DisplayLink({ currentPage }) {
@@ -44,11 +48,10 @@ function DisplayLink({ currentPage }) {
     setShowFAQModal(false);
   };
 
-
+  const courses = ["BS Chemical Engineering", "BS Civil Engineering", "BS Computer Science", "BS Computer Engineering", "BS Electronics Engineering", "BS Electrical Engineering", "BS Geodetic Engineering", "BS Industrial Engineering", "BS Mechanical Engineering", "BS Materials Engineering", "BS Metallurgical Engineering", "BS Mining Engineering"];
 
   const [name, setName] = useState("Loading...");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [profile, setProfile] = useState("");
   const [role, setRole] = useState("Loading...");
   useEffect(() => {
       const auth = getAuth();
@@ -66,9 +69,8 @@ function DisplayLink({ currentPage }) {
                   getDoc(doc(db, "users", uid)).then(docSnap => {
                       if (docSnap.exists()) {
                           setName(`${docSnap.data().firstName} ${docSnap.data().lastName}`)
-                          setFirstName(`${docSnap.data().firstName}`)
-                          setLastName(`${docSnap.data().lastName}`)
                           setRole(`${docSnap.data().role}`)
+                          setProfile(docSnap.data()) 
                       }
                   });
               }
@@ -267,23 +269,40 @@ function DisplayLink({ currentPage }) {
                   <div className="row">
                     <div className="col-6 profile-name profile-firstname">
                       <div className='profile-label'> First Name </div>
-                      {firstName}
+                      {profile.firstName}
                     </div>
                     <div className="col-5 profile-name profile-lastname">
                       <div className='profile-label'> Last Name </div>
-                      {lastName}
+                      {profile.lastName}
                     </div>
                     <div className="col-11 profile-name profile-course">
                       <div className='profile-label'> Course</div>
-                      BS Computer Science
+                        <div className="">
+                          <select
+                            name="course"
+                            className="profile-dropdown"
+                            required
+                            onChange={(e) => {
+                                const newRole = e.target.value;
+                                updateCourse(profile.Id, newRole);
+                              }}
+                            >
+                            <option selected="selected">
+                              {profile.course}
+                            </option>
+                            {courses.map((course) => (
+                              <option>{course}</option>
+                            ))}
+                          </select>
+                        </div>
                     </div>
                     <div className="col-6 profile-name">
                       <div className='profile-label'> UP Mail </div>
-                      ✉ test@up.edu.ph
+                      ✉ {profile.email}
                     </div>
                     <div className="col-5 profile-name">
                       <div className='profile-label'> Student Number </div>
-                        202012345
+                      {profile.studentId}
                       </div>
                     </div>
                 </div>
@@ -298,8 +317,8 @@ function DisplayLink({ currentPage }) {
                 </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={handleCloseProfileModal}>Close</button>
-                  {/* Add other buttons or actions here */}
+                  <button type="button" className="btn btn-secondary" onClick={handleCloseProfileModal}>Cancel</button>
+                  <button type="button" className="btn btn-success" onClick={handleCloseProfileModal}> Save Changes</button>
                 </div>
               </div>
             </div>

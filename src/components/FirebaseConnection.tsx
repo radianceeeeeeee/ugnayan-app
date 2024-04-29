@@ -179,3 +179,12 @@ export async function updateRoles(id: string, role: string) {
 
   // alert("User role has been updated");
 }
+
+export async function updateCourse(id: string, course: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", id);
+
+  await updateDoc(userDoc, { course: course });
+
+}
+

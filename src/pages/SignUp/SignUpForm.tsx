@@ -8,7 +8,7 @@ import logo from "../../assets/logo_placeholder.png";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 
 export default function SignUpForm() {
-  const courses = ["BS Computer Science", "BS Mathematics"];
+  const courses = ["BS Chemical Engineering", "BS Civil Engineering", "BS Computer Science", "BS Computer Engineering", "BS Electronics Engineering", "BS Electrical Engineering", "BS Geodetic Engineering", "BS Industrial Engineering", "BS Mechanical Engineering", "BS Materials Engineering", "BS Metallurgical Engineering", "BS Mining Engineering"];
 
   const [error, setError] = useState({
     firstName: false,
@@ -32,6 +32,7 @@ export default function SignUpForm() {
     studentNo: "",
     email: "",
     password: "",
+    course: "",
   });
   const ref = {
     firstName: useRef<HTMLInputElement>(null),
@@ -52,9 +53,15 @@ export default function SignUpForm() {
       form.classList.add("was-validated");
       return;
     }
-    await doCreateUserWithEmailAndPassword(formData);
-    window.location.href = "/login";
-  };
+
+    // Include course in the data sent to the database function
+    const userData = {
+      ...formData,
+      course: formData.course,
+    };
+      await doCreateUserWithEmailAndPassword(userData);
+      window.location.href = "/login";
+    };
 
   const handleBlur = (event: any) => {
     const { name } = event.target;
@@ -194,6 +201,7 @@ export default function SignUpForm() {
             <div className="signup-space">
               <select
                 name="course"
+                value={formData.course}
                 className="signup-input signup-select"
                 onChange={handleChange}
                 onBlur={handleBlur}

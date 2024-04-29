@@ -92,6 +92,7 @@ export async function fetchOrgData() {
 }
 
 export async function addOrgData(
+  orgConnectedEmail: string,
   orgId: string,
   orgLogo: string,
   orgName: string,
@@ -112,6 +113,7 @@ export async function addOrgData(
   const db = getFirestore();
 
   const docRef = await addDoc(collection(db, "organizations"), {
+    orgConnectedEmail: orgConnectedEmail,
     orgId: orgId,
     orgLogo: orgLogo,
     orgName: orgName,

@@ -71,6 +71,14 @@ function DisplayLink({ currentPage }) {
                           setRole(`${docSnap.data().role}`)
                       }
                   });
+                  getDoc(doc(db, "organizations-test", uid)).then(docSnap => {
+                    if (docSnap.exists()) {
+                        setName(`${docSnap.data().orgName}`)
+                        setFirstName(`${docSnap.data().orgName}`)
+                        setLastName("")
+                        setRole("Org Admin")
+                    }
+                });
               }
           } else {
               setName("Loading...")

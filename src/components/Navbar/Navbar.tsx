@@ -16,9 +16,7 @@ import { app } from "../../FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 
-import {
-  updateCourse,
-} from "../FirebaseConnection";
+
 
 
 function DisplayLink({ currentPage }) {
@@ -292,7 +290,7 @@ function DisplayLink({ currentPage }) {
                             required
                             onChange={(e) => {
                                 const newRole = e.target.value;
-                                updateCourse(profile.Id, newRole);
+                                // updateCourse(profile.Id, newRole);
                               }}
                             >
                             <option selected="selected">

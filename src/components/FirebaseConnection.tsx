@@ -8,7 +8,11 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  FieldValue,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
+import firebase from "firebase/compat/app";
 
 /*
 Used for setting connection to Firebase
@@ -28,6 +32,23 @@ export async function fetchUserData() {
     });
 
     return users;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+export async function fetchUserBookmarks(id: string) {
+  try {
+    const db = getFirestore();
+    const userDoc = doc(db, "users", id);
+    const docSnap = await getDoc(userDoc);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data.orgBookmarks;
+    }
+
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -71,6 +92,7 @@ export async function fetchOrgData() {
 }
 
 export async function addOrgData(
+  orgConnectedEmail: string,
   orgId: string,
   orgLogo: string,
   orgName: string,
@@ -91,6 +113,7 @@ export async function addOrgData(
   const db = getFirestore();
 
   const docRef = await addDoc(collection(db, "organizations"), {
+    orgConnectedEmail: orgConnectedEmail,
     orgId: orgId,
     orgLogo: orgLogo,
     orgName: orgName,
@@ -180,11 +203,30 @@ export async function updateRoles(id: string, role: string) {
   // alert("User role has been updated");
 }
 
-export async function updateCourse(id: string, course: string) {
+// allows re-setting to true and creating to a new one: https://stackoverflow.com/questions/71769424/how-to-create-a-document-if-the-document-doesnt-exist-or-else-dont-do-anything
+export async function updateUserBookmark(userId: string, orgId: string) {
   const db = getFirestore();
-  const userDoc = doc(db, "users", id);
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
 
-  await updateDoc(userDoc, { course: course });
+  if (docSnap.exists()) {
+    let isStarred = false;
+    if (docSnap.data().orgBookmarks[orgId]) {
+      isStarred = true;
+    }
+    
+    await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: !isStarred });
+  } else {
+    await setDoc(userDoc, { [`orgBookmarks.${orgId}`]: true });
+  }
 
+  alert("User bookmarks has been updated");
 }
 
+export async function deleteUserBookmark(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+
+  await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: false });
+  alert("User bookmarks has been updated");
+}

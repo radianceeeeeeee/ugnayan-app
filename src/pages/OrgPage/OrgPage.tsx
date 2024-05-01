@@ -5,22 +5,17 @@ import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import './OrgPage.css';
-import { fetchOrgData, fetchUserAppliedOrgs, fetchUserBookmarks, updateUserAppplication } from "../../components/FirebaseConnection";
+import { fetchOrgData } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHandshakeAngle } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { app } from '../../FirebaseConfig';
 
 export default function OrgPage() {
   const params = useParams();
 
   const [orgs, setOrgs] = useState({});
   const [orgPic, setOrgPic] = useState('');
-  const [userUid, setUserUid] = useState("-1");
-  const [applied, setApplied] = useState([]);
 
   const orgLogo = orgs.orgLogo + ".jpg";
 
@@ -30,10 +25,6 @@ export default function OrgPage() {
 
   const [websiteName, setWebsiteName] = useState('');
   const [facebookName, setFacebookName] = useState('');
-
-  function handleApplication() {
-    updateUserAppplication(userUid, orgs.id)
-  }
 
   useEffect(() => {
       if (orgs && orgs.orgWebsite) {
@@ -53,14 +44,9 @@ export default function OrgPage() {
 
   useEffect(() => {
     setOrgs({}); // Clear existing data before fetching new data
-    fetchUserAppliedOrgs(userUid)
-    .then(applied => {
-      console.log(applied);
-      setApplied(applied);
-    });
     fetchOrgData()
       .then(data => {
-        const newData = data.map(item => ({ ...item, starred: false, orgsJoined: false, id: item.id }));
+        const newData = data.map(item => ({ ...item, starred: false }));
         
         // Find the organization with the same ID as params
         const orgWithParamsId = newData.find(org => org.orgId === params.orgId);
@@ -79,22 +65,6 @@ export default function OrgPage() {
         console.error(error);
       });
   }, [params.orgId]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            if (auth.currentUser?.isAnonymous) {
-                
-            } else {
-                setUserUid(user.uid);
-            }
-        } else {
-            setUserUid("-1")
-        }
-    })
-  }, [userUid]);
 
   return (
     <div> 

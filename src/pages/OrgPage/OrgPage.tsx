@@ -134,9 +134,12 @@ export default function OrgPage() {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+                size="lg"
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Edit Page</Modal.Title>
+                  <Modal.Title id="example-modal-sizes-title-lg">
+                    Edit Page
+                  </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <EditOrgModal handleClose={handleClose} />

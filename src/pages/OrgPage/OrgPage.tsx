@@ -10,12 +10,19 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHandshakeAngle } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import EditOrgModal from './EditOrgModal';
 
 export default function OrgPage() {
   const params = useParams();
 
   const [orgs, setOrgs] = useState({});
   const [orgPic, setOrgPic] = useState('');
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true)
 
   const orgLogo = orgs.orgLogo + ".jpg";
 
@@ -120,10 +127,30 @@ export default function OrgPage() {
             </div>
             <div className="col-md-auto orgpage-options">
               <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
-              <Link to ={`/editpage/${params.orgId}`}>
-                <button type="button" className="btn btn-outline-dark org-options-button"> 
-                  Edit Page </button>
-              </Link>
+              <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleShow}> Edit Page </button>
+
+              <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Page</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <EditOrgModal handleClose={handleClose} />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={handleClose}>
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
             </div>
           </div>
         </div>

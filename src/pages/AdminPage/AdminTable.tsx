@@ -292,33 +292,31 @@ const AdminTable = ({ view }: AdminTableProps) => {
                 <button
                   className="btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#deleteModal"
-          
+                  data-bs-target={`#deleteModal${org.id}`}
                 >
                   <ArchiveIcon />
                 </button>
 
-                <div className="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title">Are you sure you want to delete </h5>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                    {org.orgName}
-                    </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                      <button type="button" className="btn btn-primary"  onClick={() => deleteOrg(org.id, org.orgName, org.orgDescription)} data-bs-dismiss="modal" >Confirm Delete</button>
+                <div className="modal fade" id={`deleteModal${org.id}`} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title">Are you sure you want to delete </h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div className="modal-body">
+                        {org.orgName}
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" className="btn btn-primary" onClick={() => deleteOrg(org.id, org.orgName, org.orgDescription)} data-bs-dismiss="modal">Confirm Delete</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
-
               
               <AdminModal
                 modalType="Edit"
@@ -329,6 +327,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
               />
             </div>
           ))}
+
         </>
       )}
     </div>

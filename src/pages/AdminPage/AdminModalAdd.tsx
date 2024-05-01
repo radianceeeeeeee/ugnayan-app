@@ -291,7 +291,7 @@ const AdminModalAdd = () => {
         <Button className="btn btn-secondary" data-bs-dismiss="modal">
           Cancel
         </Button>
-        <Button form="org-form" className="btn btn-primary" type="submit">
+        <Button form="org-form" className="btn btn-primary" type="submit"  data-bs-dismiss="modal">
           Submit
         </Button>
       </div>

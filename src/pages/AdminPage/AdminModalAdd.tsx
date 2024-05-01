@@ -76,7 +76,7 @@ const AdminModalAdd = () => {
       </div>
       <div className="modal-footer">
         <Button className="btn btn-secondary" data-bs-dismiss="modal">Close</Button>
-        <Button form="org-form" className="btn btn-primary" type="submit">Understood</Button>
+        <Button form="org-form" className="btn btn-primary" type="submit">Confirm</Button>
       </div>
     </>
   );

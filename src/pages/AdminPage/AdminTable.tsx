@@ -4,6 +4,7 @@ import UpIcon from "./icons/UpIcon";
 import {
   fetchUserData,
   fetchOrgData,
+  fetchOrgAccountData,
   deleteOrg,
   updateRoles,
 } from "../../components/FirebaseConnection";
@@ -28,6 +29,9 @@ const AdminTable = ({ view }: AdminTableProps) => {
   const [users, setUsers] = useState<
     { name: string; role: string; id: string }[]
   >([]);
+  const [orgDetails, setOrgDetails] = useState<
+  { orgName: string; orgEmail: string; }[]
+>([]);
   const [filteredUsers, setFilteredUsers] = useState<
     { name: string; role: string; id: string }[]
   >([]);
@@ -63,7 +67,25 @@ const AdminTable = ({ view }: AdminTableProps) => {
       }
     };
 
+      // Function to fetch initial org-emails data
+      const fetchInitialOrgAccountData = async () => {
+        try {
+          const data = await fetchOrgAccountData();
+          const newData = data.map((org) => ({
+            orgEmail: org.orgConnectedEmail,
+            orgName: org.orgName,
+            
+          }));
+          setOrgDetails(newData);
+          console.log(orgDetails);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+
     // Fetch initial data when component mounts
+    fetchInitialOrgAccountData();
     fetchInitialOrgData();
     fetchInitialUserData();
 
@@ -93,10 +115,22 @@ const AdminTable = ({ view }: AdminTableProps) => {
       }
     );
 
+    const orgDetailsListener = onSnapshot(
+      collection(getFirestore(app), "organizations-test"),
+      (snapshot) => {
+        const newData = snapshot.docs.map((doc) => ({
+          orgName: doc.data().orgName,
+          orgEmail: doc.data().orgConnectedEmail,
+        }));
+        setOrgDetails(newData);
+      }
+    );
+
     // Clean up listeners when component unmounts
     return () => {
       orgsListener();
       usersListener();
+      orgDetailsListener();
     };
   }, []);
 
@@ -124,7 +158,15 @@ const AdminTable = ({ view }: AdminTableProps) => {
           </button>
         </div>
         <div className="col-auto admin-row-mid ">
-          {view === "organizations" ? "Description" : "Role"}
+              {(() => {
+              if (view === "organizations") {
+                  return "Description";
+              } else if (view === "org-admins") {
+                  return "Email";
+              } else {
+                return "Role";
+              }
+          })()}
         </div>
         <div className="col-3 admin-row-end ">
           <div className="row admin-search ">
@@ -133,7 +175,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
           </div>
         </div>
       </div>
-      {view !== "organizations" && (
+      {view !== "organizations" && view !== "org-admins" && (
         <>
           {filteredUsers.map((user) => (
             <div className="row row-col-3 admin-table-row ">
@@ -160,6 +202,38 @@ const AdminTable = ({ view }: AdminTableProps) => {
                   <option>Site Admin</option>
                 </select>
               </div>
+            </div>
+          ))}
+        </>
+      )}
+
+      {view === "org-admins" && (
+        <>
+          {orgDetails.map((orgDetails) => (
+            <div className="row row-col-3 admin-table-row ">
+              <div className="col-md-3 admin-row-start ">
+                <input type="checkbox" />
+                <div className="admin-table-name">{orgDetails.orgName}</div>
+              </div>
+              <div className="col-auto admin-row-mid admin-row-mid-body">
+                {orgDetails.orgEmail}
+              </div>
+              {/* <div className="col-3 admin-row-end">
+                <select
+                  className="btn"
+                  onChange={(e) => {
+                    const newRole = e.target.value;
+                    updateRoles(user.id, newRole);
+                  }}
+                >
+                  <option selected disabled value="">
+                    Change Role
+                  </option>
+                  <option>User</option>
+                  <option>Org Admin</option>
+                  <option>Site Admin</option>
+                </select>
+              </div> */}
             </div>
           ))}
         </>

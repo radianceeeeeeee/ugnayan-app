@@ -38,6 +38,25 @@ export async function fetchUserData() {
   }
 }
 
+export async function fetchOrgAccountData() {
+  try {
+    const db = getFirestore();
+    const colRef = collection(db, "organizations-test");
+    const users: any[] = [];
+    const snapshot = await getDocs(colRef);
+
+    snapshot.docs.forEach((doc) => {
+      users.push({ ...doc.data(), id: doc.id });
+    });
+
+    return users;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+
 export async function fetchUserBookmarks(id: string) {
   try {
     const db = getFirestore();

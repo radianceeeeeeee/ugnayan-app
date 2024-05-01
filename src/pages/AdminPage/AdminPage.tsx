@@ -47,19 +47,30 @@ export default function AdminPage() {
         <>
           <AdminHeader />
           <div className="container">
-            <div className="row justify-content-between align-items-end">
+          <div className="row justify-content-between align-items-end">
               <AdminNavigation view={view} />
-              <div className="col-auto ">
-                <button
-                  type="button"
-                  className="btn add-org"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdropAdd"
-                >
-                  <Plus /> Add
-                </button>
+              <div className="col-auto">
+                <div className="btn-group" role="group" aria-label="Add buttons">
+                    {/* <button
+                        type="button"
+                        className="btn add-org me-4"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropAdd"
+                    >
+                        <Plus /> Add User
+                    </button> */}
+                    <button
+                        type="button"
+                        className="btn add-org"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropAdd"
+                    >
+                        <Plus /> Add Organization
+                    </button>
+                  </div>
               </div>
-            </div>
+          </div>
+
             <AdminModal modalType="Add" view={view} />
             <div className="row">
               <div className="col table-container">

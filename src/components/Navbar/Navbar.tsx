@@ -71,7 +71,7 @@ function DisplayLink({ currentPage }) {
                           setProfile(docSnap.data()) 
                       }
                   });
-                  getDoc(doc(db, "organizations-test", uid)).then(docSnap => {
+                  getDoc(doc(db, "organizations", uid)).then(docSnap => {
                     if (docSnap.exists()) {
                         setName(`${docSnap.data().orgName}`)
                         setFirstName(`${docSnap.data().orgName}`)

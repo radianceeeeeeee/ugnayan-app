@@ -123,8 +123,9 @@ export default function OrgPage() {
           <div className="row">
             <div className="col-md-auto"><img src={orgLogo} className="logo-img" alt="..."/></div>
             <div className="col-6 org-header-text">
-              <h1 className="font-inter custom-grey">{orgs.orgName}</h1>
+              <h1 className="font-inter custom-grey">{orgs.orgName} ({orgs.orgAcronym})</h1>
             </div>
+
             <div className="col-md-auto orgpage-options">
               <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
               <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleShow}> Edit Page </button>

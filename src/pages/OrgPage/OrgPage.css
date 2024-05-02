@@ -39,6 +39,18 @@
     border-color: none;
 }
 
+.img-edit-button {
+    border-radius: 36px;
+    background-color: #444444d8;
+    color: #ffffff;
+    margin-right: 0.5rem;
+}
+
+.img-edit-button:hover {
+    background-color: #4444446e;
+    color: #ffffff;
+}
+
 .apply-button {
     border-radius: 36px;
     background-color:#FFB933;

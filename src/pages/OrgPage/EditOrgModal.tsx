@@ -4,6 +4,8 @@ import { editOrgDescription, editOrgPictures, fetchOrgData, updateAvailabilityOr
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { app } from '../../FirebaseConfig';
+import TagsInput from '../../components/TagsInput/TagsInput';
+import { Form } from 'react-bootstrap';
 
 export default function EditOrgModalContent({ handleClose }) {
   const params = useParams();
@@ -12,11 +14,6 @@ export default function EditOrgModalContent({ handleClose }) {
   const [orgPic, setOrgPic] = useState('');
 
   const orgLogo = orgs.orgLogo + ".jpg";
-  const orgBio = orgs.orgBio;
-
-  const handleBack = () => {
-    window.history.back();
-  };
 
   const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
   useEffect(() => {
@@ -46,12 +43,17 @@ export default function EditOrgModalContent({ handleClose }) {
   const [websiteName, setWebsiteName] = useState('');
   const [facebookName, setFacebookName] = useState('');
   const [orgDesc, setOrgDesc] = useState("");
+  const [orgBio, setOrgBio] = useState("");
 
   const [orgPicLink1, setOrgPicLink1] = useState("");
   const [orgPicLink2, setOrgPicLink2] = useState("");
   const [orgPicLink3, setOrgPicLink3] = useState("");
 
   const [available, setAvailable] = useState(true);
+
+  const selectedTags = tags => {
+    console.log(tags);
+    };
   
   function setCheckAvailable(id) {
     if (available) {
@@ -64,26 +66,17 @@ export default function EditOrgModalContent({ handleClose }) {
   }
 
   useEffect(() => {
-      if (orgs && orgs.orgWebsite) {
-          const urlParts = orgs.orgWebsite.split('/');
-          const name = urlParts[urlParts.length - 2];
-          setWebsiteName(name);
-      }
-  }, [orgs]);
-
-  useEffect(() => {
-      if (orgs && orgs.orgFacebook) {
-          const urlParts = orgs.orgFacebook.split('/');
-          const name = urlParts[urlParts.length - 2];
-          setFacebookName(name);
-      }
-  }, [orgs]);
-
-  useEffect(() => {
     if (orgs && orgs.orgDescription) {
         setOrgDesc(orgs.orgDescription);
     }
-}, [orgs]);
+  }, [orgs]);
+
+  useEffect(() => {
+    if (orgs && orgs.orgBio) {
+        setOrgBio(orgs.orgBio);
+    }
+  }, [orgs]);
+
 
   useEffect(() => {
     if (orgs && orgs.orgPictures) {
@@ -126,11 +119,9 @@ export default function EditOrgModalContent({ handleClose }) {
   }, [params.orgId]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
   return (
-    <div>
-      <>
-        <div className="container-md">
+    <div className="container-md">
 
-        <div id="myCarousel" className="carousel slide mb-6 rounded-3" data-bs-ride="carousel">
+        <div id="myCarousel" className="carousel slide mb-6 rounded-3 position-relative" data-bs-ride="carousel">
           <div className="carousel-inner carousel-edit rounded-3">
             <div className="carousel-item carousel-item-edit active">
               <div className="carousel-image rounded-3" style={{ 
@@ -142,84 +133,111 @@ export default function EditOrgModalContent({ handleClose }) {
                 height: '100%'
               }}> </div>
             </div>
-            <div className="carousel-item">
-              <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-            </div>
-            <div className="carousel-item">
-              <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-            </div>
           </div>
-        </div> 
+          
+          <button type="button" className="btn img-edit-button position-absolute top-50 start-50 translate-middle" data-bs-toggle="modal" data-bs-target="#bannerModal"> Edit Banner Images </button>
+            <div className="modal fade" id="bannerModal" tabIndex="-1" aria-labelledby="bannerModalLabel" aria-hidden="true">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel"> Edit Banner Images </h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="form-floating mb-2 mt-2">
+                      <input type="url" className="form-control" id="floatingBanner1" placeholder="https://example.com" value={orgPicLink1} onChange={e => setOrgPicLink1(e.target.value)} />
+                      <label htmlFor="floatingBanner1"> Imgur Link 1 </label>
+                    </div>
+                    <div className="form-floating mb-2">
+                      <input type="url" className="form-control" id="floatingBanner2" placeholder="https://example.com" value={orgPicLink2} onChange={e => setOrgPicLink2(e.target.value)}/>
+                      <label htmlFor="floatingBanner2"> Imgur Link 2 </label>
+                    </div>
+                    <div className="form-floating mb-2">
+                      <input type="url" className="form-control" id="floatingBanner3" placeholder="https://example.com" value={orgPicLink3} onChange={e => setOrgPicLink3(e.target.value)}/>
+                      <label htmlFor="floatingBanner3"> Imgur Link 3 </label>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-outline-dark org-options-button"> Close </button>
+                    <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleChangePics}> Save Changes </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
 
         <div className="org-header-box">
           <div className="row">
             <div className="col-md-auto"><img src={orgLogo} className="edit-logo-img" alt="..."/></div>
             <div className="col-8 org-header-text">
-              <h4 className="font-inter custom-grey">{orgs.orgName}</h4>
+              <h4 className="font-inter custom-grey">{orgs.orgName} ({orgs.orgAcronym})</h4>
             </div>
           </div>
         </div>
 
-          <h5> Application Status </h5>
-          <div className="col-md px-4">
-            <div className="form-check form-switch">
-              <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={available} onClick={() => setCheckAvailable(orgs.id)} />
-              <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Applications are Open</label>
-            </div>
-          </div>
+        <div className="col-md px-4" style={{ marginTop: "-15px" }}>
+        <TagsInput selectedTags={selectedTags}  tags={orgs.orgTags}/>
+        </div>
 
-          <h5 className='mt-4'> About </h5>
-          <div className="col-md px-4">
-            <div className="form-floating mb-2 mt-3">
-              <input type="date" className="form-control" id="floatingDateFounded" placeholder="Month XX, XXXX" value={orgs.dateFounded} />
-              <label htmlFor="floatingDateFounded"> Date Founded </label>
-            </div>
-            <div className="form-floating mb-2">
-              <input type="text" className="form-control" id="floatingLocation" placeholder="UP Diliman" value={orgs.orgLocation} />
-              <label htmlFor="floatingLocation"> Org Location </label>
-            </div>
-            <div className="form-floating mb-2">
-              <input type="email" className="form-control" id="floatingEmail" placeholder="email@example.com" value={orgs.orgEmails} />
-              <label htmlFor="floatingEmail"> Org Email </label>
-            </div>
-            <div className="form-floating mb-2">
-              <input type="url" className="form-control" id="floatingWebsite" placeholder="https://example.com" value={orgs.orgWebsite} />
-              <label htmlFor="floatingWebsite"> Org Website </label>
-            </div>
-            <div className="form-floating mb-2">
-              <input type="url" className="form-control" id="floatingFB" placeholder="https://example.com" value={orgs.orgFacebook} />
-              <label htmlFor="floatingFB"> Facebook Page </label>
-            </div>
-            <div className="form-floating mb-4">
-              <input type="text" className="form-control" id="floatingAffiliations" placeholder="https://example.com" value={orgs.orgAffiliations} />
-              <label htmlFor="floatingAffiliations"> Affiliations </label>
-            </div>
+        <h5 className='mt-4'> Application Status </h5>
+        <div className="col-md px-4">
+          <div className="form-check form-switch">
+            <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={available} onClick={() => setCheckAvailable(orgs.id)} />
+            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Applications are Open</label>
           </div>
+        </div>
+        
+        <h5 className='mt-4'> About </h5>
+        <div className="col-md px-4">
+          <div className="form-floating mb-2 mt-3">
+            <input type="date" className="form-control" id="floatingDateFounded" value={orgs.dateFounded} onChange={(e) => setOrgs({ ...orgs, dateFounded: e.target.value })} />
+            <label htmlFor="floatingDateFounded"> Date Founded </label>
+          </div>
+          <div className="form-floating mb-2">
+            <input type="text" className="form-control" id="floatingLocation" placeholder="UP Diliman" value={orgs.orgLocation} onChange={(e) => setOrgs({ ...orgs, orgLocation: e.target.value })} />
+            <label htmlFor="floatingLocation"> Org Location </label>
+          </div>
+          <div className="form-floating mb-2">
+            <input type="email" className="form-control" id="floatingEmail" placeholder="email@example.com" value={orgs.orgEmails} onChange={(e) => setOrgs({ ...orgs, orgEmails: e.target.value })} />
+            <label htmlFor="floatingEmail"> Org Email </label>
+          </div>
+          <div className="form-floating mb-2">
+            <input type="url" className="form-control" id="floatingWebsite" placeholder="https://example.com" value={orgs.orgWebsite} onChange={(e) => setOrgs({ ...orgs, orgWebsite: e.target.value })} />
+            <label htmlFor="floatingWebsite"> Org Website </label>
+          </div>
+          <div className="form-floating mb-2">
+            <input type="url" className="form-control" id="floatingFB" placeholder="https://example.com" value={orgs.orgFacebook} onChange={(e) => setOrgs({ ...orgs, orgFacebook: e.target.value })} />
+            <label htmlFor="floatingFB"> Facebook Page </label>
+          </div>
+          <div className="form-floating mb-4">
+            <input type="text" className="form-control" id="floatingAffiliations" placeholder="https://example.com" value={orgs.orgAffiliations} onChange={(e) => setOrgs({ ...orgs, orgAffiliations: e.target.value })} />
+            <label htmlFor="floatingAffiliations"> Affiliations </label>
+          </div>
+        </div>
 
-          <h5 className='mt-4'> Description </h5>
-          <div className="col-md px-4">
-          <div className="form-group">
-            <textarea className="form-control" 
-              placeholder="Describe your organization here!" 
-              id="floatingTextarea2" style={{ height: 300 }} 
-              value={orgDesc}
-              onChange={e => setOrgDesc(e.target.value)}></textarea>
-          </div>
-          </div>
 
-          <h5 className='mt-4'> Short Bio </h5>
-          <div className="col-md px-4">
-          <div className="form-group">
-            <textarea className="form-control" 
-              placeholder="Describe your organization here!" 
-              id="floatingTextarea2" style={{ height: 100 }} 
-              value={orgBio}
-              onChange={e => setOrgDesc(e.target.value)}></textarea>
-          </div>
-          </div>
+        <h5 className='mt-4'> Description </h5>
+        <div className="col-md px-4">
+        <div className="form-group">
+          <textarea className="form-control" 
+            placeholder="Describe your organization here!" 
+            id="floatingTextarea2" style={{ height: 300 }} 
+            value={orgDesc}
+            onChange={e => setOrgDesc(e.target.value)}></textarea>
+        </div>
+        </div>
 
-      </div>
-      </>
+        <h5 className='mt-4'> Short Bio </h5>
+        <div className="col-md px-4">
+        <div className="form-group">
+          <textarea className="form-control" 
+            placeholder="Describe your organization here!" 
+            id="floatingTextarea2" style={{ height: 100 }} 
+            value={orgBio}
+            onChange={e => setOrgBio(e.target.value)}></textarea>
+        </div>
+        </div>
+
     </div>
   );
 }

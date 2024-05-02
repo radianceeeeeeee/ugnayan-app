@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Dashboard.css';
@@ -6,8 +6,6 @@ import { updateUserBookmark } from "../../components/FirebaseConnection";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function OrgCard({ org, toggleStarred }) {
-  // const [isStarClicked, setIsStarClicked] = useState(org.starred);
-
   const [uid, setUid] = useState("-1");
 
   useEffect(() => {
@@ -35,14 +33,12 @@ export default function OrgCard({ org, toggleStarred }) {
 
   const orgId = org.orgId;
   const orgName = org.orgName;
-  const orgBio = org.orgBio.substring(0,250);
+  const orgBio = org.orgBio.substring(0, 200); // Limit bio to 200 characters
   const orgPicture = org.orgPictures[0] + ".jpg";
-
   const orgTags = org.orgTags;
 
-
   return (
-    <div>
+    <div className="h-100">
       <div className="card org-card">
         <div className='favorites-button'>
           <button
@@ -63,9 +59,11 @@ export default function OrgCard({ org, toggleStarred }) {
         </div>
         <Link to={`/dashboard/${orgId}`} className='card-link'>
           <img src={orgPicture} className="org-img" alt="..." />
-          <div className="card-body">
-            <h5 className="card-title">{orgName}</h5>
-            <p className="card-text"> {orgBio} </p>
+          <div className="card-body" style={{ height: '180px', overflow: 'hidden' }}> {/* Limit card body height */}
+            <h5 className="card-title">{orgName} ({org.orgAcronym})</h5>
+            <p className="card-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{orgBio}</p> {/* Apply ellipsis to overflowed text */}
+          </div>
+          <div className="card-footer" style={{ height: '75px', overflow: 'hidden' }}> {/* Limit footer height */}
             {orgTags.map((tag, index) => {
               let className = 'org-tags';
               if (tag === 'non-sectarian') {
@@ -90,7 +88,7 @@ export default function OrgCard({ org, toggleStarred }) {
                       {tag}
                   </div>
               );
-          })}
+            })}
           </div>
         </Link>
       </div>

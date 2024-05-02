@@ -27,10 +27,24 @@
     margin-top: 2.2rem;
 }
 
+.org-options-button-secondary {
+    border-radius: 3px;
+    border: none;
+    background-color: #D9D9D9;
+    color: black;
+    margin-right: 0.5rem;
+}
+
+.org-options-button-secondary:hover {
+    background-color: #c6c6c6;
+    color: black;
+}
+
 .org-options-button {
-    border-radius: 36px;
-    border-color: #444444;
-    color: #444444;
+    border-radius: 3px;
+    border: none;
+    background-color: #005539ce;
+    color: #ffffff;
     margin-right: 0.5rem;
 }
 
@@ -41,14 +55,33 @@
 
 .img-edit-button {
     border-radius: 36px;
-    background-color: #444444d8;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: black;
     margin-right: 0.5rem;
 }
 
 .img-edit-button:hover {
-    background-color: #4444446e;
-    color: #ffffff;
+    background-color: #e0e0e0;
+    color: black;
+}
+
+.camera-button {
+    padding: 10px 15px 10px 15px;
+    border-radius: 36px;
+    border: none;
+    background-color: #ffffff;
+    color: #444444;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 54%; 
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.428);
+}
+
+.camera-button:hover {
+    background-color: #e0e0e0;
+    color: #444444;
 }
 
 .apply-button {
@@ -146,3 +179,7 @@
 .modal-title {
     padding-left: 1rem;
 }
+
+.dark-overlay {
+    background-color: rgba(0, 0, 0, 0.2);
+}    

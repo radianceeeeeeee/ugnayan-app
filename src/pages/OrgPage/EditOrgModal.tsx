@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { editOrgDescription, editOrgBio, editOrgAbout, editOrgTags, editOrgPictures, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
+import { editOrgDescription, editOrgBio, editOrgAbout, editOrgTags, editOrgPictures, editOrgLogo, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { app } from '../../FirebaseConfig';
 import TagsInput from '../../components/TagsInput/TagsInput';
 import toast, { Toaster } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 export default function EditOrgModalContent({ handleClose }) {
   const params = useParams();
-
-  const [orgs, setOrgs] = useState({});
-  const [orgPic, setOrgPic] = useState('');
-  const [updatedTags, setUpdatedTags] = useState([]);
-
-  const orgLogo = orgs.orgLogo + ".jpg";
 
   const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
   useEffect(() => {
@@ -41,29 +37,19 @@ export default function EditOrgModalContent({ handleClose }) {
       })
     }, [isUserAnOrgAdmin]);
 
+  const [orgs, setOrgs] = useState({});
+  const [orgPic, setOrgPic] = useState('');
+  const [updatedTags, setUpdatedTags] = useState([]);
+
   const [orgDesc, setOrgDesc] = useState("");
   const [orgBio, setOrgBio] = useState("");
 
   const [orgPicLink1, setOrgPicLink1] = useState("");
   const [orgPicLink2, setOrgPicLink2] = useState("");
   const [orgPicLink3, setOrgPicLink3] = useState("");
+  const [orgLogo, setOrgLogo] = useState("");
 
-  const [available, setAvailable] = useState(true);
-
-  const selectedTags = tags => {
-    console.log(tags);
-    };
-  
-  function setCheckAvailable(id) {
-    if (available) {
-      setAvailable(false);
-      updateAvailabilityOrg(id, false)
-    } else {
-      setAvailable(true);
-      updateAvailabilityOrg(id, true)
-    }
-    toast.success('Application details have been updated.')
-  }
+  const [available, setAvailable] = useState(false);
 
   useEffect(() => {
     if (orgs && orgs.orgDescription) {
@@ -77,6 +63,11 @@ export default function EditOrgModalContent({ handleClose }) {
     }
   }, [orgs]);
 
+  useEffect(() => {
+    if (orgs && orgs.orgLogo) {
+      setOrgLogo(orgs.orgLogo);
+    }
+  }, [orgs]);
 
   useEffect(() => {
     if (orgs && orgs.orgPictures) {
@@ -86,8 +77,13 @@ export default function EditOrgModalContent({ handleClose }) {
     }
   }, [orgs]);
 
-  // --------- promises for checking edit success --------------
+  useEffect(() => {
+    if (orgs && orgs.openForApplications) {
+      setAvailable(orgs.openForApplications === "Open");
+    }
+  }, [orgs]);
 
+  // --------- promises for checking edit success --------------
   function editOrgDescriptionWithPromise(orgId, newDescription) {
     return new Promise((resolve, reject) => {
       editOrgDescription(orgId, newDescription)
@@ -135,9 +131,39 @@ export default function EditOrgModalContent({ handleClose }) {
         });
     });
   }
+
+  function editOrgPicturesWithPromise(orgId, picLink1, picLink2, picLink3) {
+    return new Promise((resolve, reject) => {
+      editOrgPictures(orgId, picLink1, picLink2, picLink3)
+        .then(() => {
+          resolve('Org pictures have been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }  
+
+  function editOrgLogoWithPromise(orgId, orgLogo) {
+    return new Promise((resolve, reject) => {
+      editOrgLogo(orgId, orgLogo)
+        .then(() => {
+          resolve('Org logo has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }  
   // --------------------------------------------------------
   
   // --------- functions for saving changes to database --------------
+  function setCheckAvailable(id) {
+    const newAvailable = !available;
+    updateAvailabilityOrg(id, newAvailable);
+    setAvailable(newAvailable);
+    toast.success(`Successfully ${newAvailable ? 'OPENED' : 'CLOSED'} applications.`);
+  }
 
   function handleChangeDesc() {
     editOrgDescriptionWithPromise(orgs.id, orgDesc)
@@ -183,11 +209,27 @@ export default function EditOrgModalContent({ handleClose }) {
         toast.error('Failed to update org tags: ' + error.message);
       });
   }
-  // --------------------------------------------------------
 
   function handleChangePics() {
-    editOrgPictures(orgs.id, orgPicLink1, orgPicLink2, orgPicLink3);
+    editOrgPicturesWithPromise(orgs.id, orgPicLink1, orgPicLink2, orgPicLink3)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update org pictures: ' + error.message);
+      });
   }
+
+  function handleChangeLogo() {
+    editOrgLogoWithPromise(orgs.id, orgLogo)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update org logo: ' + error.message);
+      });
+  }
+  // --------------------------------------------------------
 
   useEffect(() => {
     setOrgs({}); // Clear existing data before fetching new data
@@ -230,19 +272,21 @@ export default function EditOrgModalContent({ handleClose }) {
         }}
       />
 
-        <div id="myCarousel" className="carousel slide mb-6 rounded-3 position-relative" data-bs-ride="carousel">
-          <div className="carousel-inner carousel-edit rounded-3">
-            <div className="carousel-item carousel-item-edit active">
-              <div className="carousel-image rounded-3" style={{ 
-                backgroundImage: orgPic ? `url(\"${orgPic}` + '.jpg\")' : '',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                width: '100%',
-                height: '100%'
-              }}> </div>
+          <div id="myCarousel" className="carousel slide mb-6 rounded-3 position-relative" data-bs-ride="carousel">
+            <div className="carousel-inner carousel-edit rounded-3">
+              <div className="carousel-item carousel-item-edit active">
+                <div className="carousel-image rounded-3 position-relative" style={{ 
+                  backgroundImage: orgPic ? `url(\"${orgPic}` + '.jpg\")' : '',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  width: '100%',
+                  height: '100%'
+                }}>
+                  <div className="dark-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                </div>
+              </div>
             </div>
-          </div>
           
           <button type="button" className="btn img-edit-button position-absolute top-50 start-50 translate-middle" data-bs-toggle="modal" data-bs-target="#bannerModal"> Edit Banner Images </button>
             <div className="modal fade" id="bannerModal" tabIndex="-1" aria-labelledby="bannerModalLabel" aria-hidden="true">
@@ -267,7 +311,7 @@ export default function EditOrgModalContent({ handleClose }) {
                     </div>
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-outline-dark org-options-button"> Close </button>
+                    <button type="button" className="btn btn-outline-dark org-options-button-secondary" data-bs-dismiss="modal"> Close </button>
                     <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleChangePics}> Save Changes </button>
                   </div>
                 </div>
@@ -277,7 +321,33 @@ export default function EditOrgModalContent({ handleClose }) {
 
         <div className="org-header-box">
           <div className="row">
-            <div className="col-md-auto"><img src={orgLogo} className="edit-logo-img" alt="..."/></div>
+          <div className="col-md-auto">
+            <div style={{ position: 'relative', textAlign: 'center' }}>
+              <img src={orgs.orgLogo + ".jpg"} className="edit-logo-img" alt="..." />
+              <button className='camera-button' data-bs-toggle="modal" data-bs-target="#pfpModal"><FontAwesomeIcon icon={faCamera}/></button>
+              <div className="modal fade" id="pfpModal" tabIndex="-1" aria-labelledby="pfpModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="exampleModalLabel"> Edit Logo Image </h5>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="form-floating mb-2 mt-2">
+                        <input type="url" className="form-control" id="floatingBanner1" placeholder="https://example.com" value={orgLogo} onChange={e => setOrgLogo(e.target.value)} />
+                        <label htmlFor="floatingBanner1"> Imgur Link </label>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-outline-dark org-options-button-secondary" data-bs-dismiss="modal"> Close </button>
+                      <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleChangeLogo}> Save Changes </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <div className="col-8 org-header-text">
               <h4 className="font-inter custom-grey">{orgs.orgName} ({orgs.orgAcronym})</h4>
             </div>
@@ -296,8 +366,17 @@ export default function EditOrgModalContent({ handleClose }) {
         <h5 className='mt-4'> Application Details </h5>
         <div className="col-md px-4">
           <div className="form-check form-switch">
-            <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={available} onClick={() => setCheckAvailable(orgs.id)} />
-            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Applications are Open</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox" 
+              role="switch" 
+              id="flexSwitchCheckChecked" 
+              checked={available} 
+              onChange={() => setCheckAvailable(orgs.id)} 
+            />
+            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+              {available ? "Applications are Open" : "Applications are Closed"}
+            </label>
           </div>
         </div>
         

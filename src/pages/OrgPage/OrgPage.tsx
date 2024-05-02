@@ -20,7 +20,7 @@ export default function OrgPage() {
   const params = useParams();
 
   const [orgs, setOrgs] = useState({});
-  const [orgPic, setOrgPic] = useState('');
+  const [orgPics, setOrgPics] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -61,7 +61,7 @@ export default function OrgPage() {
         if (orgWithParamsId) {
           setOrgs(orgWithParamsId);
           if (orgWithParamsId.orgPictures && orgWithParamsId.orgPictures.length > 0) {
-            setOrgPic(orgWithParamsId.orgPictures[0]);
+            setOrgPics(orgWithParamsId.orgPictures);
           }
         } else {
           console.log("Organization not found with the given ID");
@@ -85,7 +85,7 @@ export default function OrgPage() {
             if (orgWithParamsId) {
               setOrgs(orgWithParamsId);
               if (orgWithParamsId.orgPictures && orgWithParamsId.orgPictures.length > 0) {
-                setOrgPic(orgWithParamsId.orgPictures[0]);
+                setOrgPics(orgWithParamsId.orgPictures);
               }
             } else {
               console.log("Organization not found with the given ID");
@@ -135,29 +135,23 @@ export default function OrgPage() {
         </Link>
 
         <div id="myCarousel" className="carousel slide mb-6 rounded-3" data-bs-ride="carousel">
-          <div className="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
           <div className="carousel-inner rounded-3">
-            <div className="carousel-item active">
-              <div className="carousel-image rounded-3" style={{ 
-                backgroundImage: orgPic ? `url(\"${orgPic}` + '.jpg\")' : '',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                width: '100%',
-                height: '100%'
-              }}> </div>
-            </div>
-            <div className="carousel-item">
-              <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-            </div>
-            <div className="carousel-item">
-              <svg className="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-            </div>
+            {orgPics.map((pic, index) => (
+              pic && (
+                <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={index}>
+                  <div className="carousel-image rounded-3" style={{ 
+                    backgroundImage: pic ? `url(\"${pic}` + '.jpg\")' : '',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    width: '100%',
+                    height: '100%'
+                  }}> </div>
+                </div>
+              )
+            ))}
           </div>
+
           <button className="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
@@ -271,8 +265,13 @@ export default function OrgPage() {
               </div>
               <div className="card-body">
                 <p className="card-text"> You are not affiliated with this org. </p>
-                <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
-                <p className="card-text"><small className="text-muted"> open until Oct. 12, 2024 </small></p>
+                {orgs.openForApplications === "Open" ? (
+                  <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
+                ) : (
+                  <button className="btn btn-secondary col-12 apply-button" disabled> Applications Closed </button>
+                )}
+                <p className="card-text"><small className="text-muted"> 
+                  {orgs.openForApplications} until Month dd, yyyy </small></p>
               </div>
             </div>
           </div>

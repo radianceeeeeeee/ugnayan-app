@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { doCreateSiteAdminWithEmailAndPassword } from "../../firebase/auth";
+import { doCreateSiteAdminWithEmailAndPassword, doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 import "./SiteAdminModalAdd.css"
 
 const SiteAdminModalAdd = () => {
   const [formData, setFormData] = useState({
-    adminName: "",
+    adminFirstName: "",
+    adminLastName: "",
     adminEmail: "",
     adminPassword: "",
   });
 
   async function handleSubmit(e: any) {
+    console.log(formData.adminEmail, formData.adminPassword)
     e.preventDefault();
     const form = e.target;
 
@@ -19,7 +21,8 @@ const SiteAdminModalAdd = () => {
       return;
     }
 
-    await doCreateSiteAdminWithEmailAndPassword(formData);
+    await doCreateSiteAdminWithEmailAndPassword(formData.adminEmail, formData.adminPassword, formData);
+
     alert("Admin is now authenticated");
   }
 
@@ -27,7 +30,7 @@ const SiteAdminModalAdd = () => {
     const value = event.target.value;
     const id = event.target.id;
 
-    console.log(`ID: ${id}; Value: ${value}`);
+    console.log(`id: ${id}, value: ${value}`)
 
     setFormData({
       ...formData,
@@ -40,12 +43,23 @@ const SiteAdminModalAdd = () => {
       <div className="modal-body">
         <Form onSubmit={handleSubmit} id="org-form">
             <FloatingLabel
-              controlId="adminName"
-              label="Site Admin Name"
+              controlId="adminFirstName"
+              label="First Name"
               className="mb-3"
             >
               <Form.Control
-                placeholder="Admin Name"
+                placeholder="First Name"
+                onChange={handleChange}
+              />
+            </FloatingLabel>
+
+            <FloatingLabel
+              controlId="adminLastName"
+              label="Last Name"
+              className="mb-3"
+            >
+              <Form.Control
+                placeholder="Last Name"
                 onChange={handleChange}
               />
             </FloatingLabel>
@@ -79,7 +93,7 @@ const SiteAdminModalAdd = () => {
         <Button className="btn btn-secondary" data-bs-dismiss="modal">
           Cancel
         </Button>
-        <Button form="org-form" className="btn btn-primary" type="submit"  data-bs-dismiss="modal">
+        <Button form="org-form" className="btn btn-primary" type="submit" data-bs-dismiss="modal" onClick={() => console.log(formData)}>
           Submit
         </Button>
       </div>

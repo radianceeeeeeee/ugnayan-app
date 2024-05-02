@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchOrgData, fetchUserBookmarks, fetchUserData } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 export default function DashboardPage() {
 
@@ -26,7 +27,7 @@ export default function DashboardPage() {
 
   const [databaseConnected, setDatabaseConnected] = useState(false);
 
-  const [uid, setUid] = useState("-1");
+  const [userId, setUserId] = useState("0");
 
   useEffect(() => {
     const auth = getAuth();
@@ -34,26 +35,34 @@ export default function DashboardPage() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             if (auth.currentUser?.isAnonymous) {
+              setUserId("-2");
+              console.log("Anon")
             } else {
-                setUid(user.uid);
+              console.log("[A]")
+              setUserId(user.uid);
+                          
+              const db = getFirestore();
+              getDoc(doc(db, "users", user.uid)).then(docSnap => {
+                if (docSnap.exists()) {
+                  const data = docSnap.data();
+                  return data.orgBookmarks;
+                }
+              })
             }
         } else {
-            setUid("-1");
+            setUserId("-1");
+            console.log("How did we get here?")
         }
     })
-  }, [uid]);
-
+  }, [userId]);
 
   useEffect(() => {
     setOrgs([]); // Clear existing data before fetching new data
-    fetchUserBookmarks(uid)
-      .then(bookmarks => {
-        console.log(bookmarks);
-        setUserBookmarks(bookmarks);
-      })
-    fetchOrgData()
+    console.log("[B]")
+    fetchUserBookmarks(userId).then(bookmarks => {
+      fetchOrgData()
       .then(data => {
-        const newData = data.map(item => ({ ...item, starred: userBookmarks[item.id], id: item.id })); // Add 'starred: false' property to each object
+        const newData = data.map(item => ({ ...item, starred: (item.id in bookmarks) ? bookmarks[item.id] : false, id: item.id })); // Add 'starred: false' property to each object
         setOrgs(newData);
         console.log(newData)
         setDatabaseConnected(true);
@@ -62,6 +71,7 @@ export default function DashboardPage() {
         setDatabaseConnected(false);
         console.error(error);
       });
+    })
   }, []);
   
   const toggleStarred = (id) => {

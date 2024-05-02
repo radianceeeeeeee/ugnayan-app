@@ -4,44 +4,6 @@ import { doTestCreateOrgWithEmailAndPassword } from "../../firebase/auth";
 import "./AdminModalAdd.css"
 
 const AdminModalAdd = () => {
-  const [error, setError] = useState({
-    orgName: false,
-    orgConnectedEmail: false,
-    orgPassword: false,
-    orgLogo: false,
-    orgAcronym: false,
-    orgPictures: false,
-    orgBio: false,
-    orgTags: false,
-    dateFounded: false,
-    orgLocation: false,
-    orgAffiliations: false,
-    orgEmails: false,
-    orgFacebook: false,
-    orgWebsite: false,
-    orgDescription: false,
-    orgScope: false,
-    openForApplications: false,
-  });
-  const [showErrorText, setShowErrorText] = useState({
-    orgName: false,
-    orgConnectedEmail: false,
-    orgPassword: false,
-    orgLogo: false,
-    orgAcronym: false,
-    orgPictures: false,
-    orgBio: false,
-    orgTags: false,
-    dateFounded: false,
-    orgLocation: false,
-    orgAffiliations: false,
-    orgEmails: false,
-    orgFacebook: false,
-    orgWebsite: false,
-    orgDescription: false,
-    orgScope: false,
-    openForApplications: false,
-  });
   const [formData, setFormData] = useState({
     orgName: "",
     orgConnectedEmail: "",
@@ -255,6 +217,18 @@ const AdminModalAdd = () => {
               >
                 <Form.Control
                   placeholder="Insert org scope"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+
+              <FloatingLabel
+                controlId="orgDescription"
+                label="Organization Description"
+                className="mb-3"
+              >
+                <Form.Control
+                  placeholder="Insert org description"
+                  as="textarea"
                   onChange={handleChange}
                 />
               </FloatingLabel>

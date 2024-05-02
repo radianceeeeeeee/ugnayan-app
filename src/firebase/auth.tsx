@@ -2,7 +2,7 @@
 
 import { createUserWithEmailAndPassword, signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
 import { app, auth } from "../FirebaseConfig";
-import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 // adding custom data in profile: https://www.youtube.com/watch?v=qWy9ylc3f9U
 export const doCreateUserWithEmailAndPassword = async (formData: any) => {
@@ -21,18 +21,16 @@ export const doCreateUserWithEmailAndPassword = async (formData: any) => {
     });
 };
 
-export const doCreateSiteAdminWithEmailAndPassword = async (formData: any) => {
-    return createUserWithEmailAndPassword(auth, formData.email, formData.password).then(async (cred: any) =>  {
+export const doCreateSiteAdminWithEmailAndPassword = async (email: string, password: string, formData: any) => {    
+    return createUserWithEmailAndPassword(auth, email, password).then(async (cred: any) =>  {
         const db = getFirestore(app);
         const userRef = doc(db, "site-admin", cred.user.uid);
 
         await setDoc(userRef, {
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                studentId: formData.studentNo,
+                firstName: formData.adminFirstName,
+                lastName: formData.adminLastName,
                 role: "Site Admin",
-                course: formData.course,
-                email: formData.email
+                email: formData.adminEmail,
             });
     });
 };

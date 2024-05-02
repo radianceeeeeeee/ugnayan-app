@@ -86,29 +86,104 @@ export default function EditOrgModalContent({ handleClose }) {
     }
   }, [orgs]);
 
+  // --------- promises for checking edit success --------------
+
+  function editOrgDescriptionWithPromise(orgId, newDescription) {
+    return new Promise((resolve, reject) => {
+      editOrgDescription(orgId, newDescription)
+        .then(() => {
+          resolve('Org description has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  function editOrgBioWithPromise(orgId, newBio) {
+    return new Promise((resolve, reject) => {
+      editOrgBio(orgId, newBio)
+        .then(() => {
+          resolve('Short bio has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  
+  function editOrgAboutWithPromise(orgId, dateFounded, orgLocation, orgEmails, orgWebsite, orgFacebook, orgAffiliations) {
+    return new Promise((resolve, reject) => {
+      editOrgAbout(orgId, dateFounded, orgLocation, orgEmails, orgWebsite, orgFacebook, orgAffiliations)
+        .then(() => {
+          resolve('About info has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  
+  function editOrgTagsWithPromise(orgId, updatedTags) {
+    return new Promise((resolve, reject) => {
+      editOrgTags(orgId, updatedTags)
+        .then(() => {
+          resolve('Org tags have been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  // --------------------------------------------------------
+  
+  // --------- functions for saving changes to database --------------
+
   function handleChangeDesc() {
-    editOrgDescription(orgs.id, orgDesc);
-    toast.success('Org description has been updated.');
+    editOrgDescriptionWithPromise(orgs.id, orgDesc)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update org description: ' + error.message);
+      });
   }
 
   function handleChangeBio() {
-    editOrgBio(orgs.id, orgBio);
-    toast.success('Short bio has been updated.')
+    editOrgBioWithPromise(orgs.id, orgBio)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update short bio: ' + error.message);
+      });
   }
-
+  
   function handleChangeAbout() {
-    editOrgAbout(orgs.id, orgs.dateFounded, orgs.orgLocation, orgs.orgEmails, orgs.orgWebsite, orgs.orgFacebook, orgs.orgAffiliations);
-    toast.success('About info has been updated.')
+    editOrgAboutWithPromise(orgs.id, orgs.dateFounded, orgs.orgLocation, orgs.orgEmails, orgs.orgWebsite, orgs.orgFacebook, orgs.orgAffiliations)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update about info: ' + error.message);
+      });
   }
-
+  
+  // helper function for saving tags
   function handleChangeTags(tags) {
     setUpdatedTags(tags);
   }
 
   function handleSaveTags() {
-    editOrgTags(orgs.id, updatedTags);
-    toast.success('Org tags have been updated.');
+    editOrgTagsWithPromise(orgs.id, updatedTags)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to update org tags: ' + error.message);
+      });
   }
+  // --------------------------------------------------------
 
   function handleChangePics() {
     editOrgPictures(orgs.id, orgPicLink1, orgPicLink2, orgPicLink3);

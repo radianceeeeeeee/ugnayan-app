@@ -11,6 +11,7 @@ import Plus from "./icons/Plus";
 import AdminNavigation from "./AdminNavigation";
 import RingLoader from "react-spinners/RingLoader";
 import AdminModal from "./AdminModal";
+import SiteAdminModal from "./SiteAdminModal";
 
 export default function AdminPage() {
   const { view } = useParams();
@@ -51,14 +52,16 @@ export default function AdminPage() {
               <AdminNavigation view={view} />
               <div className="col-auto">
                 <div className="btn-group" role="group" aria-label="Add buttons">
+                    {(view === "site-admins") ? 
                     <button
                         type="button"
-                        className="btn add-org me-4"
+                        className="btn add-org"
                         data-bs-toggle="modal"
-                        data-bs-target="#staticBackdropAdd"
+                        data-bs-target="#staticAdminBackdropAdd"
+                        onClick={() => console.log("#staticAdminBackdropAdd")}
                     >
-                        <Plus /> Add Site Admin
-                    </button>
+                        <Plus /> Add Site Administrator
+                    </button> : (view === "org-admins" || view === "organizations") ?
                     <button
                         type="button"
                         className="btn add-org"
@@ -66,12 +69,15 @@ export default function AdminPage() {
                         data-bs-target="#staticBackdropAdd"
                     >
                         <Plus /> Add Organization
-                    </button>
+                    </button> :
+                    <div></div>
+                    }
                   </div>
               </div>
           </div>
 
             <AdminModal modalType="Add" view={view} />
+            <SiteAdminModal modalType="Add" view={view} />
             <div className="row">
               <div className="col table-container">
                 <AdminTable view={view} />

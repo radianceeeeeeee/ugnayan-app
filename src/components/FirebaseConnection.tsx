@@ -184,6 +184,12 @@ export async function editOrgBio(id: string, bio: string) {
   await updateDoc(orgDoc, { orgBio: bio });
 }
 
+export async function editOrgTags(id: string, tags: string[]) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgTags: tags });
+}
+
 export async function editOrgAbout(id: string, founded: Date, location: string, email: string, website: string, facebook: string, affiliations: string) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);

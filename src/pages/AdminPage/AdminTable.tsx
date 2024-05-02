@@ -132,13 +132,13 @@ const AdminTable = ({ view }: AdminTableProps) => {
     const fetchInitialOrgAccountData = async () => {
       try {
         const data = await fetchOrgAccountData();
-      
+
         const newData = data.map((org) => ({
           orgEmail: org.orgConnectedEmail,
           orgName: org.orgName,
           id: org.id,
         }));
-        
+
         setOrgDetails(newData);
         console.log(orgDetails);
       } catch (error) {
@@ -254,9 +254,17 @@ const AdminTable = ({ view }: AdminTableProps) => {
               </div>
               <div className="col-auto admin-row-mid admin-row-mid-body">
                 {user.role}
+                <button
+                  type="button"
+                  className="btn"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#staticBackdropEdit${user.id}`}
+                >
+                  <EditIcon />
+                </button>
               </div>
+              <div className="col-3 admin-row-end">
               {user.role !== "Org Admin" && (
-                <div className="col-3 admin-row-end">
                   <select
                     className="btn"
                     onChange={(e) => {
@@ -270,8 +278,9 @@ const AdminTable = ({ view }: AdminTableProps) => {
                     <option>User</option>
                     <option>Site Admin</option>
                   </select>
-                </div>
               )}
+              </div>
+              <AdminModal modalType="Edit" view={view} userId={user.id} userName={user.name} />
             </div>
           ))}
         </>
@@ -299,9 +308,9 @@ const AdminTable = ({ view }: AdminTableProps) => {
               <AdminModal
                 modalType="Edit"
                 view={view}
-                orgAdminId={orgDetails.id}
-                orgName= {orgDetails.orgName}
-                orgEmail = {orgDetails.orgEmail}
+                userId={orgDetails.id}
+                orgName={orgDetails.orgName}
+                orgEmail={orgDetails.orgEmail}
               />
             </div>
           ))}

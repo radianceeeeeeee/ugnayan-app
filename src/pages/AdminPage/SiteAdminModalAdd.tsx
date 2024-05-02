@@ -11,15 +11,14 @@ const SiteAdminModalAdd = () => {
     adminPassword: "",
   });
 
+  console.log(formData);
+
   async function handleSubmit(e: any) {
-    console.log(formData.adminEmail, formData.adminPassword)
+    console.log("formData.adminEmail, formData.adminPassword");
     e.preventDefault();
     const form = e.target;
 
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      return;
-    }
+
 
     await doCreateSiteAdminWithEmailAndPassword(formData.adminEmail, formData.adminPassword, formData);
 
@@ -40,8 +39,8 @@ const SiteAdminModalAdd = () => {
 
   return (
     <>
-      <div className="modal-body">
         <Form onSubmit={handleSubmit} id="org-form">
+      <div className="modal-body">
             <FloatingLabel
               controlId="adminFirstName"
               label="First Name"
@@ -87,16 +86,16 @@ const SiteAdminModalAdd = () => {
                 onChange={handleChange}
               />
             </FloatingLabel>
-        </Form>
       </div>
       <div className="modal-footer">
         <Button className="btn btn-secondary" data-bs-dismiss="modal">
           Cancel
         </Button>
-        <Button form="org-form" className="btn btn-primary" type="submit" data-bs-dismiss="modal" onClick={() => console.log(formData)}>
+        <Button className="btn btn-primary" type="submit" onClick={() => console.log(formData)}>
           Submit
         </Button>
       </div>
+        </Form>
     </>
   );
 };

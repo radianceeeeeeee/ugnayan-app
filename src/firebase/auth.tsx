@@ -22,6 +22,7 @@ export const doCreateUserWithEmailAndPassword = async (formData: any) => {
 };
 
 export const doCreateSiteAdminWithEmailAndPassword = async (email: string, password: string, formData: any) => {    
+    console.log(formData);
     return createUserWithEmailAndPassword(auth, email, password).then(async (cred: any) =>  {
         const db = getFirestore(app);
         const userRef = doc(db, "site-admin", cred.user.uid);

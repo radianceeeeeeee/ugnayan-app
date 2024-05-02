@@ -1,22 +1,34 @@
 import { useState } from "react";
-import { editOrgDetailsAdmin } from "../../components/FirebaseConnection";
-import "./AdminModalEdit.css"
+import {
+  editOrgAdminDetailsAdmin,
+  editOrgDetailsAdmin,
+} from "../../components/FirebaseConnection";
+import "./AdminModalEdit.css";
 
 interface orgDetails {
   orgId?: string;
   orgName?: string;
   orgDescription?: string;
+  orgEmail?: string;
 }
 
 interface updatedDetails {
   orgName?: string;
   orgDescription?: string;
+  orgEmail?: string;
 }
-const AdminModalEdit = ({ orgId, orgName, orgDescription }: orgDetails) => {
+const AdminModalEdit = ({
+  orgId,
+  orgName,
+  orgDescription,
+  orgEmail,
+}: orgDetails) => {
   const [updatedDetails, setUpdatedDetails] = useState<updatedDetails>({
     orgName: orgName,
     orgDescription: orgDescription,
+    orgEmail: orgEmail,
   });
+  
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -25,29 +37,43 @@ const AdminModalEdit = ({ orgId, orgName, orgDescription }: orgDetails) => {
       ...updatedDetails,
       [name]: value,
     });
-    
   };
 
   const submissionHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    editOrgDetailsAdmin(orgId as string, updatedDetails.orgName as string, updatedDetails.orgDescription as string);
+    if (typeof orgDescription === "string") {
+      editOrgDetailsAdmin(
+        orgId as string,
+        updatedDetails.orgName as string,
+        updatedDetails.orgDescription as string
+      );
+    } else {
+      editOrgAdminDetailsAdmin(
+        orgId as string,
+        updatedDetails.orgName as string,
+        updatedDetails.orgEmail as string
+      );
+    }
     (event.target as HTMLFormElement).reset();
-    
-  }
+  };
 
   return (
     <form onSubmit={submissionHandler}>
       <div className="modal-body ">
-        <input         
+        <input
           placeholder="Enter New Organization Name"
           className="form-control admin-edit"
           name="orgName"
           onChange={inputChangeHandler}
         ></input>
         <input
-          placeholder="Enter New Organization Description"
+          placeholder={`Enter New Organization ${
+            typeof orgDescription === "string" ? "Description" : "Email"
+          }`}
           className="form-control admin-edit"
-          name="orgDescription"
+          name={
+            typeof orgDescription === "string" ? "orgDescription" : "orgEmail"
+          }
           onChange={inputChangeHandler}
         ></input>
       </div>

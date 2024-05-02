@@ -216,6 +216,20 @@ export async function editOrgDetailsAdmin(
   // alert("Organization description has been updated");
 }
 
+export async function editOrgAdminDetailsAdmin(
+  id: string,
+  name: string,
+  email: string
+) {
+  console.log(id, name, email);
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations-test", id);
+  await updateDoc(orgDoc, { orgName: name });
+  await updateDoc(orgDoc, { orgConnectedEmail: email });
+
+  // alert("Organization description has been updated");
+}
+
 export async function editOrgPictures(
   id: string,
   pic1: string,

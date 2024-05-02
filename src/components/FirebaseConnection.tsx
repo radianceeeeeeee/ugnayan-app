@@ -226,25 +226,6 @@ export async function updateAvailabilityOrg(id: string, open: boolean) {
   await updateDoc(orgDoc, { openForApplications: open ? "Open" : "Closed" });
 }
 
-export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string) {
-  const db = getFirestore();
-  const orgDoc = doc(db, "organizations", id);
-  await updateDoc(orgDoc, { orgPictures: [pic1, pic2, pic3] });
-}
-
-export async function editOrgLogo(id: string, logo: string) {
-  const db = getFirestore();
-  const orgDoc = doc(db, "organizations", id);
-  await updateDoc(orgDoc, { orgLogo: logo });
-}
-
-export async function updateAvailabilityOrg(id: string, open: boolean) {
-  const db = getFirestore();
-  const orgDoc = doc(db, "organizations", id);
-
-  await updateDoc(orgDoc, { openForApplications: open ? "Open" : "Closed" });
-}
-
 export async function editOrgDetailsAdmin(
   id: string,
   name: string,

@@ -30,24 +30,22 @@ const AdminTable = ({ view }: AdminTableProps) => {
     { name: string; role: string; id: string }[]
   >([]);
   const [orgDetails, setOrgDetails] = useState<
-  { orgName: string; orgEmail: string; }[]
->([]);
+    { orgName: string; orgEmail: string; id: string }[]
+  >([]);
   const [filteredUsers, setFilteredUsers] = useState<
     { name: string; role: string; id: string }[]
   >([]);
 
   const [filteredOrgs, setFilteredOrgs] = useState<
-  { orgName: string; orgDescription: string; id: string }[]
->([]);
-
-  const [filteredOrgDetails, setfilteredOrgDetails] = useState<
-  { orgName: string; orgDescription: string; id: string }[]
+    { orgName: string; orgDescription: string; id: string }[]
   >([]);
 
+  const [filteredOrgDetails, setfilteredOrgDetails] = useState<
+    { orgName: string; orgEmail: string; id: string }[]
+  >([]);
 
-  const [sortUserOrder, setSortUserOrder] = useState<'asc' | 'desc'>('asc');
-  const [sortOrgOrder, setSortOrgOrder] = useState<'asc' | 'desc'>('asc');
-
+  const [sortUserOrder, setSortUserOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrgOrder, setSortOrgOrder] = useState<"asc" | "desc">("asc");
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -57,9 +55,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
       user.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    
     setFilteredUsers(filtered);
-
 
     const filteredOrg = orgs.filter((org) =>
       org.orgName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -67,39 +63,37 @@ const AdminTable = ({ view }: AdminTableProps) => {
 
     setFilteredOrgs(filteredOrg);
 
-    const filteredOrgDetails = orgDetails.filter((orgDetail) =>
-      orgDetail.orgName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      orgDetail.orgEmail.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredOrgDetails = orgDetails.filter(
+      (orgDetail) =>
+        orgDetail.orgName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        orgDetail.orgEmail.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setfilteredOrgDetails(filteredOrgDetails);
-
   }, [searchQuery, users, orgs, orgDetails]);
 
   const handleSortByName = () => {
-
-    if (view === 'organizations') {
-      const sortedOrgs = [...orgs]; 
+    if (view === "organizations") {
+      const sortedOrgs = [...orgs];
       sortedOrgs.sort((a, b) => {
-        if (sortOrgOrder === 'asc') {
-          return a.orgName.localeCompare(b.orgName); 
+        if (sortOrgOrder === "asc") {
+          return a.orgName.localeCompare(b.orgName);
         } else {
-          return b.orgName.localeCompare(a.orgName); 
+          return b.orgName.localeCompare(a.orgName);
         }
       });
-      setFilteredOrgs(sortedOrgs); 
-      setSortOrgOrder(sortOrgOrder === 'asc' ? 'desc' : 'asc'); 
-    }
-    else {
-      const sortedUsers = [...filteredUsers]; 
+      setFilteredOrgs(sortedOrgs);
+      setSortOrgOrder(sortOrgOrder === "asc" ? "desc" : "asc");
+    } else {
+      const sortedUsers = [...filteredUsers];
       sortedUsers.sort((a, b) => {
-        if (sortUserOrder === 'asc') {
-          return a.name.localeCompare(b.name); 
+        if (sortUserOrder === "asc") {
+          return a.name.localeCompare(b.name);
         } else {
-          return b.name.localeCompare(a.name); 
+          return b.name.localeCompare(a.name);
         }
       });
-      setFilteredUsers(sortedUsers); 
-      setSortUserOrder(sortUserOrder === 'asc' ? 'desc' : 'asc'); 
+      setFilteredUsers(sortedUsers);
+      setSortUserOrder(sortUserOrder === "asc" ? "desc" : "asc");
     }
   };
 
@@ -134,22 +128,23 @@ const AdminTable = ({ view }: AdminTableProps) => {
       }
     };
 
-      // Function to fetch initial org-emails data
-      const fetchInitialOrgAccountData = async () => {
-        try {
-          const data = await fetchOrgAccountData();
-          const newData = data.map((org) => ({
-            orgEmail: org.orgConnectedEmail,
-            orgName: org.orgName,
-            
-          }));
-          setOrgDetails(newData);
-          console.log(orgDetails);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
+    // Function to fetch initial org-emails data
+    const fetchInitialOrgAccountData = async () => {
+      try {
+        const data = await fetchOrgAccountData();
+      
+        const newData = data.map((org) => ({
+          orgEmail: org.orgConnectedEmail,
+          orgName: org.orgName,
+          id: org.id,
+        }));
+        
+        setOrgDetails(newData);
+        console.log(orgDetails);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     // Fetch initial data when component mounts
     fetchInitialOrgAccountData();
@@ -188,6 +183,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
         const newData = snapshot.docs.map((doc) => ({
           orgName: doc.data().orgName,
           orgEmail: doc.data().orgConnectedEmail,
+          id: doc.id,
         }));
         setOrgDetails(newData);
       }
@@ -201,24 +197,21 @@ const AdminTable = ({ view }: AdminTableProps) => {
     };
   }, []);
 
-
   useEffect(() => {
     if (view === "students") {
-      setFilteredUsers(users.filter(user => user.role === "User"));
+      setFilteredUsers(users.filter((user) => user.role === "User"));
     } else if (view === "org-admins") {
-      setFilteredUsers(users.filter(user => user.role === "Org Admin"));
+      setFilteredUsers(users.filter((user) => user.role === "Org Admin"));
     } else if (view === "site-admins") {
-      setFilteredUsers(users.filter(user => user.role === "Site Admin"));
-    } else{
+      setFilteredUsers(users.filter((user) => user.role === "Site Admin"));
+    } else {
       setFilteredUsers(users);
     }
-
-  
   }, [view, users]);
 
-  console.log(view)
-  console.log(filteredUsers)
-  
+  console.log(view);
+  console.log(filteredUsers);
+
   return (
     <div className="container admin-table">
       <div className="row row-col-3 admin-table-row admin-row-header ">
@@ -229,14 +222,14 @@ const AdminTable = ({ view }: AdminTableProps) => {
           </button>
         </div>
         <div className="col-auto admin-row-mid ">
-              {(() => {
-              if (view === "organizations") {
-                  return "Description";
-              } else if (view === "org-admins") {
-                  return "Email";
-              } else {
-                return "Role";
-              }
+          {(() => {
+            if (view === "organizations") {
+              return "Description";
+            } else if (view === "org-admins") {
+              return "Email";
+            } else {
+              return "Role";
+            }
           })()}
         </div>
         <div className="col-3 admin-row-end ">
@@ -263,7 +256,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
                 {user.role}
               </div>
               {user.role !== "Org Admin" && (
-              <div className="col-3 admin-row-end">
+                <div className="col-3 admin-row-end">
                   <select
                     className="btn"
                     onChange={(e) => {
@@ -294,8 +287,22 @@ const AdminTable = ({ view }: AdminTableProps) => {
               </div>
               <div className="col-auto admin-row-mid admin-row-mid-body">
                 {orgDetails.orgEmail}
+                <button
+                  type="button"
+                  className="btn"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#staticBackdropEdit${orgDetails.id}`}
+                >
+                  <EditIcon />
+                </button>
               </div>
-
+              <AdminModal
+                modalType="Edit"
+                view={view}
+                orgAdminId={orgDetails.id}
+                orgName= {orgDetails.orgName}
+                orgEmail = {orgDetails.orgEmail}
+              />
             </div>
           ))}
         </>
@@ -328,27 +335,53 @@ const AdminTable = ({ view }: AdminTableProps) => {
                   <ArchiveIcon />
                 </button>
 
-                <div className="modal fade" id={`deleteModal${org.id}`} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div
+                  className="modal fade"
+                  id={`deleteModal${org.id}`}
+                  role="dialog"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
                   <div className="modal-dialog" role="document">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h5 className="modal-title">Are you sure you want to delete </h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <h5 className="modal-title">
+                          Are you sure you want to delete{" "}
+                        </h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        >
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div className="modal-body">
-                        {org.orgName}
-                      </div>
+                      <div className="modal-body">{org.orgName}</div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" className="btn btn-primary" onClick={() => deleteOrg(org.id, org.orgName, org.orgDescription)} data-bs-dismiss="modal">Confirm Delete</button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() =>
+                            deleteOrg(org.id, org.orgName, org.orgDescription)
+                          }
+                          data-bs-dismiss="modal"
+                        >
+                          Confirm Delete
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <AdminModal
                 modalType="Edit"
                 view={view}
@@ -358,7 +391,6 @@ const AdminTable = ({ view }: AdminTableProps) => {
               />
             </div>
           ))}
-
         </>
       )}
     </div>

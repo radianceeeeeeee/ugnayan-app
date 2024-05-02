@@ -8,12 +8,14 @@ interface modalProps {
   orgId?: string;
   orgName?: string;
   orgDescription?: string;
+  orgAdminId?: string;
+  orgEmail?: string;
 }
-const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalProps) => {
+const AdminModal = ({ modalType, view, orgId, orgName, orgDescription, orgAdminId, orgEmail }: modalProps) => {
   return (
     <div
       className="modal fade"
-      id={`staticBackdrop${modalType}${modalType === "Add" ? "" : orgId}`}
+      id={`staticBackdrop${modalType}${modalType === "Add" ? "" : typeof orgId === "string" ? orgId : orgAdminId}`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       aria-labelledby="staticBackdropLabel"
@@ -26,8 +28,9 @@ const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalPr
               className="modal-title fs-5"
               id="staticBackdropLabel"
             >{`${modalType} ${
-              view === "organizations" ? "Organization" : "User"
-            }`}</h1>
+              (view === "organizations" || modalType === "Add") ? "Organization" : "Org Admin"
+            }`}
+            </h1>
             <button
               type="button"
               className="btn-close"
@@ -36,7 +39,7 @@ const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalPr
             ></button>
           </div>
           {modalType === "Edit" ? (
-            <AdminModalEdit orgId={orgId} orgDescription={orgDescription} orgName={orgName}/>
+            <AdminModalEdit orgId={typeof orgId === "string" ? orgId : orgAdminId} orgDescription={orgDescription} orgName={orgName} orgEmail={orgEmail}/>
           ) : (
             <AdminModalAdd />
           )}

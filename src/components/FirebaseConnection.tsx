@@ -56,7 +56,6 @@ export async function fetchOrgAccountData() {
   }
 }
 
-
 export async function fetchUserBookmarks(id: string) {
   try {
     const db = getFirestore();
@@ -67,7 +66,6 @@ export async function fetchUserBookmarks(id: string) {
       const data = docSnap.data();
       return data.orgBookmarks;
     }
-
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -188,7 +186,15 @@ export async function editOrgTags(id: string, tags: string[]) {
   await updateDoc(orgDoc, { orgTags: tags });
 }
 
-export async function editOrgAbout(id: string, founded: Date, location: string, email: string, website: string, facebook: string, affiliations: string) {
+export async function editOrgAbout(
+  id: string,
+  founded: Date,
+  location: string,
+  email: string,
+  website: string,
+  facebook: string,
+  affiliations: string
+) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
   await updateDoc(orgDoc, {
@@ -197,8 +203,27 @@ export async function editOrgAbout(id: string, founded: Date, location: string, 
     orgEmails: email,
     orgWebsite: website,
     orgFacebook: facebook,
-    orgAffiliations: affiliations
+    orgAffiliations: affiliations,
   });
+}
+
+export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgPictures: [pic1, pic2, pic3] });
+}
+
+export async function editOrgLogo(id: string, logo: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgLogo: logo });
+}
+
+export async function updateAvailabilityOrg(id: string, open: boolean) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+
+  await updateDoc(orgDoc, { openForApplications: open ? "Open" : "Closed" });
 }
 
 export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string) {
@@ -238,13 +263,20 @@ export async function editOrgAdminDetailsAdmin(
   name: string,
   email: string
 ) {
-  console.log(id, name, email);
   const db = getFirestore();
   const orgDoc = doc(db, "organizations-test", id);
   await updateDoc(orgDoc, { orgName: name });
   await updateDoc(orgDoc, { orgConnectedEmail: email });
 
   // alert("Organization description has been updated");
+}
+
+export async function editNameAdmin(id: string, name: string) {
+  const splitName = name.split(", ");
+  const db = getFirestore();
+  const orgDoc = doc(db, "users", id);
+  await updateDoc(orgDoc, { firstName: splitName[1] });
+  await updateDoc(orgDoc, { lastName: splitName[0] });
 }
 
 export async function updateRoles(id: string, role: string) {
@@ -267,7 +299,7 @@ export async function updateUserBookmark(userId: string, orgId: string) {
     if (docSnap.data().orgBookmarks[orgId]) {
       isStarred = true;
     }
-    
+
     await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: !isStarred });
   } else {
     await setDoc(userDoc, { [`orgBookmarks.${orgId}`]: true });

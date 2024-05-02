@@ -1,4 +1,5 @@
 import AdminModalAdd from "./AdminModalAdd";
+import AdminModalAddUser from "./AdminModalAddUser";
 import AdminModalEdit from "./AdminModalEdit";
 
 interface modalProps {

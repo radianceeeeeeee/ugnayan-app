@@ -51,14 +51,14 @@ export default function AdminPage() {
               <AdminNavigation view={view} />
               <div className="col-auto">
                 <div className="btn-group" role="group" aria-label="Add buttons">
-                    {/* <button
+                    <button
                         type="button"
                         className="btn add-org me-4"
                         data-bs-toggle="modal"
                         data-bs-target="#staticBackdropAdd"
                     >
-                        <Plus /> Add User
-                    </button> */}
+                        <Plus /> Add Site Admin
+                    </button>
                     <button
                         type="button"
                         className="btn add-org"

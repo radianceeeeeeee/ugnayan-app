@@ -21,6 +21,22 @@ export const doCreateUserWithEmailAndPassword = async (formData: any) => {
     });
 };
 
+export const doCreateSiteAdminWithEmailAndPassword = async (formData: any) => {
+    return createUserWithEmailAndPassword(auth, formData.email, formData.password).then(async (cred: any) =>  {
+        const db = getFirestore(app);
+        const userRef = doc(db, "site-admin", cred.user.uid);
+
+        await setDoc(userRef, {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                studentId: formData.studentNo,
+                role: "Site Admin",
+                course: formData.course,
+                email: formData.email
+            });
+    });
+};
+
 export const doSignInWithEmailAndPassword = (formData: any) => {
     return signInWithEmailAndPassword(auth, formData.email, formData.password)
 };

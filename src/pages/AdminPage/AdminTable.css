@@ -15,6 +15,7 @@
   padding: 0.5rem 0;
   border-bottom: solid 1px grey;
   white-space: nowrap;
+  height: 3.5rem;
 }
 
 .admin-row-header {

@@ -36,8 +36,44 @@ const AdminTable = ({ view }: AdminTableProps) => {
     { name: string; role: string; id: string }[]
   >([]);
 
+  const [filteredOrgs, setFilteredOrgs] = useState<
+  { orgName: string; orgDescription: string; id: string }[]
+>([]);
+
+  const [filteredOrgDetails, setfilteredOrgDetails] = useState<
+  { orgName: string; orgDescription: string; id: string }[]
+  >([]);
+
+
   const [sortUserOrder, setSortUserOrder] = useState<'asc' | 'desc'>('asc');
   const [sortOrgOrder, setSortOrgOrder] = useState<'asc' | 'desc'>('asc');
+
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    // Filter users based on search query whenever it changes
+    const filtered = users.filter((user) =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    
+    setFilteredUsers(filtered);
+
+
+    const filteredOrg = orgs.filter((org) =>
+      org.orgName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setFilteredOrgs(filteredOrg);
+
+    const filteredOrgDetails = orgDetails.filter((orgDetail) =>
+      orgDetail.orgName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      orgDetail.orgEmail.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setfilteredOrgDetails(filteredOrgDetails);
+
+  }, [searchQuery, users, orgs, orgDetails]);
 
   const handleSortByName = () => {
 
@@ -50,7 +86,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
           return b.orgName.localeCompare(a.orgName); 
         }
       });
-      setOrgs(sortedOrgs); 
+      setFilteredOrgs(sortedOrgs); 
       setSortOrgOrder(sortOrgOrder === 'asc' ? 'desc' : 'asc'); 
     }
     else {
@@ -176,8 +212,12 @@ const AdminTable = ({ view }: AdminTableProps) => {
     } else{
       setFilteredUsers(users);
     }
+
+  
   }, [view, users]);
 
+  console.log(view)
+  console.log(filteredUsers)
   
   return (
     <div className="container admin-table">
@@ -202,7 +242,12 @@ const AdminTable = ({ view }: AdminTableProps) => {
         <div className="col-3 admin-row-end ">
           <div className="row admin-search ">
             <SearchIcon className="col-auto" />
-            <input placeholder="Search from list" className="col" />
+            <input
+              placeholder="Search from list"
+              className="col"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
       </div>
@@ -217,22 +262,23 @@ const AdminTable = ({ view }: AdminTableProps) => {
               <div className="col-auto admin-row-mid admin-row-mid-body">
                 {user.role}
               </div>
+              {user.role !== "Org Admin" && (
               <div className="col-3 admin-row-end">
-                <select
-                  className="btn"
-                  onChange={(e) => {
-                    const newRole = e.target.value;
-                    updateRoles(user.id, newRole);
-                  }}
-                >
-                  <option selected disabled value="">
-                    Change Role
-                  </option>
-                  <option>User</option>
-                  <option>Org Admin</option>
-                  <option>Site Admin</option>
-                </select>
-              </div>
+                  <select
+                    className="btn"
+                    onChange={(e) => {
+                      const newRole = e.target.value;
+                      updateRoles(user.id, newRole);
+                    }}
+                  >
+                    <option selected disabled value="">
+                      Change Role
+                    </option>
+                    <option>User</option>
+                    <option>Site Admin</option>
+                  </select>
+                </div>
+              )}
             </div>
           ))}
         </>
@@ -240,7 +286,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
 
       {view === "org-admins" && (
         <>
-          {orgDetails.map((orgDetails) => (
+          {filteredOrgDetails.map((orgDetails) => (
             <div className="row row-col-3 admin-table-row ">
               <div className="col-md-3 admin-row-start ">
                 <input type="checkbox" />
@@ -249,29 +295,14 @@ const AdminTable = ({ view }: AdminTableProps) => {
               <div className="col-auto admin-row-mid admin-row-mid-body">
                 {orgDetails.orgEmail}
               </div>
-              {/* <div className="col-3 admin-row-end">
-                <select
-                  className="btn"
-                  onChange={(e) => {
-                    const newRole = e.target.value;
-                    updateRoles(user.id, newRole);
-                  }}
-                >
-                  <option selected disabled value="">
-                    Change Role
-                  </option>
-                  <option>User</option>
-                  <option>Org Admin</option>
-                  <option>Site Admin</option>
-                </select>
-              </div> */}
+
             </div>
           ))}
         </>
       )}
       {view === "organizations" && (
         <>
-          {orgs.map((org) => (
+          {filteredOrgs.map((org) => (
             <div className="row row-col-3 admin-table-row ">
               <div className="col-md-3 admin-row-start ">
                 <input type="checkbox" />

@@ -1,6 +1,5 @@
-import AdminModalAdd from "./AdminModalAdd";
-import AdminModalAddUser from "./AdminModalAddUser";
-import AdminModalEdit from "./AdminModalEdit";
+import SiteAdminModalAdd from "./SiteAdminModalAdd";
+//import SiteAdminModalEdit from "./SiteAdminModalEdit";
 
 interface modalProps {
   modalType: "Add" | "Edit";
@@ -9,11 +8,12 @@ interface modalProps {
   orgName?: string;
   orgDescription?: string;
 }
-const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalProps) => {
+
+const SiteAdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalProps) => {
   return (
     <div
       className="modal fade"
-      id={`staticBackdrop${modalType}${modalType === "Add" ? "" : orgId}`}
+      id={`staticAdminBackdrop${modalType}${modalType === "Add" ? "" : orgId}`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       aria-labelledby="staticBackdropLabel"
@@ -36,9 +36,10 @@ const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalPr
             ></button>
           </div>
           {modalType === "Edit" ? (
-            <AdminModalEdit orgId={orgId} orgDescription={orgDescription} orgName={orgName}/>
+            <div>hi ^_^</div>
+            //<AdminModalEdit orgId={orgId} orgDescription={orgDescription} orgName={orgName}/>
           ) : (
-            <AdminModalAdd />
+            <SiteAdminModalAdd />
           )}
         </div>
       </div>
@@ -46,4 +47,4 @@ const AdminModal = ({ modalType, view, orgId, orgName, orgDescription }: modalPr
   );
 };
 
-export default AdminModal;
+export default SiteAdminModal;

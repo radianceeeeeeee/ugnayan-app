@@ -89,7 +89,10 @@ export const doTestCreateOrgWithEmailAndPassword = async (formData: any) => {
                 orgAcronym: formData.orgAcronym,
                 orgPictures: formData.orgPictures !== "" ? formData.orgPictures.toString().split(",") : [],
                 orgBio: formData.orgBio,
-                orgTags: formData.orgTags !== "" ? formData.orgTags.split(",").toString().split(",") : [],
+                // orgTags: formData.orgTags !== "" ? formData.orgTags.split(",").toString().split(",") : [],
+                orgTags: formData.orgTags !== "" ? formData.orgTags.toString().split(",").toString().split(",") : [],
+
+
                 dateFounded: formData.dateFounded,
                 orgLocation: formData.orgLocation,
                 orgAffiliations: formData.orgAffiliations !== "" ? formData.orgAffiliations.toString().split(",") : [],

@@ -25,6 +25,9 @@ export default function OrgPage() {
   const handleShow = () => setShow(true)
 
   const orgLogo = orgs.orgLogo + ".jpg";
+  const orgTags = orgs.orgTags;
+
+  console.log(orgTags);
 
   const handleBack = () => {
     window.history.back();
@@ -72,6 +75,8 @@ export default function OrgPage() {
         console.error(error);
       });
   }, [params.orgId]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
+
+
 
   return (
     <div> 
@@ -147,6 +152,38 @@ export default function OrgPage() {
               </Modal>
 
             </div>
+
+            <div className='col-4'></div>
+            {orgTags && orgTags.length > 0 && (
+            <div className="col-6"> 
+              {orgTags.map((tag, index) => {
+                let className = 'org-tags';
+                if (tag === 'non-sectarian') {
+                  className += ' org-tags-non-sectarian';
+                } else if (tag === 'academic') {
+                  className += ' org-tags-academic';
+                } else if (tag === 'socio-academic') {
+                  className += ' org-tags-socio-academic';
+                } else if (tag === 'game-development') {
+                  className += ' org-tags-socio-academic';
+                } else if (tag === 'computer science') {
+                  className += ' org-tags-computer-science';
+                } else if (tag === 'non-profit') {
+                  className += ' org-tags-non-profit';
+                } else if (tag === 'game development' || tag === 'gaming') {
+                  className += ' org-tags-gaming';
+                } else {
+                  className += ' org-tags-default';
+                }
+                return (
+                  <div className={className} key={index}>
+                    {tag}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           </div>
         </div>
       </div>

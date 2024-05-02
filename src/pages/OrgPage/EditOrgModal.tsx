@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { editOrgDescription, editOrgBio, editOrgAbout, editOrgTags, editOrgPictures, editOrgLogo, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { app } from '../../FirebaseConfig';
 import TagsInput from '../../components/TagsInput/TagsInput';
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,31 +8,6 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 export default function EditOrgModalContent({ handleClose }) {
   const params = useParams();
-
-  const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
-  useEffect(() => {
-      const auth = getAuth();
-
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-              if (auth.currentUser?.isAnonymous) {
-                  setIsUserAnOrgAdmin(false);
-              } else {
-                  const uid = user.uid;
-                  console.log(uid);
-
-                  const db = getFirestore(app);
-                  getDoc(doc(db, "users", uid)).then(docSnap => {
-                      if (docSnap.exists()) {
-                        setIsUserAnOrgAdmin(docSnap.data().role === "Org Admin");
-                      }
-                  });
-              }
-          } else {
-            setIsUserAnOrgAdmin(false);
-          }
-      })
-    }, [isUserAnOrgAdmin]);
 
   const [orgs, setOrgs] = useState({});
   const [orgPic, setOrgPic] = useState('');

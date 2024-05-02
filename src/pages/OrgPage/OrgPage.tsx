@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 import logo from "../../assets/logo/Ugnayan Logo circle wo name.png";
 import { useState,useEffect } from 'react';
@@ -13,11 +12,37 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import EditOrgModal from './EditOrgModal';
 import { onSnapshot, collection } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
-import { app } from "../../FirebaseConfig";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { app } from '../../FirebaseConfig';
 
 export default function OrgPage() {
   const params = useParams();
+
+  const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
+  useEffect(() => {
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+              if (auth.currentUser?.isAnonymous) {
+                  setIsUserAnOrgAdmin(false);
+              } else {
+                  const uid = user.uid;
+                  console.log(uid);
+
+                  const db = getFirestore(app);
+                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                      if (docSnap.exists()) {
+                        setIsUserAnOrgAdmin(docSnap.data().role === "Org Admin");
+                      }
+                  });
+              }
+          } else {
+            setIsUserAnOrgAdmin(false);
+          }
+      })
+    }, [isUserAnOrgAdmin]);
 
   const [orgs, setOrgs] = useState({});
   const [orgPics, setOrgPics] = useState([]);
@@ -201,6 +226,8 @@ export default function OrgPage() {
             </div>
 
             <div className="col-md-auto orgpage-options">
+            {isUserAnOrgAdmin ? 
+              <>
               <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
               <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleShow}> Edit Page </button>
               <Modal
@@ -218,6 +245,7 @@ export default function OrgPage() {
                   <EditOrgModal handleClose={handleClose} />
                 </Modal.Body>
               </Modal>
+              </> : <></> }
             </div>
           </div>
         </div>

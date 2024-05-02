@@ -133,7 +133,6 @@ export default function OrgPage() {
               <Modal
                 show={show}
                 onHide={handleClose}
-                backdrop="static"
                 keyboard={false}
                 size="lg"
               >
@@ -142,17 +141,9 @@ export default function OrgPage() {
                     Edit Page
                   </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{ paddingBottom: '50px' }}>
                   <EditOrgModal handleClose={handleClose} />
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleClose}>
-                    Save Changes
-                  </Button>
-                </Modal.Footer>
               </Modal>
 
             </div>

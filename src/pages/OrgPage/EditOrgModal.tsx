@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { editOrgDescription, editOrgPictures, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
+import { editOrgDescription, editOrgBio, editOrgAbout, editOrgPictures, fetchOrgData, updateAvailabilityOrg } from "../../components/FirebaseConnection";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { app } from '../../FirebaseConfig';
 import TagsInput from '../../components/TagsInput/TagsInput';
-import { Form } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function EditOrgModalContent({ handleClose }) {
   const params = useParams();
@@ -40,8 +40,6 @@ export default function EditOrgModalContent({ handleClose }) {
       })
     }, [isUserAnOrgAdmin]);
 
-  const [websiteName, setWebsiteName] = useState('');
-  const [facebookName, setFacebookName] = useState('');
   const [orgDesc, setOrgDesc] = useState("");
   const [orgBio, setOrgBio] = useState("");
 
@@ -63,6 +61,7 @@ export default function EditOrgModalContent({ handleClose }) {
       setAvailable(true);
       updateAvailabilityOrg(id, true)
     }
+    toast.success('Application details have been updated.')
   }
 
   useEffect(() => {
@@ -88,6 +87,17 @@ export default function EditOrgModalContent({ handleClose }) {
 
   function handleChangeDesc() {
     editOrgDescription(orgs.id, orgDesc);
+    toast.success('Org description has been updated.');
+  }
+
+  function handleChangeBio() {
+    editOrgBio(orgs.id, orgBio);
+    toast.success('Short bio has been updated.')
+  }
+
+  function handleChangeAbout() {
+    editOrgAbout(orgs.id, orgs.dateFounded, orgs.orgLocation, orgs.orgEmails, orgs.orgWebsite, orgs.orgFacebook, orgs.orgAffiliations);
+    toast.success('About info has been updated.')
   }
 
   function handleChangePics() {
@@ -120,6 +130,20 @@ export default function EditOrgModalContent({ handleClose }) {
 
   return (
     <div className="container-md">
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              border: '1px solid #005538',
+              color: '#005538',
+            },
+            iconTheme: {
+              primary: '#005538',
+              secondary: '#FFFAEE',
+            },
+          },
+        }}
+      />
 
         <div id="myCarousel" className="carousel slide mb-6 rounded-3 position-relative" data-bs-ride="carousel">
           <div className="carousel-inner carousel-edit rounded-3">
@@ -175,11 +199,16 @@ export default function EditOrgModalContent({ handleClose }) {
           </div>
         </div>
 
-        <div className="col-md px-4" style={{ marginTop: "-15px" }}>
+        <div className="d-flex justify-content-between align-items-center" style={{ marginTop: "-15px" }}>
+          <h5 className='mt-4'> Tags </h5>
+          <span className="save-changes-text" style={{ cursor: 'pointer', color: '#005538', textDecoration: 'underline', marginTop: '20px' }}
+          > Save Changes </span>
+        </div>
+        <div className="col-md px-4">
         <TagsInput selectedTags={selectedTags}  tags={orgs.orgTags}/>
         </div>
 
-        <h5 className='mt-4'> Application Status </h5>
+        <h5 className='mt-4'> Application Details </h5>
         <div className="col-md px-4">
           <div className="form-check form-switch">
             <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={available} onClick={() => setCheckAvailable(orgs.id)} />
@@ -187,7 +216,11 @@ export default function EditOrgModalContent({ handleClose }) {
           </div>
         </div>
         
-        <h5 className='mt-4'> About </h5>
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className='mt-4'> About </h5>
+          <span className="save-changes-text" style={{ cursor: 'pointer', color: '#005538', textDecoration: 'underline', marginTop: '20px' }}
+          onClick={handleChangeAbout}> Save Changes </span>
+        </div>
         <div className="col-md px-4">
           <div className="form-floating mb-2 mt-3">
             <input type="date" className="form-control" id="floatingDateFounded" value={orgs.dateFounded} onChange={(e) => setOrgs({ ...orgs, dateFounded: e.target.value })} />
@@ -216,7 +249,11 @@ export default function EditOrgModalContent({ handleClose }) {
         </div>
 
 
-        <h5 className='mt-4'> Description </h5>
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className='mt-4'> Description </h5>
+          <span className="save-changes-text" style={{ cursor: 'pointer', color: '#005538', textDecoration: 'underline', marginTop: '20px' }}
+          onClick={handleChangeDesc}> Save Changes </span>
+        </div>
         <div className="col-md px-4">
         <div className="form-group">
           <textarea className="form-control" 
@@ -227,7 +264,11 @@ export default function EditOrgModalContent({ handleClose }) {
         </div>
         </div>
 
-        <h5 className='mt-4'> Short Bio </h5>
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className='mt-4'> Short Bio </h5>
+          <span className="save-changes-text" style={{ cursor: 'pointer', color: '#005538', textDecoration: 'underline', marginTop: '20px' }}
+          onClick={handleChangeBio}> Save Changes </span>
+        </div>
         <div className="col-md px-4">
         <div className="form-group">
           <textarea className="form-control" 

@@ -178,6 +178,25 @@ export async function editOrgDescription(id: string, description: string) {
   // alert("Organization description has been updated");
 }
 
+export async function editOrgBio(id: string, bio: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgBio: bio });
+}
+
+export async function editOrgAbout(id: string, founded: Date, location: string, email: string, website: string, facebook: string, affiliations: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, {
+    dateFounded: founded,
+    orgLocation: location,
+    orgEmails: email,
+    orgWebsite: website,
+    orgFacebook: facebook,
+    orgAffiliations: affiliations
+  });
+}
+
 export async function editOrgDetailsAdmin(
   id: string,
   name: string,

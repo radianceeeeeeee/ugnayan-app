@@ -12,6 +12,9 @@ import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHan
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import EditOrgModal from './EditOrgModal';
+import { onSnapshot, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { app } from "../../FirebaseConfig";
 
 export default function OrgPage() {
   const params = useParams();
@@ -67,9 +70,57 @@ export default function OrgPage() {
       .catch(error => {
         console.error(error);
       });
-  }, [params.orgId]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
+
+      const orgsListener = onSnapshot(
+        collection(getFirestore(app), "organizations"),
+        (snapshot) => {
+          fetchOrgData()
+          .then(data => {
+            const newData = data.map(item => ({ ...item, starred: false }));
+            
+            // Find the organization with the same ID as params
+            const orgWithParamsId = newData.find(org => org.orgId === params.orgId);
+      
+            // Update state with the organization matching the ID
+            if (orgWithParamsId) {
+              setOrgs(orgWithParamsId);
+              if (orgWithParamsId.orgPictures && orgWithParamsId.orgPictures.length > 0) {
+                setOrgPic(orgWithParamsId.orgPictures[0]);
+              }
+            } else {
+              console.log("Organization not found with the given ID");
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        }
+      );
+        // Clean up listeners when component unmounts
+        return () => {
+          orgsListener();
+        };
+  }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
 
+  // useEffect(() => {
+    
+  //   const orgDetailsListener = onSnapshot(
+  //     collection(getFirestore(app), "organizations-test"),
+  //     (snapshot) => {
+  //       const newData = snapshot.docs.map((doc) => ({
+  //         orgName: doc.data().orgName,
+  //         orgEmail: doc.data().orgConnectedEmail,
+  //         id: doc.id,
+  //       }));
+  //       setOrgDetails(newData);
+  //     }
+  //   );
+  //     // Clean up listeners when component unmounts
+  //     return () => {
+  //       orgDetailsListener();
+  //     };
+  // }, []);
 
   return (
     <div> 

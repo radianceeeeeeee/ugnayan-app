@@ -32,9 +32,9 @@ export default function OrgPage() {
                   console.log(uid);
 
                   const db = getFirestore(app);
-                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                  getDoc(doc(db, "organizations-test", uid)).then(docSnap => {
                       if (docSnap.exists()) {
-                        setIsUserAnOrgAdmin(docSnap.data().role === "Org Admin");
+                        setIsUserAnOrgAdmin(true)//docSnap.data().role === "Org Admin");
                       }
                   });
               }

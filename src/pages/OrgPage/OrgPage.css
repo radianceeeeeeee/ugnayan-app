@@ -126,19 +126,23 @@
 .logo-img {
     margin-top: -60px;
     height: 250px;
+    width: 250px;
     border-radius: 500px;
     display: block;
     margin-left: 4rem;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.212);
+    object-fit: cover;
 }
 
 .edit-logo-img {
     margin-top: -60px;
     height: 150px;
+    height: 150px;
     border-radius: 500px;
     display: block;
     margin-left: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.212);
+    object-fit: cover;
 }
 
 .org-info {

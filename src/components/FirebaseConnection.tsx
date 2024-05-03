@@ -172,8 +172,6 @@ export async function editOrgDescription(id: string, description: string) {
   const db = getFirestore();
   const orgDoc = doc(db, "organizations", id);
   await updateDoc(orgDoc, { orgDescription: description });
-
-  // alert("Organization description has been updated");
 }
 
 export async function editOrgBio(id: string, bio: string) {
@@ -209,6 +207,25 @@ export async function editOrgAbout(
   });
 }
 
+export async function editOrgPictures(id: string, pic1: string, pic2: string, pic3: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgPictures: [pic1, pic2, pic3] });
+}
+
+export async function editOrgLogo(id: string, logo: string) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+  await updateDoc(orgDoc, { orgLogo: logo });
+}
+
+export async function updateAvailabilityOrg(id: string, open: boolean) {
+  const db = getFirestore();
+  const orgDoc = doc(db, "organizations", id);
+
+  await updateDoc(orgDoc, { openForApplications: open ? "Open" : "Closed" });
+}
+
 export async function editOrgDetailsAdmin(
   id: string,
   name: string,
@@ -241,28 +258,6 @@ export async function editNameAdmin(id: string, name: string) {
   const orgDoc = doc(db, "users", id);
   await updateDoc(orgDoc, { firstName: splitName[1] });
   await updateDoc(orgDoc, { lastName: splitName[0] });
-}
-
-export async function editOrgPictures(
-  id: string,
-  pic1: string,
-  pic2: string,
-  pic3: string
-) {
-  const db = getFirestore();
-  const orgDoc = doc(db, "organizations", id);
-  await updateDoc(orgDoc, { orgPictures: [pic1, pic2, pic3] });
-
-  // alert("Organization pictures has been updated");
-}
-
-export async function updateAvailabilityOrg(id: string, open: boolean) {
-  const db = getFirestore();
-  const orgDoc = doc(db, "organizations", id);
-
-  await updateDoc(orgDoc, { openForApplications: open ? "Open" : "N/A" });
-
-  // alert("Organization's availability for application has been updated");
 }
 
 export async function updateRoles(id: string, role: string) {

@@ -77,9 +77,9 @@ export const doCreateOrgWithEmailAndPassword = async (formData: any) => {
 export const doTestCreateOrgWithEmailAndPassword = async (formData: any) => {
     return createUserWithEmailAndPassword(auth, formData.orgConnectedEmail, formData.orgPassword).then(async (cred: any) =>  {
         const db = getFirestore(app);
-        const userRef = doc(db, "organizations", cred.user.uid);
+        const orgRef = doc(db, "organizations", cred.user.uid);
 
-        await setDoc(userRef, {
+        await setDoc(orgRef, {
                 orgConnectedEmail: formData.orgConnectedEmail,
                 orgId: formData.orgName.replace(/\s/g, '_'), // https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
                 orgLogo: formData.orgLogo,
@@ -101,5 +101,11 @@ export const doTestCreateOrgWithEmailAndPassword = async (formData: any) => {
                 orgScope: formData.orgScope,
                 openForApplications: formData.openForApplications,
             });
+
+        const userRef = doc(db, "organizations-test", cred.user.uid);
+        await setDoc(userRef, {
+            orgName: formData.orgName,
+            orgConnectedEmail: formData.orgConnectedEmail
+        });
     });
 }

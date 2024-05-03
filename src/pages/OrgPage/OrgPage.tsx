@@ -103,25 +103,6 @@ export default function OrgPage() {
   }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
 
-  // useEffect(() => {
-    
-  //   const orgDetailsListener = onSnapshot(
-  //     collection(getFirestore(app), "organizations-test"),
-  //     (snapshot) => {
-  //       const newData = snapshot.docs.map((doc) => ({
-  //         orgName: doc.data().orgName,
-  //         orgEmail: doc.data().orgConnectedEmail,
-  //         id: doc.id,
-  //       }));
-  //       setOrgDetails(newData);
-  //     }
-  //   );
-  //     // Clean up listeners when component unmounts
-  //     return () => {
-  //       orgDetailsListener();
-  //     };
-  // }, []);
-
   return (
     <div> 
       <Navbar currentPage={"dashboard"}/>

@@ -11,6 +11,7 @@ import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHan
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import EditOrgModal from './EditOrgModal';
+import OrgApplicationModal from './OrgApplicationModal';
 import { onSnapshot, collection } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
@@ -46,10 +47,14 @@ export default function OrgPage() {
 
   const [orgs, setOrgs] = useState({});
   const [orgPics, setOrgPics] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showEditPage, setshowEditPage] = useState(false);
+  const [showApplication, setshowApplication] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true)
+  const handleCloseEditPage = () => setshowEditPage(false);
+  const handleshowEditPage = () => setshowEditPage(true)
+
+  const handleCloseApplication = () => setshowApplication(false);
+  const handleshowApplication = () => setshowApplication(true)
 
   const orgLogo = orgs.orgLogo + ".jpg";
   const orgTags = orgs.orgTags;
@@ -210,10 +215,10 @@ export default function OrgPage() {
             {isUserAnOrgAdmin ? 
               <>
               <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
-              <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleShow}> Edit Page </button>
+              <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleshowEditPage}> Edit Page </button>
               <Modal
-                show={show}
-                onHide={handleClose}
+                show={showEditPage}
+                onHide={handleCloseEditPage}
                 keyboard={false}
                 size="lg"
               >
@@ -223,7 +228,7 @@ export default function OrgPage() {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ paddingBottom: '50px' }}>
-                  <EditOrgModal handleClose={handleClose} />
+                  <EditOrgModal handleCloseEditPage={handleCloseEditPage} />
                 </Modal.Body>
               </Modal>
               </> : <></> }
@@ -275,7 +280,8 @@ export default function OrgPage() {
               <div className="card-body">
                 <p className="card-text"> You are not affiliated with this org. </p>
                 {orgs.openForApplications === "Open" ? (
-                  <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
+                  <button type="button" className="btn btn-primary col-12 apply-button" onClick={handleshowApplication}> Apply Now </button>
+                  // <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
                 ) : (
                   <button className="btn btn-secondary col-12 apply-button" disabled> Applications Closed </button>
                 )}
@@ -284,6 +290,22 @@ export default function OrgPage() {
               </div>
             </div>
           </div>
+
+          <Modal
+                show={showApplication}
+                onHide={handleCloseApplication}
+                keyboard={false}
+                centered
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>
+                    Application Form
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ paddingBottom: '50px' }}>
+                  <OrgApplicationModal org={orgs} handleCloseApplication={handleCloseApplication}/>
+                </Modal.Body>
+              </Modal>
 
           <div className="col-md-7">
             <div className="card org-desc">

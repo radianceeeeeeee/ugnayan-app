@@ -187,3 +187,43 @@
 .dark-overlay {
     background-color: rgba(0, 0, 0, 0.2);
 }    
+
+.application-text {
+    margin-left: 18px;
+    margin-right: 18px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.btn-accept {
+    margin-top: 40px;
+    margin-left: 13%;
+    margin-right: 10%;
+    background-color: #005539;
+    color: white;
+    padding: 8px 50px;
+}
+
+.btn-reject {
+    margin-top: 40px;
+    background-color: #D9D9D9;
+    padding: 8px 50px;
+}
+
+.btn-answered {
+    margin-top: 40px;
+    margin-left: 20%;
+    margin-right: 10%;
+    background-color: #005539;
+    color: white;
+    padding: 8px 50px;
+}
+
+.btn-back-to-org {
+    margin-top: 40px;
+    margin-left: 26%;
+    margin-right: 10%;
+    background-color: #005539;
+    color: white;
+    padding: 8px 50px;
+}

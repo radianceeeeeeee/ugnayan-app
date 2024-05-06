@@ -227,3 +227,9 @@
     color: white;
     padding: 8px 50px;
 }
+
+.checkmark {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

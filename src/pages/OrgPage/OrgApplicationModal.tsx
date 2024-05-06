@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import checkmark from './checkmark.png';
 
 export default function OrgApplicationModal({ org, handleCloseApplication }) {
 
@@ -58,9 +59,11 @@ const handlecloseAppConfirmation = () => handleCloseApplication();
           <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <img className='checkmark' src={checkmark} />
+            <br></br>
             <div className='application-text'> 
                 We’ve let {org.orgAcronym} know you want to apply!
-                Please wait till after October 12, 2023 for them to confirm your application.
+                Please wait till after October 12, 2024 for them to confirm your application.
             </div>
             <button type="button" className="btn btn-back-to-org" onClick={handlecloseAppConfirmation}>Back to Org Page.</button>
         </Modal.Body>

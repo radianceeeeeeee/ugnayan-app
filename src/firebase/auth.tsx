@@ -102,7 +102,7 @@ export const doTestCreateOrgWithEmailAndPassword = async (formData: any) => {
                 openForApplications: formData.openForApplications,
             });
 
-        const userRef = doc(db, "organizations-test", cred.user.uid);
+        const userRef = doc(db, "organization-admins", cred.user.uid);
         await setDoc(userRef, {
             orgName: formData.orgName,
             orgConnectedEmail: formData.orgConnectedEmail

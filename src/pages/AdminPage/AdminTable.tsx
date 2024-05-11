@@ -178,7 +178,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
     );
 
     const orgDetailsListener = onSnapshot(
-      collection(getFirestore(app), "organizations-test"),
+      collection(getFirestore(app), "organization-admins"),
       (snapshot) => {
         const newData = snapshot.docs.map((doc) => ({
           orgName: doc.data().orgName,

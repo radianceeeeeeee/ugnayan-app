@@ -33,9 +33,14 @@ export default function OrgPage() {
                   console.log(uid);
 
                   const db = getFirestore(app);
-                  getDoc(doc(db, "organizations-test", uid)).then(docSnap => {
+                  getDoc(doc(db, "organization-admins", uid)).then(docSnap => {
                       if (docSnap.exists()) {
-                        setIsUserAnOrgAdmin(true)//docSnap.data().role === "Org Admin");
+                        //console.log(`orgName: ${docSnap.data().orgName}`)
+                        //console.log(`paramsId: ${params.orgId}`)
+                        //console.log(`paramsId w/ spaces: ${params.orgId.replace(/\_/g, ' ')}`)
+                        if (docSnap.data().orgName === params.orgId.replace(/\_/g, ' ')) { 
+                          setIsUserAnOrgAdmin(true);
+                        }
                       }
                   });
               }

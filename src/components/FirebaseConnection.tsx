@@ -296,3 +296,16 @@ export async function deleteUserBookmark(userId: string, orgId: string) {
   await updateDoc(userDoc, { [`orgBookmarks.${orgId}`]: false });
   alert("User bookmarks has been updated");
 }
+
+export async function addUserApplication(userId: string, orgId: string) {
+  const db = getFirestore(); 
+
+  const userDoc = doc(db, "users", userId);
+
+  await setDoc(userDoc, { [`orgsApplied.${orgId}`]: true });
+
+  const orgDoc = doc(db, "organizations", orgId);
+  await setDoc(orgDoc, { [`appliedUsers.${userId}`]: true });
+
+  alert("User application has been processed");
+}

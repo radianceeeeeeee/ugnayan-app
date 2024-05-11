@@ -21,6 +21,8 @@ export default function OrgPage() {
   const params = useParams();
 
   const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
+  const [isUserAGuest, setIsUserAGuest] = useState(true);
+
   useEffect(() => {
       const auth = getAuth();
 
@@ -278,22 +280,33 @@ export default function OrgPage() {
               </ul>
             </div>
 
-            <div className="card text-center mt-3">
-              <div className="card-header right-card-header">
-                Your Member Status
+            {isUserAGuest ? 
+              <div className="card text-center mt-3">
+                <div className="card-header right-card-header">
+                  Your Member Status
+                </div>
+                <div className="card-body">
+                  <p className="card-text"> Sign up to apply to this organization. </p>
+                </div>
               </div>
-              <div className="card-body">
-                <p className="card-text"> You are not affiliated with this org. </p>
-                {orgs.openForApplications === "Open" ? (
-                  <button type="button" className="btn btn-primary col-12 apply-button" onClick={handleshowApplication}> Apply Now </button>
-                  // <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
-                ) : (
-                  <button className="btn btn-secondary col-12 apply-button" disabled> Applications Closed </button>
-                )}
-                <p className="card-text"><small className="text-muted"> 
-                  {orgs.openForApplications} until Month dd, yyyy </small></p>
+            :
+              <div className="card text-center mt-3">
+                <div className="card-header right-card-header">
+                  Your Member Status
+                </div>
+                <div className="card-body">
+                  <p className="card-text"> You are not affiliated with this org. </p>
+                  {orgs.openForApplications === "Open" ? (
+                    <button type="button" className="btn btn-primary col-12 apply-button" onClick={handleshowApplication}> Apply Now </button>
+                    // <a href="#" className="btn btn-primary col-12 apply-button"> Apply Now </a>
+                  ) : (
+                    <button className="btn btn-secondary col-12 apply-button" disabled> Applications Closed </button>
+                  )}
+                  <p className="card-text"><small className="text-muted"> 
+                    {orgs.openForApplications} until Month dd, yyyy </small></p>
+                </div>
               </div>
-            </div>
+            }
           </div>
 
           <Modal

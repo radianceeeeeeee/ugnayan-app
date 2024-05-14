@@ -10,6 +10,7 @@ import OrgPage from './pages/OrgPage/OrgPage';
 import EditOrgPage from './pages/OrgPage/EditOrgPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
 import AdminPage from './pages/AdminPage/AdminPage';
+import ManageMembers from './pages/OrgPage/ManageMembers';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/:orgId",
     element: <OrgPage />,
+  },
+  {
+    path: "/dashboard/:orgId/manageMembers/:view",
+    element: <ManageMembers />,
   },
   {
     path: "/signup",

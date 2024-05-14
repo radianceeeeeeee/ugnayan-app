@@ -58,8 +58,7 @@ export default function OrgPage() {
   const [showApplication, setshowApplication] = useState(false);
 
   const handleCloseEditPage = () => setshowEditPage(false);
-  const handleshowEditPage = () => setshowEditPage(true)
-
+  const handleshowEditPage = () => setshowEditPage(true)  
   const handleCloseApplication = () => setshowApplication(false);
   const handleshowApplication = () => setshowApplication(true)
 
@@ -139,6 +138,7 @@ export default function OrgPage() {
         };
   }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
+  console.log(orgs);
 
   return (
     <div> 
@@ -221,7 +221,11 @@ export default function OrgPage() {
             <div className="col-md-auto orgpage-options">
             {isUserAnOrgAdmin ? 
               <>
+               <Link to={`/dashboard/${orgs.orgId}/manageMembers/Aspiring_Applicants`}>
               <button type="button" className="btn btn-outline-dark org-options-button"> Manage Members </button>
+              </Link>
+
+
               <button type="button" className="btn btn-outline-dark org-options-button" onClick={handleshowEditPage}> Edit Page </button>
               <Modal
                 show={showEditPage}

@@ -5,6 +5,9 @@ import {
   addOrgData,
   editOrgDescription,
   updateRoles,
+  fetchOrgMembers,
+  fetchOrgApplicants,
+  fetchOrgAspiringApplicants,
 } from "../../components/FirebaseConnection";
 import Navbar from "../../components/Navbar/Navbar";
 import "./ManageMembers.css";
@@ -25,6 +28,9 @@ export default function ManageMembers() {
     "Official Members",
   ];
   const [org, setOrg] = useState({});
+  const [apps, setApps] = useState([]);
+  const [aspiringApps, setAspiringApps] = useState([]);
+  const [members, setMembers] = useState([]);
 
   const params = useParams();
 
@@ -32,7 +38,7 @@ export default function ManageMembers() {
     setOrg({}); // Clear existing data before fetching new data
     fetchOrgData()
       .then((data) => {
-        const newData = data.map((item) => ({ ...item, starred: false }));
+        const newData = data.map((item) => ({ ...item, starred: false, id: item.id }));
 
         // Find the organization with the same ID as params
         const orgWithParamsId = newData.find(
@@ -42,6 +48,18 @@ export default function ManageMembers() {
         // Update state with the organization matching the ID
         if (orgWithParamsId) {
           setOrg(orgWithParamsId);
+          fetchOrgMembers(orgWithParamsId.id).then((mems) => {
+            setMembers(mems);
+            console.log(`mems: ${mems}`)
+          });
+          fetchOrgApplicants(orgWithParamsId.id).then((applicants) => {
+            setApps(applicants);
+            console.log(`apps: ${applicants}`)
+          });
+          fetchOrgAspiringApplicants(orgWithParamsId.id).then((aspiringApplicants) => {
+            setAspiringApps(aspiringApplicants);
+            console.log(`app*: ${aspiringApplicants}`)
+          });
         } else {
           console.log("Organization not found with the given ID");
         }

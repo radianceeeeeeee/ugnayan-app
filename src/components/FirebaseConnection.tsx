@@ -309,3 +309,60 @@ export async function addUserApplication(userId: string, orgId: string) {
 
   alert("User application has been processed");
 }
+
+export async function fetchOrgMembers(orgId: string) {
+  try {
+    const db = getFirestore();
+    const docRef = doc(db, "organizations", orgId);
+    const users: any[] = [];
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      users.push(...data.members);
+    }
+
+    return users;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+export async function fetchOrgApplicants(orgId: string) {
+  try {
+    const db = getFirestore();
+    const docRef = doc(db, "organizations", orgId);
+    const users: any[] = [];
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      users.push(...data.applicants);
+    }
+
+    return users;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+export async function fetchOrgAspiringApplicants(orgId: string) {
+  try {
+    const db = getFirestore();
+    const docRef = doc(db, "organizations", orgId);
+    const users: any[] = [];
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      users.push(...data.aspiringApplicants);
+    }
+
+    return users;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}

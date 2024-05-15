@@ -45,8 +45,18 @@ export default function LogInPage() {
       return;
     }
 
-    await doSignInWithEmailAndPassword(formData);
-    window.location.href = "/dashboard";
+    try {
+      await doSignInWithEmailAndPassword(formData);
+
+      window.location.href = "/dashboard";
+    } catch (e) {
+      //alert(e.code)
+      if (e.code === "auth/invalid-credential") {
+        alert("Wrong password or username");
+      } else if (e.code === "auth/too-many-requests") {
+        alert("Too many requests. Please try again later");
+      }
+    }    
   };
 
   const handleGuest = async (event: any) => {

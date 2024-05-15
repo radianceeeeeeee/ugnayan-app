@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { doTestCreateOrgWithEmailAndPassword } from "../../firebase/auth";
+import { doCreateOrgWithEmailAndPassword } from "../../firebase/auth";
 import "./AdminModalAdd.css"
 
 const AdminModalAdd = () => {
@@ -70,7 +70,7 @@ const AdminModalAdd = () => {
       form.classList.add("was-validated");
       return;
     }
-    await doTestCreateOrgWithEmailAndPassword(formData);
+    await doCreateOrgWithEmailAndPassword(formData);
     alert("Organization is now authenticated");
   }
 

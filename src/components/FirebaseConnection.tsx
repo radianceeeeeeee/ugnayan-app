@@ -314,7 +314,38 @@ export async function fetchOrgMembers(orgId: string) {
   try {
     const db = getFirestore();
     const docRef = doc(db, "organizations", orgId);
-    const users: any[] = [];
+    const users: string[] = [];
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      users.push(...data.members);
+    }
+
+    const usersObj: any[] = [];
+
+    for (let i = 0; i < users.length; i++) {
+      const uid = users[i];
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        usersObj.push(userSnap.data())
+      }
+    }
+    
+    return usersObj;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+/*export async function fetchOrgMembers(orgId: string) {
+  try {
+    const db = getFirestore();
+    const docRef = doc(db, "organizations", orgId);
+    const users: string[] = [];
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -327,7 +358,7 @@ export async function fetchOrgMembers(orgId: string) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
   }
-}
+}*/
 
 export async function fetchOrgApplicants(orgId: string) {
   try {
@@ -341,7 +372,19 @@ export async function fetchOrgApplicants(orgId: string) {
       users.push(...data.applicants);
     }
 
-    return users;
+    const usersObj: any[] = [];
+
+    for (let i = 0; i < users.length; i++) {
+      const uid = users[i];
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        usersObj.push(userSnap.data())
+      }
+    }
+    
+    return usersObj;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -360,7 +403,38 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
       users.push(...data.aspiringApplicants);
     }
 
-    return users;
+    const usersObj: any[] = [];
+
+    for (let i = 0; i < users.length; i++) {
+      const uid = users[i];
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        usersObj.push(userSnap.data())
+      }
+    }
+    
+    return usersObj;
+  } catch (err) {
+    console.error(err.message);
+    throw err; // Rethrow the error to be handled elsewhere if needed
+  }
+}
+
+export async function fetchUser(userId: string) {
+  try {
+    const db = getFirestore();
+    const docRef = doc(db, "organizations", userId);
+    const data: any[] = [];
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      data.push(...data.aspiringApplicants);
+    }
+
+    return data;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed

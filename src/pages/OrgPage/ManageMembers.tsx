@@ -49,16 +49,16 @@ export default function ManageMembers() {
         if (orgWithParamsId) {
           setOrg(orgWithParamsId);
           fetchOrgMembers(orgWithParamsId.id).then((mems) => {
+            mems.forEach((user) => console.log(`member: ${user}`))
             setMembers(mems);
-            console.log(`mems: ${mems}`)
           });
           fetchOrgApplicants(orgWithParamsId.id).then((applicants) => {
+            applicants.forEach((user) => console.log(`app: ${user}`))
             setApps(applicants);
-            console.log(`apps: ${applicants}`)
           });
           fetchOrgAspiringApplicants(orgWithParamsId.id).then((aspiringApplicants) => {
+            aspiringApplicants.forEach((user) => console.log(`aspiring: ${user}`))
             setAspiringApps(aspiringApplicants);
-            console.log(`app*: ${aspiringApplicants}`)
           });
         } else {
           console.log("Organization not found with the given ID");

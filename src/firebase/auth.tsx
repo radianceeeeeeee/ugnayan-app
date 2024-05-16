@@ -16,7 +16,10 @@ export const doCreateUserWithEmailAndPassword = async (formData: any) => {
                 studentId: formData.studentNo,
                 role: "User",
                 course: formData.course,
-                email: formData.email
+                email: formData.email,
+                appliedOrgs: [],
+                aspiringAppliedOrgs: [],
+                memberOrgs: [],
             });
     });
 };

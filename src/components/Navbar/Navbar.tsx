@@ -74,8 +74,6 @@ function DisplayLink({ currentPage }) {
                   getDoc(doc(db, "organizations", uid)).then(docSnap => {
                     if (docSnap.exists()) {
                         setName(`${docSnap.data().orgName}`)
-                        setFirstName(`${docSnap.data().orgName}`)
-                        setLastName("")
                         setRole("Org Admin")
                     }
                 });

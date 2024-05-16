@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import checkmark from './checkmark.png';
+import { updateUserAspiringApplication } from '../../components/FirebaseConnection';
 
-export default function OrgApplicationModal({ org, handleCloseApplication }) {
+export default function OrgApplicationModal({ org, handleCloseApplication, orgId, uid }) {
 
 
 const [showAppForm, setShowAppForm] = useState(false);
@@ -18,7 +19,10 @@ const handleshowAppConfirmation = () => {
 }
 
 const handlecloseAppForm = () => setShowAppForm(false);
-const handlecloseAppConfirmation = () => handleCloseApplication();
+const handlecloseAppConfirmation = () => {
+  updateUserAspiringApplication(uid, orgId);
+    handleCloseApplication();
+}
 
   return (
     <>

@@ -16,7 +16,11 @@ export const doCreateUserWithEmailAndPassword = async (formData: any) => {
                 studentId: formData.studentNo,
                 role: "User",
                 course: formData.course,
-                email: formData.email
+                email: formData.email,
+                appliedOrgs: {},
+                aspiringAppliedOrgs: {},
+                memberOrgs: {},
+                orgBookmarks: {},
             });
     });
 };
@@ -73,6 +77,9 @@ export const doCreateOrgWithEmailAndPassword = async (formData: any) => {
                 orgDescription: formData.orgDescription,
                 orgScope: formData.orgScope,
                 openForApplications: formData.openForApplications,
+                members: {},
+                applicants: {},
+                aspiringApplicants: {},
             });
 
         const userRef = doc(db, "organization-admins", cred.user.uid);

@@ -101,6 +101,7 @@ export default function OrgPage() {
 
           fetchUserAspiringApplication(uid, orgWithParamsId.id).then((app) => {
             setHasUserApplied(app);
+            console.log("APPLIED")
           });
         
           if (orgWithParamsId.orgPictures && orgWithParamsId.orgPictures.length > 0) {
@@ -157,9 +158,10 @@ export default function OrgPage() {
           orgsListener();
           usersListener();
         };
-  }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
+  }, [hasUserApplied]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
   console.log(orgs);
+  console.log(hasUserApplied)
 
   return (
     <div> 
@@ -352,7 +354,7 @@ export default function OrgPage() {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ paddingBottom: '50px' }}>
-                  <OrgApplicationModal org={orgs} handleCloseApplication={handleCloseApplication} orgId={orgId} uid={uid}/>
+                  <OrgApplicationModal org={orgs} setHasUserApplied={setHasUserApplied} handleCloseApplication={handleCloseApplication} orgId={orgId} uid={uid}/>
                 </Modal.Body>
               </Modal>
 

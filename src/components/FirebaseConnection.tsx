@@ -314,15 +314,33 @@ export async function fetchOrgMembers(orgId: string) {
   try {
     const db = getFirestore();
     const docRef = doc(db, "organizations", orgId);
-    const users: any[] = [];
+    let fetchData: any;
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const data = docSnap.data();
-      users.push(...data.members);
+      const data = docSnap.data();  
+      fetchData = data.members;
     }
+    console.log(fetchData);
+    
+    const users = Object.keys(fetchData);
+    const userBool = Object.values(fetchData);
+    const userDocRef: any[] = users.map((userId) => doc(db, "users", userId));
+    const members: any[] = [];
+    let i = 0;
+    for (const ref of userDocRef){
+      const userDocSnap = await getDoc(ref);
 
-    return users;
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        userData.orgStatus = userBool[i];
+        members.push(userData);
+      }
+      i = i + 1;
+    }
+    console.log(members);
+
+    return members;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -333,15 +351,33 @@ export async function fetchOrgApplicants(orgId: string) {
   try {
     const db = getFirestore();
     const docRef = doc(db, "organizations", orgId);
-    const users: any[] = [];
+    let fetchData: any;
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const data = docSnap.data();
-      users.push(...data.applicants);
+      const data = docSnap.data();  
+      fetchData = data.applicants;
     }
+    console.log(fetchData);
+    
+    const users = Object.keys(fetchData);
+    const userBool = Object.values(fetchData);
+    const userDocRef: any[] = users.map((userId) => doc(db, "users", userId));
+    const applicants: any[] = [];
+    let i = 0;
+    for (const ref of userDocRef){
+      const userDocSnap = await getDoc(ref);
 
-    return users;
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        userData.orgStatus = userBool[i];
+        applicants.push(userData);
+      }
+      i = i + 1;
+    }
+    console.log(applicants);
+
+    return applicants;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -352,15 +388,33 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
   try {
     const db = getFirestore();
     const docRef = doc(db, "organizations", orgId);
-    const users: any[] = [];
+    let fetchData: any;
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const data = docSnap.data();
-      users.push(...data.aspiringApplicants);
+      const data = docSnap.data();  
+      fetchData = data.aspiringApplicants;
     }
+    console.log(fetchData);
+    
+    const users = Object.keys(fetchData);
+    const userBool = Object.values(fetchData);
+    const userDocRef: any[] = users.map((userId) => doc(db, "users", userId));
+    const aspiringApplicants: any[] = [];
+    let i = 0;
+    for (const ref of userDocRef){
+      const userDocSnap = await getDoc(ref);
 
-    return users;
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        userData.orgStatus = userBool[i];
+        aspiringApplicants.push(userData);
+      }
+      i = i + 1;
+    }
+    console.log(aspiringApplicants);
+
+    return aspiringApplicants;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed

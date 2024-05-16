@@ -32,22 +32,6 @@ export default function OrgPage() {
       onAuthStateChanged(auth, (user) => {
           if (user) {
               if (auth.currentUser?.isAnonymous) {
-                  setIsUserAGuest(true);
-              } else {
-                setIsUserAGuest(false);
-              }
-          } else {
-            setIsUserAGuest(true);
-          }
-      })
-    }, [isUserAGuest]);
-
-  useEffect(() => {
-      const auth = getAuth();
-
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-              if (auth.currentUser?.isAnonymous) {
                   setIsUserAnOrgAdmin(false);
               } else {
                   const uid = user.uid;

@@ -504,3 +504,73 @@ export async function fetchUserAspiringApplication(userId: string, orgId: string
   }
   return false;
 }
+
+export async function promoteAspiringToMember(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isAnApplicant = false;
+    if (docSnap.data().aspiringAppliedOrgs[orgId]) {
+      isAnApplicant = true;
+    }
+
+    if (isAnApplicant) {
+      await updateDoc(userDoc, { [`aspiringAppliedOrgs.${orgId}`]: false });
+      await updateDoc(userDoc, { [`memberOrgs.${orgId}`]: true });
+    }
+  }
+  
+  const orgDoc = doc(db, "organizations", orgId);
+  const orgSnap = await getDoc(orgDoc);
+
+  if (orgSnap.exists()) {
+    let isAnApplicant = false;
+    if (orgSnap.data().aspiringApplicants[userId]) {
+      isAnApplicant = true;
+    }
+
+    if (isAnApplicant) {
+      await updateDoc(orgDoc, { [`aspiringApplicants.${userId}`]: false });
+      await updateDoc(orgDoc, { [`members.${userId}`]: true });
+    }
+  }
+
+  alert("User is now a member");
+}
+
+export async function promoteApplicantToMember(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isAnApplicant = false;
+    if (docSnap.data().appliedOrgs[orgId]) {
+      isAnApplicant = true;
+    }
+
+    if (isAnApplicant) {
+      await updateDoc(userDoc, { [`appliedOrgs.${orgId}`]: false });
+      await updateDoc(userDoc, { [`memberOrgs.${orgId}`]: true });
+    }
+  }
+  
+  const orgDoc = doc(db, "organizations", orgId);
+  const orgSnap = await getDoc(orgDoc);
+
+  if (orgSnap.exists()) {
+    let isAnApplicant = false;
+    if (orgSnap.data().applicants[userId]) {
+      isAnApplicant = true;
+    }
+
+    if (isAnApplicant) {
+      await updateDoc(orgDoc, { [`applicants.${userId}`]: false });
+      await updateDoc(orgDoc, { [`members.${userId}`]: true });
+    }
+  }
+
+  alert("User is now a member");
+}

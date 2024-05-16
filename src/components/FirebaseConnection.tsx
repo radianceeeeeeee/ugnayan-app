@@ -377,7 +377,7 @@ export async function fetchOrgApplicants(orgId: string) {
     }
     console.log(applicants);
 
-    return users;
+    return applicants;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
@@ -414,7 +414,7 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
     }
     console.log(aspiringApplicants);
 
-    return users;
+    return aspiringApplicants;
   } catch (err) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed

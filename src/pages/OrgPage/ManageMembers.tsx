@@ -49,16 +49,16 @@ export default function ManageMembers() {
         if (orgWithParamsId) {
           setOrg(orgWithParamsId);
           fetchOrgMembers(orgWithParamsId.id).then((mems) => {
-            mems.forEach((user) => console.log(`member: ${user}`))
             setMembers(mems);
+            console.log(`mems: ${mems}`)
           });
           fetchOrgApplicants(orgWithParamsId.id).then((applicants) => {
-            applicants.forEach((user) => console.log(`app: ${user}`))
             setApps(applicants);
+            console.log(`apps: ${applicants}`)
           });
           fetchOrgAspiringApplicants(orgWithParamsId.id).then((aspiringApplicants) => {
-            aspiringApplicants.forEach((user) => console.log(`aspiring: ${user}`))
             setAspiringApps(aspiringApplicants);
+            console.log(`app*: ${aspiringApplicants}`)
           });
         } else {
           console.log("Organization not found with the given ID");
@@ -69,9 +69,11 @@ export default function ManageMembers() {
       });
   }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
+
+  console.log(aspiringApps);
   return (
     <div>
-      <Navbar currentPage={"dashboard"}></Navbar>
+       <Navbar currentPage={"dashboard"}></Navbar>
       <ManageMembersHeader orgId={org.orgId} orgName={org.orgName} />
       <div className="container">
         <div className="row justify-content-between align-items-end">
@@ -115,7 +117,7 @@ export default function ManageMembers() {
         <div className="row">
           <div className="col table-container">
             <div className="container ">
-              <div className="row row-col-5 manage-table-row manage-row-header ">
+              <div className="row row-col-4 manage-table-row manage-row-header ">
                 <div className="col-md-3 manage-row-start manage-row-start-header">
                   Name
                   <button className="a-toggle-button">
@@ -123,28 +125,21 @@ export default function ManageMembers() {
                   </button>
                 </div>
                 <div className="col-auto manage-row-mid ">Email Address</div>
-                <div className="col-auto manage-row-mid ">
-                  {params.view === "Official_Members" ? "Member" : "Interested"}{" "}
-                  Since
-                  <button className="a-toggle-button">
-                    <UpIcon />
-                  </button>
-                </div>
                 <div className="col-auto manage-row-mid ">Student Number</div>
 
                 <div className="col-3 manage-row-end "></div>
               </div>
-
-              <div className="row row-col-3 manage-table-row ">
+              {params.view === "Aspiring_Applicants" && aspiringApps.map((applicant) => (
+                <div className="row row-col-3 manage-table-row ">
                 <div className="col-md-3 manage-row-start ">
                   <input type="checkbox" />
-                  <div className="manage-table-name">testName</div>
+                  <div className="manage-table-name">{`${applicant.lastName}, ${applicant.firstName}`}</div>
                 </div>
                 <div className="col-auto manage-row-mid manage-row-mid-body">
-                  testAddress
+                {`${applicant.email}`}
                 </div>
-                <div className="col-auto manage-row-mid ">testDate</div>
-                <div className="col-auto manage-row-mid ">testStudentNo</div>
+                
+                <div className="col-auto manage-row-mid ">{`${applicant.studentId}`}</div>
                 <div className="col-3 manage-row-end">
                   <button className="a-toggle-button">
                     <BinIcon />
@@ -152,6 +147,46 @@ export default function ManageMembers() {
                   <button className="manage-row-end-button">CONFIRM</button>
                 </div>
               </div>
+              ))}
+              {params.view === "Official_Applicants" && apps.map((applicant) => (
+                <div className="row row-col-3 manage-table-row ">
+                <div className="col-md-3 manage-row-start ">
+                  <input type="checkbox" />
+                  <div className="manage-table-name">{`${applicant.lastName}, ${applicant.firstName}`}</div>
+                </div>
+                <div className="col-auto manage-row-mid manage-row-mid-body">
+                {`${applicant.email}`}
+                </div>
+                
+                <div className="col-auto manage-row-mid ">{`${applicant.studentId}`}</div>
+                <div className="col-3 manage-row-end">
+                  <button className="a-toggle-button">
+                    <BinIcon />
+                  </button>
+                  <button className="manage-row-end-button">ACCEPT</button>
+                </div>
+              </div>
+              ))}
+              {params.view === "Official_Members" && members.map((member) => (
+                <div className="row row-col-3 manage-table-row ">
+                <div className="col-md-3 manage-row-start ">
+                  <input type="checkbox" />
+                  <div className="manage-table-name">{`${member.lastName}, ${member.firstName}`}</div>
+                </div>
+                <div className="col-auto manage-row-mid manage-row-mid-body">
+                {`${member.email}`}
+                </div>
+                
+                <div className="col-auto manage-row-mid ">{`${member.studentId}`}</div>
+                <div className="col-3 manage-row-end">
+                  <button className="a-toggle-button">
+                    <BinIcon />
+                  </button>
+                  <button className="manage-row-end-button" style={{ backgroundColor: '#8d021f'}}>KICK</button>
+                </div>
+              </div>
+              ))}
+              
             </div>
           </div>
         </div>

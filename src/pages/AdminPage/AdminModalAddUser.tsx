@@ -62,6 +62,22 @@ const AdminModalAdd = () => {
     openForApplications: false,
   });
 
+  // --------- promises for checking edit success --------------
+
+  function createOrgWithPromise(formData) {
+    return new Promise((resolve, reject) => {
+      doTestCreateOrgWithEmailAndPassword(formData)
+        .then(() => {
+          resolve('Organization is now authenticated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  // --------- functions for saving changes to database --------------
+
   async function handleSubmit(e: any) {
     e.preventDefault();
     const form = e.target;
@@ -70,8 +86,14 @@ const AdminModalAdd = () => {
       form.classList.add("was-validated");
       return;
     }
-    await doTestCreateOrgWithEmailAndPassword(formData);
-    alert("Organization is now authenticated");
+    
+    createOrgWithPromise(formData)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to authenticate organization: ' + error.message);
+      });
   }
 
   const handleChange = (event: any) => {

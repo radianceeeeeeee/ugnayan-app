@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { doCreateOrgWithEmailAndPassword } from "../../firebase/auth";
+import toast, { Toaster } from 'react-hot-toast';
 import "./AdminModalAdd.css"
 
 const AdminModalAdd = () => {
@@ -62,6 +63,22 @@ const AdminModalAdd = () => {
     openForApplications: false,
   });
 
+  // --------- promises for checking edit success --------------
+
+  function createOrgWithPromise(formData) {
+    return new Promise((resolve, reject) => {
+      doCreateOrgWithEmailAndPassword(formData)
+        .then(() => {
+          resolve('Organization is now authenticated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  // --------- functions for saving changes to database --------------
+
   async function handleSubmit(e: any) {
     e.preventDefault();
     const form = e.target;
@@ -70,8 +87,14 @@ const AdminModalAdd = () => {
       form.classList.add("was-validated");
       return;
     }
-    await doCreateOrgWithEmailAndPassword(formData);
-    alert("Organization is now authenticated");
+
+    createOrgWithPromise(formData)
+      .then(message => {
+        toast.success(message);
+      })
+      .catch(error => {
+        toast.error('Failed to authenticate organization: ' + error.message);
+      });
   }
 
   const handleChange = (event: any) => {
@@ -86,9 +109,26 @@ const AdminModalAdd = () => {
     });
   };
 
+  // -----------------------
+
   return (
     <>
       <div className="modal-body">
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                border: '1px solid #005538',
+                color: '#005538',
+              },
+              iconTheme: {
+                primary: '#005538',
+                secondary: '#FFFAEE',
+              },
+            },
+          }}
+        />
+
         <Form onSubmit={handleSubmit} id="org-form">
           <div className="add-modal-body">
             <div>

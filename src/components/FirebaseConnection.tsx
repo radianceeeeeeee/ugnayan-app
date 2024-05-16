@@ -165,7 +165,7 @@ export async function deleteOrg(
     orgDescription: orgDescription,
   });
 
-  // alert("Organization has been archived");
+  // alert("Organization has been archived"); TOAST DONE
 }
 
 export async function editOrgDescription(id: string, description: string) {
@@ -236,7 +236,7 @@ export async function editOrgDetailsAdmin(
   await updateDoc(orgDoc, { orgName: name });
   await updateDoc(orgDoc, { orgDescription: description });
 
-  // alert("Organization description has been updated");
+  // alert("Organization description has been updated"); TOAST DONE
 }
 
 export async function editOrgAdminDetailsAdmin(
@@ -249,7 +249,7 @@ export async function editOrgAdminDetailsAdmin(
   await updateDoc(orgDoc, { orgName: name });
   await updateDoc(orgDoc, { orgConnectedEmail: email });
 
-  // alert("Organization description has been updated");
+  // alert("Organization description has been updated"); TOAST DONE
 }
 
 export async function editNameAdmin(id: string, name: string) {
@@ -266,7 +266,7 @@ export async function updateRoles(id: string, role: string) {
 
   await updateDoc(userDoc, { role: role });
 
-  // alert("User role has been updated");
+  // alert("User role has been updated"); TOAST DONE
 }
 
 // allows re-setting to true and creating to a new one: https://stackoverflow.com/questions/71769424/how-to-create-a-document-if-the-document-doesnt-exist-or-else-dont-do-anything

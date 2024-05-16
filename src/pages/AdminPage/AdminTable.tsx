@@ -17,6 +17,7 @@ import { onSnapshot, collection } from "firebase/firestore";
 import EditIcon from "./icons/EditIcon";
 import ArchiveIcon from "./icons/ArchiveIcon";
 import AdminModal from "./AdminModal";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface AdminTableProps {
   view: string | undefined;
@@ -212,8 +213,35 @@ const AdminTable = ({ view }: AdminTableProps) => {
   console.log(view);
   console.log(filteredUsers);
 
+  // --------- promises for checking edit success --------------
+  function deleteOrgWithPromise(orgId, orgName, orgDescription) {
+    return new Promise((resolve, reject) => {
+      deleteOrg(orgId, orgName, orgDescription)
+        .then(() => {
+          resolve('Organization has been archived.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   return (
     <div className="container admin-table">
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              border: '1px solid #005538',
+              color: '#005538',
+            },
+            iconTheme: {
+              primary: '#005538',
+              secondary: '#FFFAEE',
+            },
+          },
+        }}
+      />
       <div className="row row-col-3 admin-table-row admin-row-header ">
         <div className="col-md-3 admin-row-start admin-row-start-header">
           Name
@@ -319,8 +347,8 @@ const AdminTable = ({ view }: AdminTableProps) => {
       {view === "organizations" && (
         <>
           {filteredOrgs.map((org) => (
-            <div className="row row-col-3 admin-table-row ">
-              <div className="col-md-3 admin-row-start ">
+            <div key={org.id} className="row row-col-3 admin-table-row">
+              <div className="col-md-3 admin-row-start">
                 <input type="checkbox" />
                 <div className="admin-table-name">{org.orgName}</div>
               </div>
@@ -343,7 +371,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
                 >
                   <ArchiveIcon />
                 </button>
-
+                    
                 <div
                   className="modal fade"
                   id={`deleteModal${org.id}`}
@@ -379,7 +407,13 @@ const AdminTable = ({ view }: AdminTableProps) => {
                           type="button"
                           className="btn btn-primary"
                           onClick={() =>
-                            deleteOrg(org.id, org.orgName, org.orgDescription)
+                            deleteOrgWithPromise(org.id, org.orgName, org.orgDescription)
+                              .then(message => {
+                                toast.success(message);
+                              })
+                              .catch(error => {
+                                toast.error('Failed to archive organization: ' + error.message);
+                              })
                           }
                           data-bs-dismiss="modal"
                         >
@@ -390,7 +424,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
                   </div>
                 </div>
               </div>
-
+                        
               <AdminModal
                 modalType="Edit"
                 view={view}
@@ -400,6 +434,7 @@ const AdminTable = ({ view }: AdminTableProps) => {
               />
             </div>
           ))}
+
         </>
       )}
     </div>

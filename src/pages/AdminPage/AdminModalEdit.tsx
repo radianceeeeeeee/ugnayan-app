@@ -4,6 +4,7 @@ import {
   editOrgAdminDetailsAdmin,
   editOrgDetailsAdmin,
 } from "../../components/FirebaseConnection";
+import toast, { Toaster } from 'react-hot-toast';
 import "./AdminModalEdit.css";
 
 interface orgDetails {
@@ -26,6 +27,55 @@ const AdminModalEdit = ({
   orgDescription,
   orgEmail,
 }: orgDetails) => {
+
+  // --------- promises for checking edit success --------------
+
+  function editNameAdminWithPromise(id, updatedName) {
+    return new Promise((resolve, reject) => {
+      editNameAdmin(id, updatedName)
+        .then(() => {
+          resolve('User role has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  function editOrgAdminDetailsAdminWithPromise(id, updatedName, updatedOrgEmail) {
+    return new Promise((resolve, reject) => {
+      editOrgAdminDetailsAdmin(
+        id,
+        updatedName,
+        updatedOrgEmail
+      )
+        .then(() => {
+          resolve('Organization description has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  function editOrgDetailsAdminWithPromise(id, updatedName, updatedOrgDescription) {
+    return new Promise((resolve, reject) => {
+      editOrgDetailsAdmin(
+        id,
+        updatedName,
+        updatedOrgDescription
+      )
+        .then(() => {
+          resolve('Organization description has been updated.');
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  // --------- functions for saving changes to database --------------
+
   const [updatedDetails, setUpdatedDetails] = useState<updatedDetails>({
     name: name,
     orgDescription: orgDescription,
@@ -50,19 +100,39 @@ const AdminModalEdit = ({
   const submissionHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (typeof orgDescription === "string") {
-      editOrgDetailsAdmin(
+      editOrgDetailsAdminWithPromise(
         id as string,
         updatedDetails.name as string,
         updatedDetails.orgDescription as string
-      );
+      )
+        .then(message => {
+          toast.success(message);
+        })
+        .catch(error => {
+          toast.error('Failed to update organization description: ' + error.message);
+        });
+
     } else if (view === "org-admins") {
-      editOrgAdminDetailsAdmin(
+      editOrgAdminDetailsAdminWithPromise(
         id as string,
         updatedDetails.name as string,
         updatedDetails.orgEmail as string
-      );
+      )
+        .then(message => {
+          toast.success(message);
+        })
+        .catch(error => {
+          toast.error('Failed to update organization description: ' + error.message);
+        });
+
     } else {
-      editNameAdmin(id as string, updatedDetails.name as string);
+      editNameAdminWithPromise(id as string, updatedDetails.name as string)
+        .then(message => {
+          toast.success(message);
+        })
+        .catch(error => {
+          toast.error('Failed to update user role: ' + error.message);
+        });
     }
     (event.target as HTMLFormElement).reset();
   };
@@ -70,6 +140,20 @@ const AdminModalEdit = ({
   return (
     <form onSubmit={submissionHandler}>
       <div className="modal-body ">
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                border: '1px solid #005538',
+                color: '#005538',
+              },
+              iconTheme: {
+                primary: '#005538',
+                secondary: '#FFFAEE',
+              },
+            },
+          }}
+        />
         <input
           placeholder={`Enter New ${
             view === "org-admins" || view === "organizations"

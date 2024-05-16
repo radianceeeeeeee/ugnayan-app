@@ -158,7 +158,7 @@ export default function OrgPage() {
           orgsListener();
           usersListener();
         };
-  }, [hasUserApplied]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
+  }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
   console.log(orgs);
   console.log(hasUserApplied)

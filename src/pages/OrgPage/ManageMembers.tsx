@@ -30,9 +30,42 @@ export default function ManageMembers() {
   const [org, setOrg] = useState({});
   const [apps, setApps] = useState([]);
   const [aspiringApps, setAspiringApps] = useState([]);
+  const [filteredAspiringApps, setFilteredAspiringApps] = useState([]);
   const [members, setMembers] = useState([]);
 
   const params = useParams();
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [sortUserOrder, setSortUserOrder] = useState<"asc" | "desc">("asc");
+
+
+  const handleSortByName = () => {
+      const sortedApps = [...aspiringApps];
+      sortedApps.sort((a, b) => {
+        if (sortUserOrder === "asc") {
+          return a.lastName.localeCompare(b.lastName);
+        } else {
+          return b.lastName.localeCompare(a.lastName);
+        }
+      });
+
+      console.log(aspiringApps)
+      setAspiringApps(sortedApps); // Update the state with the sorted array
+      setSortUserOrder(sortUserOrder === "asc" ? "desc" : "asc"); // Toggle sort order
+  };
+
+
+  useEffect(() => {
+    const filteredAspiringApps = aspiringApps.filter((applicant) =>
+      `${applicant.lastName}, ${applicant.firstName}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()));
+
+    setFilteredAspiringApps(filteredAspiringApps);
+  }, [searchQuery, aspiringApps])
+
+  
 
   useEffect(() => {
     setOrg({}); // Clear existing data before fetching new data
@@ -108,8 +141,13 @@ export default function ManageMembers() {
 
           <div className="col header-right">
             <div className="search-container">
-              <SearchIcon />
-              <input placeholder="Search from list" />
+            <SearchIcon className="col-auto" />
+            <input
+              placeholder="Search from list"
+              className="col"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             </div>
           </div>
         </div>
@@ -120,7 +158,7 @@ export default function ManageMembers() {
               <div className="row row-col-4 manage-table-row manage-row-header ">
                 <div className="col-md-3 manage-row-start manage-row-start-header">
                   Name
-                  <button className="a-toggle-button">
+                  <button className="a-toggle-button" onClick={handleSortByName}>
                     <UpIcon />
                   </button>
                 </div>
@@ -129,7 +167,7 @@ export default function ManageMembers() {
 
                 <div className="col-3 manage-row-end "></div>
               </div>
-              {params.view === "Aspiring_Applicants" && aspiringApps.map((applicant) => (
+              {params.view === "Aspiring_Applicants" && filteredAspiringApps.map((applicant) => (
                 <div className="row row-col-3 manage-table-row ">
                 <div className="col-md-3 manage-row-start ">
                   <input type="checkbox" />

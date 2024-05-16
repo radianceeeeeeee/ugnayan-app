@@ -345,7 +345,7 @@ export async function fetchOrgMembers(orgId: string) {
     console.error(err.message);
     throw err; // Rethrow the error to be handled elsewhere if needed
   }
-}*/
+}
 
 export async function fetchOrgApplicants(orgId: string) {
   try {

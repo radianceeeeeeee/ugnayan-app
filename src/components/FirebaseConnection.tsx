@@ -322,6 +322,8 @@ export async function fetchOrgMembers(orgId: string) {
       users.push(...data.members);
     }
 
+    return users;
+
     const usersObj: any[] = [];
 
     for (let i = 0; i < users.length; i++) {
@@ -372,6 +374,8 @@ export async function fetchOrgApplicants(orgId: string) {
       users.push(...data.applicants);
     }
 
+    return users;
+
     const usersObj: any[] = [];
 
     for (let i = 0; i < users.length; i++) {
@@ -403,6 +407,8 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
       users.push(...data.aspiringApplicants);
     }
 
+    return users;
+
     const usersObj: any[] = [];
 
     for (let i = 0; i < users.length; i++) {
@@ -422,21 +428,86 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
   }
 }
 
-export async function fetchUser(userId: string) {
-  try {
-    const db = getFirestore();
-    const docRef = doc(db, "organizations", userId);
-    const data: any[] = [];
-    const docSnap = await getDoc(docRef);
+export async function updateUserMembership(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      data.push(...data.aspiringApplicants);
+  if (docSnap.exists()) {
+    let isAMember = false;
+    if (docSnap.data().memberOrgs[orgId]) {
+      isAMember = true;
     }
 
-    return data;
-  } catch (err) {
-    console.error(err.message);
-    throw err; // Rethrow the error to be handled elsewhere if needed
+    await updateDoc(userDoc, { [`memberOrgs.${orgId}`]: !isAMember });
+  } else {
+    await setDoc(userDoc, { [`memberOrgs.${orgId}`]: true });
   }
+
+  alert("User's membership has been edited");
+}
+
+export async function updateUserApplication(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isAMember = false;
+    if (docSnap.data().appliedOrgs[orgId]) {
+      isAMember = true;
+    }
+
+    await updateDoc(userDoc, { [`appliedOrgs.${orgId}`]: !isAMember });
+  } else {
+    await setDoc(userDoc, { [`appliedOrgs.${orgId}`]: true });
+  }
+
+  alert("User's application has been edited");
+}
+
+export async function updateUserAspiringApplication(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isAMember = false;
+    if (docSnap.data().aspiringAppliedOrgs[orgId]) {
+      isAMember = true;
+    }
+
+    await updateDoc(userDoc, { [`aspiringAppliedOrgs.${orgId}`]: !isAMember });
+  } else {
+    await setDoc(userDoc, { [`aspiringAppliedOrgs.${orgId}`]: true });
+  }
+  
+  const orgDoc = doc(db, "organizations", orgId);
+  const orgSnap = await getDoc(orgDoc);
+
+  if (orgSnap.exists()) {
+    let isAMember = false;
+    if (orgSnap.data().aspiringApplicants[userId]) {
+      isAMember = true;
+    }
+
+    await updateDoc(orgDoc, { [`aspiringApplicants.${userId}`]: !isAMember });
+  } else {
+    await setDoc(orgDoc, { [`aspiringApplicants.${userId}`]: true });
+  }
+
+  alert("User's aspiring application has been edited");
+}
+
+export async function fetchUserAspiringApplication(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    if (docSnap.data().aspiringAppliedOrgs[orgId]) {
+      return true;
+    }
+  }
+  return false;
 }

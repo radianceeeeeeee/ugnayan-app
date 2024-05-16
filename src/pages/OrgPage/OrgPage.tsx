@@ -4,7 +4,7 @@ import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import './OrgPage.css';
-import { fetchOrgData } from "../../components/FirebaseConnection";
+import { fetchOrgData, fetchUserAspiringApplication } from "../../components/FirebaseConnection";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faCakeCandles, faLocationDot, faEnvelope, faGlobe, faHandshakeAngle } from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +22,9 @@ export default function OrgPage() {
 
   const [isUserAnOrgAdmin, setIsUserAnOrgAdmin] = useState(false);
   const [isUserAGuest, setIsUserAGuest] = useState(true);
+  const [uid, setUid] = useState("");
+  const [orgId, setOrgId] = useState("");
+  const [hasUserApplied, setHasUserApplied] = useState(false);
 
   useEffect(() => {
       const auth = getAuth();
@@ -32,14 +35,12 @@ export default function OrgPage() {
                   setIsUserAnOrgAdmin(false);
               } else {
                   const uid = user.uid;
-                  console.log(uid);
+                  setUid(uid);
 
                   const db = getFirestore(app);
+                  setIsUserAGuest(false);
                   getDoc(doc(db, "organization-admins", uid)).then(docSnap => {
                       if (docSnap.exists()) {
-                        //console.log(`orgName: ${docSnap.data().orgName}`)
-                        //console.log(`paramsId: ${params.orgId}`)
-                        //console.log(`paramsId w/ spaces: ${params.orgId.replace(/\_/g, ' ')}`)
                         if (docSnap.data().orgName === params.orgId.replace(/\_/g, ' ')) { 
                           setIsUserAnOrgAdmin(true);
                         }
@@ -88,7 +89,7 @@ export default function OrgPage() {
     setOrgs({}); // Clear existing data before fetching new data
     fetchOrgData()
       .then(data => {
-        const newData = data.map(item => ({ ...item, starred: false }));
+        const newData = data.map(item => ({ ...item, starred: false, id: item.id }));
         
         // Find the organization with the same ID as params
         const orgWithParamsId = newData.find(org => org.orgId === params.orgId);
@@ -96,6 +97,12 @@ export default function OrgPage() {
         // Update state with the organization matching the ID
         if (orgWithParamsId) {
           setOrgs(orgWithParamsId);
+          setOrgId(orgWithParamsId.id);
+
+          fetchUserAspiringApplication(uid, orgWithParamsId.id).then((app) => {
+            setHasUserApplied(app);
+          });
+        
           if (orgWithParamsId.orgPictures && orgWithParamsId.orgPictures.length > 0) {
             setOrgPics(orgWithParamsId.orgPictures);
           }
@@ -298,6 +305,11 @@ export default function OrgPage() {
                 <div className="card-header right-card-header">
                   Your Member Status
                 </div>
+                {hasUserApplied ? <div>
+                  <div className="card-body">
+                    <p className="card-text">You are now an applicant in the organization.</p>
+                  </div>
+                </div> :
                 <div className="card-body">
                   <p className="card-text"> You are not affiliated with this org. </p>
                   {orgs.openForApplications === "Open" ? (
@@ -309,6 +321,7 @@ export default function OrgPage() {
                   <p className="card-text"><small className="text-muted"> 
                     {orgs.openForApplications} until Month dd, yyyy </small></p>
                 </div>
+                }
               </div>
             }
           </div>
@@ -325,7 +338,7 @@ export default function OrgPage() {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ paddingBottom: '50px' }}>
-                  <OrgApplicationModal org={orgs} handleCloseApplication={handleCloseApplication}/>
+                  <OrgApplicationModal org={orgs} handleCloseApplication={handleCloseApplication} orgId={orgId} uid={uid}/>
                 </Modal.Body>
               </Modal>
 

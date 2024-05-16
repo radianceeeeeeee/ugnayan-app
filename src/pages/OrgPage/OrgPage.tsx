@@ -114,6 +114,19 @@ export default function OrgPage() {
         console.error(error);
       });
 
+      // Set up real-time listener for users
+    const usersListener = onSnapshot(
+      collection(getFirestore(app), "users"),
+      (snapshot) => {
+        const newData = snapshot.docs.map((doc) => ({
+          name: doc.data().lastName.concat(", ", doc.data().firstName),
+          role: doc.data().role,
+          id: doc.id,
+        }));
+        setUsers(newData);
+      }
+    );
+
       const orgsListener = onSnapshot(
         collection(getFirestore(app), "organizations"),
         (snapshot) => {
@@ -142,6 +155,7 @@ export default function OrgPage() {
         // Clean up listeners when component unmounts
         return () => {
           orgsListener();
+          usersListener();
         };
   }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 

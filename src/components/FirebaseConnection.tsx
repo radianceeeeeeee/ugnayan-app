@@ -335,7 +335,9 @@ export async function fetchOrgMembers(orgId: string) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
         userData.id = userDocSnap.id;
-        members.push(userData);
+        if (userData.memberOrgs[orgId]) {
+          members.push(userData);
+        }
       }
       i = i + 1;
     }
@@ -373,7 +375,9 @@ export async function fetchOrgApplicants(orgId: string) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
         userData.id = userDocSnap.id;
-        applicants.push(userData);
+        if (userData.appliedOrgs[orgId]) {
+          applicants.push(userData);
+        }
       }
       i = i + 1;
     }
@@ -411,7 +415,9 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
         userData.id = userDocSnap.id;
-        aspiringApplicants.push(userData);
+        if (userData.aspiringAppliedOrgs[orgId]) {
+          aspiringApplicants.push(userData);
+        }
       }
       i = i + 1;
     }

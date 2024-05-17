@@ -334,6 +334,7 @@ export async function fetchOrgMembers(orgId: string) {
       if (userDocSnap.exists()) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
+        userData.id = userDocSnap.id;
         members.push(userData);
       }
       i = i + 1;
@@ -371,6 +372,7 @@ export async function fetchOrgApplicants(orgId: string) {
       if (userDocSnap.exists()) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
+        userData.id = userDocSnap.id;
         applicants.push(userData);
       }
       i = i + 1;
@@ -408,6 +410,7 @@ export async function fetchOrgAspiringApplicants(orgId: string) {
       if (userDocSnap.exists()) {
         const userData = userDocSnap.data();
         userData.orgStatus = userBool[i];
+        userData.id = userDocSnap.id;
         aspiringApplicants.push(userData);
       }
       i = i + 1;

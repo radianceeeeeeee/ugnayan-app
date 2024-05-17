@@ -8,6 +8,7 @@ import {
   fetchOrgMembers,
   fetchOrgApplicants,
   fetchOrgAspiringApplicants,
+  promoteAspiringToMember,
 } from "../../components/FirebaseConnection";
 import Navbar from "../../components/Navbar/Navbar";
 import "./ManageMembers.css";
@@ -38,6 +39,11 @@ export default function ManageMembers() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [sortUserOrder, setSortUserOrder] = useState<"asc" | "desc">("asc");
+
+  const handleAspiringPromotion = (uid: string, orgId: string) => {
+    promoteAspiringToMember(uid, orgId);
+    console.log("User has been promoted")
+  }
 
 
   const handleSortByName = () => {
@@ -182,7 +188,7 @@ export default function ManageMembers() {
                   <button className="a-toggle-button">
                     <BinIcon />
                   </button>
-                  <button className="manage-row-end-button">CONFIRM</button>
+                  <button className="manage-row-end-button" onClick={() => handleAspiringPromotion(applicant.id, org.id)}>CONFIRM</button>
                 </div>
               </div>
               ))}

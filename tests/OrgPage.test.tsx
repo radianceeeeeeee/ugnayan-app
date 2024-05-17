@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 test('org page must display "Sign up to apply to this organization" by default', () => {
     render(
       <MemoryRouter><OrgPage /></MemoryRouter>);
-    const notice = screen.getByText(/Sign up to apply to this organization/i);
+    const notice = screen.getByText(/Sign up as a user to apply to this organization/i);
   
     expect(notice).toBeInTheDocument();
   });

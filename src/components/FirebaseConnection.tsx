@@ -577,3 +577,36 @@ export async function promoteApplicantToMember(userId: string, orgId: string) {
 
   alert("User is now a member");
 }
+
+export async function kickMember(userId: string, orgId: string) {
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+  const docSnap = await getDoc(userDoc);
+
+  if (docSnap.exists()) {
+    let isAMember = false;
+    if (docSnap.data().memberOrgs[orgId]) {
+      isAMember = true;
+    }
+
+    if (isAMember) {
+      await updateDoc(userDoc, { [`memberOrgs.${orgId}`]: false });
+    }
+  }
+  
+  const orgDoc = doc(db, "organizations", orgId);
+  const orgSnap = await getDoc(orgDoc);
+
+  if (orgSnap.exists()) {
+    let isAMember = false;
+    if (orgSnap.data().members[userId]) {
+      isAMember = true;
+    }
+
+    if (isAMember) {
+      await updateDoc(orgDoc, { [`members.${userId}`]: false });
+    }
+  }
+
+  alert("User is now removed");
+}

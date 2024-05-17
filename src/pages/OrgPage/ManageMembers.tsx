@@ -9,6 +9,7 @@ import {
   fetchOrgApplicants,
   fetchOrgAspiringApplicants,
   promoteAspiringToMember,
+  kickMember,
 } from "../../components/FirebaseConnection";
 import Navbar from "../../components/Navbar/Navbar";
 import "./ManageMembers.css";
@@ -43,6 +44,11 @@ export default function ManageMembers() {
   const handleAspiringPromotion = (uid: string, orgId: string) => {
     promoteAspiringToMember(uid, orgId);
     console.log("User has been promoted")
+  }
+
+  const handleKick = (uid: string, orgId: string) => {
+    kickMember(uid, orgId);
+    console.log("User has been removed")
   }
 
 
@@ -226,7 +232,7 @@ export default function ManageMembers() {
                   <button className="a-toggle-button">
                     <BinIcon />
                   </button>
-                  <button className="manage-row-end-button" style={{ backgroundColor: '#8d021f'}}>KICK</button>
+                  <button className="manage-row-end-button" onClick={() => handleKick(member.id, org.id)} style={{ backgroundColor: '#8d021f'}}>KICK</button>
                 </div>
               </div>
               ))}

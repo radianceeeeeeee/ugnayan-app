@@ -25,6 +25,7 @@ export default function OrgPage() {
   const [uid, setUid] = useState("");
   const [orgId, setOrgId] = useState("");
   const [hasUserApplied, setHasUserApplied] = useState(false);
+  const [isUserASiteAdmin, setIsUserASiteAdmin] = useState(false);
 
   useEffect(() => {
       const auth = getAuth();
@@ -39,6 +40,12 @@ export default function OrgPage() {
 
                   const db = getFirestore(app);
                   setIsUserAGuest(false);
+                  
+                  getDoc(doc(db, "users", uid)).then(docSnap => {
+                    if (docSnap.exists()) {
+                        setIsUserASiteAdmin(docSnap.data().role === "Site Admin")
+                    }
+                });
                   getDoc(doc(db, "organization-admins", uid)).then(docSnap => {
                       if (docSnap.exists()) {
                         if (docSnap.data().orgName === params.orgId.replace(/\_/g, ' ')) { 
@@ -307,13 +314,13 @@ export default function OrgPage() {
               </ul>
             </div>
 
-            {isUserAGuest ? 
+            {isUserAGuest || isUserAnOrgAdmin || isUserASiteAdmin ? 
               <div className="card text-center mt-3">
                 <div className="card-header right-card-header">
                   Your Member Status
                 </div>
                 <div className="card-body">
-                  <p className="card-text"> Sign up to apply to this organization. </p>
+                  <p className="card-text"> Sign up as a user to apply to this organization. </p>
                 </div>
               </div>
             :

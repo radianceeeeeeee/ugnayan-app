@@ -58,7 +58,7 @@ export default function OrgPage() {
             setIsUserAnOrgAdmin(false);
           }
       })
-    }, [isUserAnOrgAdmin]);
+    }, [isUserAnOrgAdmin, uid]);
 
   const [orgs, setOrgs] = useState({});
   const [orgPics, setOrgPics] = useState([]);
@@ -165,7 +165,7 @@ export default function OrgPage() {
           orgsListener();
           usersListener();
         };
-  }, []); // Dependency array including params.orgId to re-run the effect when params.orgId changes
+  }, [hasUserApplied]); // Dependency array including params.orgId to re-run the effect when params.orgId changes
 
   console.log(orgs);
   console.log(hasUserApplied)

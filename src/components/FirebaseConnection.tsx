@@ -503,10 +503,13 @@ export async function updateUserAspiringApplication(userId: string, orgId: strin
 
 export async function fetchUserAspiringApplication(userId: string, orgId: string) {
   const db = getFirestore();
+  console.log(userId);
   const userDoc = doc(db, "users", userId);
   const docSnap = await getDoc(userDoc);
+  console.log("Fetching...")
 
   if (docSnap.exists()) {
+    console.log(`hi: ${docSnap.data().aspiringAppliedOrgs[orgId]}`)
     if (docSnap.data().aspiringAppliedOrgs[orgId]) {
       return true;
     }
@@ -514,7 +517,7 @@ export async function fetchUserAspiringApplication(userId: string, orgId: string
   return false;
 }
 
-export async function promoteAspiringToMember(userId: string, orgId: string) {
+export async function promoteAspiringToApplicant(userId: string, orgId: string) {
   const db = getFirestore();
   const userDoc = doc(db, "users", userId);
   const docSnap = await getDoc(userDoc);
@@ -527,7 +530,7 @@ export async function promoteAspiringToMember(userId: string, orgId: string) {
 
     if (isAnApplicant) {
       await updateDoc(userDoc, { [`aspiringAppliedOrgs.${orgId}`]: false });
-      await updateDoc(userDoc, { [`memberOrgs.${orgId}`]: true });
+      await updateDoc(userDoc, { [`appliedOrgs.${orgId}`]: true });
     }
   }
   
@@ -542,7 +545,7 @@ export async function promoteAspiringToMember(userId: string, orgId: string) {
 
     if (isAnApplicant) {
       await updateDoc(orgDoc, { [`aspiringApplicants.${userId}`]: false });
-      await updateDoc(orgDoc, { [`members.${userId}`]: true });
+      await updateDoc(orgDoc, { [`applicants.${userId}`]: true });
     }
   }
 
